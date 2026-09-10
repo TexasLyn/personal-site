@@ -3,14 +3,14 @@ import type { SiteContent } from './types';
 /** English copy */
 export const en: SiteContent = {
   meta: {
-    title: 'Liang Yiyan — Personal Homepage',
+    title: "Texas's Home",
     description:
-      "Liang Yiyan's personal homepage. School of Electronics Engineering and Computer Science, Peking University, majoring in Information and Computing Science. Notes on awards, contests and ongoing projects.",
+      "Lin Jincheng's personal homepage. Freshman in the Technology Science Experimental Class at Nanjing University.",
   },
 
   brand: {
     icon: 'ri-home-heart-fill',
-    name: "Miao Miao's Home",
+    name: "Texas's Home",
     href: '/en/',
   },
 
@@ -31,67 +31,36 @@ export const en: SiteContent = {
     cta: { label: 'Learn more', href: '#about' },
     image: { src: '/images/hero.jpg', alt: 'Starry sky' },
     socials: [
-      { label: 'GitHub', icon: 'ri-github-fill', href: 'https://github.com/SKlight-Liang' },
-      {
-        label: 'Zhihu',
-        icon: 'ri-zhihu-line',
-        href: 'https://www.zhihu.com/people/67-38-50-46',
-      },
+      // TODO: replace with your own GitHub / Zhihu links
+      { label: 'GitHub', icon: 'ri-github-fill', href: '#' },
+      { label: 'Zhihu', icon: 'ri-zhihu-line', href: '#' },
       { label: 'WeChat', icon: 'ri-wechat-fill', href: '#footer' },
     ],
   },
 
   about: {
-    titleHtml: 'Liang Yiyan<br />CS in Peking University',
+    titleHtml: 'Lin Jincheng<br />Technology Science Experimental Class, Nanjing University · Freshman',
     description:
-      'Undergraduate at the School of Electronics Engineering and Computer Science, Peking University, majoring in Information and Computing Science. Currently working on data cleaning and analysis, aiming to provide more accurate and efficient data support for specific agent training pipelines.',
+      'Freshman in the Technology Science Experimental Class at Nanjing University.',
     cta: { label: 'Get in touch', href: '#footer' },
     images: [
-      { src: '/images/about-1.jpg', alt: 'Peking University' },
-      { src: '/images/about-2.jpg', alt: 'Campus research' },
+      { src: '/images/about-1.jpg', alt: 'Nanjing University' },
+      { src: '/images/about-2.jpg', alt: 'Campus' },
     ],
   },
 
   awards: {
     title: 'Awards & Experience',
     stats: [
-      { value: '1', labelHtml: 'Year of<br />scholarship' },
-      { value: '5', labelHtml: 'Contest<br />awards' },
-      { value: '117+', labelHtml: 'Zhihu<br />articles' },
+      { value: '0', labelHtml: 'Year of<br />scholarship' },
+      { value: '0', labelHtml: 'Contest<br />awards' },
+      { value: '0', labelHtml: 'Zhihu<br />articles' },
     ],
-    items: [
-      { year: '2023', text: 'Qin Wanshun–Jin Yunhui Scholarship', textBold: true },
-      { year: '2023', text: 'Peking University Merit Student', textBold: true },
-      { year: '2023', text: '(CUPT) Undergraduate Project Presentation', result: 'Third Prize' },
-      {
-        year: '2023',
-        text: 'Peking University Outstanding Paper on Ideological Education',
-        textBold: true,
-      },
-      { year: '2023', text: 'Jiukun Cup Collegiate Programming Contest', result: 'Third Prize' },
-      {
-        year: '2024',
-        text: 'Peking University Collegiate Programming Contest',
-        result: 'Second Prize',
-      },
-      {
-        year: '2025',
-        text: 'Mathematical Contest in Modeling (MCM/ICM)',
-        result: 'Honorable Mention',
-        textBold: true,
-        resultBold: true,
-      },
-      {
-        year: '2025',
-        text: 'Tsinghua Collegiate Programming Contest & Invitational',
-        result: '10th Place',
-        textBold: true,
-        resultBold: true,
-      },
-    ],
+    // Add new entries like: { year: '2027', text: '...', result: 'First Prize' }
+    items: [{ year: '2026', text: 'Enrolled at Nanjing University', textBold: true }],
     images: [
-      { src: '/images/award-1.jpg', alt: 'Award certificate' },
-      { src: '/images/award-2.jpg', alt: 'Programming contest' },
+      { src: '/images/award-1.jpg', alt: 'Campus' },
+      { src: '/images/award-2.jpg', alt: 'Event' },
     ],
   },
 
@@ -135,26 +104,19 @@ export const en: SiteContent = {
     title: 'Subscribe on Zhihu & GitHub',
     description: 'Follow me on Zhihu and GitHub for the latest updates and project progress!',
     socials: [
-      { label: 'GitHub', icon: 'ri-github-fill', href: 'https://github.com/SKlight-Liang' },
-      {
-        label: 'Zhihu',
-        icon: 'ri-zhihu-fill',
-        href: 'https://www.zhihu.com/people/67-38-50-46',
-      },
+      // TODO: replace with your own GitHub / Zhihu links
+      { label: 'GitHub', icon: 'ri-github-fill', href: '#' },
+      { label: 'Zhihu', icon: 'ri-zhihu-fill', href: '#' },
     ],
   },
 
   footer: {
     contactTitle: 'Contact',
-    contactHtml:
-      'Email: 2200011633@stu.pku.edu.cn <br />Phone: +86 188 5751 7710 <br />Homepage: https://sklight-liang.github.io/',
+    // Add email / homepage back once you have them
+    contactHtml: 'Phone: 15658114885',
     socials: [
-      { label: 'GitHub', icon: 'ri-github-fill', href: 'https://github.com/SKlight-Liang' },
-      {
-        label: 'Zhihu',
-        icon: 'ri-zhihu-fill',
-        href: 'https://www.zhihu.com/people/67-38-50-46',
-      },
+      { label: 'GitHub', icon: 'ri-github-fill', href: '#' },
+      { label: 'Zhihu', icon: 'ri-zhihu-fill', href: '#' },
     ],
     groups: [
       {
@@ -162,18 +124,13 @@ export const en: SiteContent = {
         links: [
           { label: 'About me', href: '#about' },
           { label: 'Blog & Docs', href: '#docs' },
-          { label: 'GitHub', href: 'https://github.com/SKlight-Liang' },
-          { label: 'Zhihu', href: 'https://www.zhihu.com/people/67-38-50-46' },
+          { label: 'GitHub', href: '#' },
+          { label: 'Zhihu', href: '#' },
         ],
       },
       {
         title: 'Support',
-        links: [
-          {
-            label: 'FAQ',
-            href: 'https://github.com/SKlight-Liang/SKlight-Liang.github.io/issues',
-          },
-        ],
+        links: [{ label: 'FAQ', href: '#' }],
       },
     ],
   },

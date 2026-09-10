@@ -3,7 +3,7 @@ title: Notes on ACM/ICPC and Collegiate Modeling Contests
 category: Algorithms & Contests
 date: "2024-08-15"
 readTime: 9 min read
-author: Liang Yiyan (Miao Miao)
+author: Lin Jincheng (Texas)
 excerpt: Working notes on numerical ODE solving for MCM/ICM, Markov chain state transitions, and convex hull trick optimization — the templates and the reasoning behind them.
 ---
 

@@ -3,7 +3,7 @@ title: 基于 WASM 与 WebGL 的轻量向量可视化系统设计
 category: 前端与系统开发
 date: "2024-12-05"
 readTime: 10 分钟阅读
-author: 梁忆炎 (Miao Miao)
+author: 林锦承 (Texas)
 excerpt: 针对高维 Embedding 聚类与交互卡顿，构建 Rust/WASM 共享线性内存矩阵降维，辅以 WebGL Instanced Arrays 实现百万点阵 60fps 顺畅漫游渲染。
 cover: /images/blog-2.jpg
 ---

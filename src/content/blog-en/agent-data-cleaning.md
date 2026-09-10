@@ -3,7 +3,7 @@ title: Data Cleaning and High-Quality Data Synthesis for LLM Agents
 category: AI & Agent
 date: "2025-02-18"
 readTime: 8 min read
-author: Liang Yiyan (Miao Miao)
+author: Lin Jincheng (Texas)
 excerpt: A look at the noise patterns that show up when agents call open-ended tools, and a cascaded pipeline built on AST validation plus distillation filtering that cuts down reasoning hallucinations.
 cover: /images/blog-1.jpg
 ---

@@ -3,7 +3,7 @@ title: Designing a Lightweight Vector Visualization System with WASM and WebGL
 category: Frontend & Systems
 date: "2024-12-05"
 readTime: 10 min read
-author: Liang Yiyan (Miao Miao)
+author: Lin Jincheng (Texas)
 excerpt: To keep high-dimensional embeddings interactive in the browser, we move matrix reduction into Rust/WASM with shared linear memory and render a million points at 60fps using WebGL instanced arrays.
 cover: /images/blog-2.jpg
 ---

@@ -3,7 +3,7 @@ title: 大模型智能体数据清洗与高质量数据合成实践
 category: AI & Agent
 date: "2025-02-18"
 readTime: 8 分钟阅读
-author: 梁忆炎 (Miao Miao)
+author: 林锦承 (Texas)
 excerpt: 探讨大模型智能体在开放工具调用中的核心噪音模式，提出基于 AST 抽象语法树校验及级联蒸馏过滤的系统工程方法，显著降低 Agent 推理幻觉。
 cover: /images/blog-1.jpg
 ---

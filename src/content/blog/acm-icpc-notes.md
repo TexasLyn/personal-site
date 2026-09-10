@@ -3,7 +3,7 @@ title: ACM/ICPC 与高校建模竞赛算法解题手记
 category: 学术算法与竞赛
 date: "2024-08-15"
 readTime: 9 分钟阅读
-author: 梁忆炎 (Miao Miao)
+author: 林锦承 (Texas)
 excerpt: 系统记录从动力学常微分方程数值求解（MCM/ICM）、马尔可夫链状态转移，到动态规划凸包斜率优化（Convex Hull Trick）的实战思考与工程推导。
 ---
 
