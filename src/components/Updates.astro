@@ -1,0 +1,89 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { milestones } from '../data/site';
+
+const codeClass =
+  'font-mono text-xs text-zinc-800 dark:text-zinc-200 bg-zinc-100 dark:bg-slate-800 px-1.5 py-0.5 rounded';
+
+// 假数据里个别词需要等宽高亮，这里做一次简单替换
+const items = milestones.map((item) => ({
+  ...item,
+  bodyHtml: item.codeWord
+    ? item.body.replace(item.codeWord, `<code class="${codeClass}">${item.codeWord}</code>`)
+    : item.body,
+}));
+
+const tagTone = {
+  emerald:
+    'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/50',
+  amber:
+    'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/50',
+  indigo:
+    'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/50',
+} as const;
+
+const footerIconTone = {
+  star: 'text-zinc-400 dark:text-zinc-500',
+  emoji_events: 'text-amber-500',
+  school: 'text-indigo-500 dark:text-indigo-400',
+} as const;
+---
+
+<section
+  id="updates"
+  class="py-20 md:py-24 bg-slate-50/70 dark:bg-slate-900/30 border-b border-zinc-200/70 dark:border-slate-800 reveal-section"
+>
+  <div class="max-w-6xl mx-auto px-6 sm:px-10">
+    <SectionHeader
+      eyebrow="Milestones"
+      index="Chronicle / 01"
+      title="Recent Updates & Milestones"
+      meta="2024 — Present"
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
+      {
+        items.map((item) => (
+          <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 border border-zinc-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-500/40 transition-all flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 font-medium">
+                  {item.date}
+                </span>
+                <span
+                  class:list={[
+                    'px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium',
+                    tagTone[item.tagTone],
+                  ]}
+                >
+                  {item.tag}
+                </span>
+              </div>
+
+              <h4 class="text-base text-zinc-900 dark:text-zinc-100 font-medium leading-snug">
+                {item.title}
+              </h4>
+
+              <p
+                class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed font-light"
+                set:html={item.bodyHtml}
+              />
+            </div>
+
+            <div class="pt-5 border-t border-zinc-100 dark:border-slate-800/80 flex items-center text-xs font-mono text-zinc-500 dark:text-zinc-400 gap-1.5">
+              <span
+                class:list={[
+                  'material-symbols-outlined text-[15px]',
+                  footerIconTone[item.icon as keyof typeof footerIconTone],
+                ]}
+              >
+                {item.icon}
+              </span>
+              <span>{item.footer}</span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

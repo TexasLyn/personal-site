@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* 暗色模式走 .dark class，而不是系统偏好 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-brand: #4338ca;
+  --color-brand-hover: #3730a3;
+  --color-canvas: #fafaf9;
+  --color-canvas-dark: #0b0f17;
+  --color-surface-dark: #131926;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* 主题切换时的颜色过渡 */
+html,
+body {
+  transition-property: background-color, border-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
+}
+
+/* 滚动进入视口时的渐显 */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-section.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.4);
+  }
+}
+
+.status-pulse {
+  animation: pulseGlow 2.2s infinite ease-in-out;
+}
+
+/* 尊重「减少动态效果」偏好：关掉视差与渐显 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .status-pulse {
+    animation: none;
+  }
+}

@@ -1,0 +1,180 @@
+---
+import { profile } from '../data/site';
+---
+
+<div class="relative h-[180vh] w-full" id="hero-scroll-container">
+  <div class="sticky top-0 h-screen w-full overflow-hidden flex items-end pb-20 md:pb-28">
+    <img
+      id="hero-bg-img"
+      src="/hero-bg.jpg"
+      alt="Architectural studio and minimalist tech laboratory overlooking ocean skyline at dawn"
+      class="absolute inset-0 w-full h-full object-cover scale-105 origin-center will-change-transform brightness-[0.88] contrast-[1.05]"
+      fetchpriority="high"
+      decoding="async"
+    />
+
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-canvas-dark via-canvas-dark/75 to-black/30 pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-canvas-dark/85 via-canvas-dark/45 to-transparent pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute top-0 left-0 right-0 h-36 bg-gradient-to-b from-black/50 to-transparent pointer-events-none"
+    >
+    </div>
+
+    <div
+      id="hero-content"
+      class="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-10 flex flex-col justify-end will-change-transform"
+      style="opacity: 0; transform: translateY(40px); filter: blur(4px);"
+    >
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-mono mb-6 w-fit shadow-sm"
+      >
+        <span class="relative flex h-2 w-2">
+          <span
+            class="status-pulse absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-80"
+          ></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-400"></span>
+        </span>
+        <span>✦ {profile.role}</span>
+      </div>
+
+      <h1
+        class="font-serif text-3xl sm:text-5xl lg:text-[54px] text-white font-normal leading-[1.12] tracking-[-0.02em] max-w-3xl mb-5 drop-shadow-sm"
+      >
+        {profile.headline}
+      </h1>
+
+      <p
+        class="font-sans text-base sm:text-lg text-zinc-200 leading-relaxed max-w-2xl font-light mb-8 drop-shadow-sm"
+      >
+        {profile.bio}
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href="/#projects"
+          class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all duration-200 shadow-lg shadow-indigo-600/30 hover:shadow-indigo-500/50 inline-flex items-center gap-2 group"
+        >
+          <span>Explore Systems</span>
+          <span
+            class="material-symbols-outlined text-[16px] group-hover:translate-y-0.5 transition-transform"
+            >arrow_downward</span
+          >
+        </a>
+        <a
+          href="/#blog"
+          class="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white text-sm font-medium transition-all duration-200 inline-flex items-center gap-2"
+        >
+          <span>Read Research</span>
+          <span class="material-symbols-outlined text-[16px]">menu_book</span>
+        </a>
+
+        <div
+          class="flex items-center gap-3 pl-2 sm:pl-4 border-l border-white/20 text-white/80"
+        >
+          <a
+            href={profile.links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="GitHub Profile"
+            class="p-2 rounded-lg bg-white/5 hover:bg-white/20 hover:text-white transition-colors"
+          >
+            <span class="material-symbols-outlined text-[20px]">code</span>
+          </a>
+          <a
+            href={`mailto:${profile.email}`}
+            title="Send Email"
+            class="p-2 rounded-lg bg-white/5 hover:bg-white/20 hover:text-white transition-colors"
+          >
+            <span class="material-symbols-outlined text-[20px]">mail</span>
+          </a>
+          <a
+            href={profile.links.resume}
+            title="Research Curriculum"
+            class="p-2 rounded-lg bg-white/5 hover:bg-white/20 hover:text-white transition-colors"
+          >
+            <span class="material-symbols-outlined text-[20px]">description</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="scroll-indicator"
+      class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-all flex flex-col items-center gap-1 z-20 pointer-events-none"
+    >
+      <span class="font-mono text-[9px] tracking-[0.2em] uppercase opacity-80 font-medium"
+        >Scroll to explore</span
+      >
+      <span class="material-symbols-outlined text-[20px] animate-bounce"
+        >keyboard_arrow_down</span
+      >
+    </div>
+  </div>
+</div>
+
+<script>
+  const container = document.getElementById('hero-scroll-container');
+  const content = document.getElementById('hero-content');
+  const bgImg = document.getElementById('hero-bg-img');
+  const indicator = document.getElementById('scroll-indicator');
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduceMotion) {
+    // 关掉动画时，直接显示终态
+    if (content) {
+      content.style.opacity = '1';
+      content.style.transform = 'none';
+      content.style.filter = 'none';
+    }
+    if (indicator) indicator.style.display = 'none';
+  } else if (container && content) {
+    let ticking = false;
+
+    const update = () => {
+      const rect = container.getBoundingClientRect();
+      const scrollable = container.offsetHeight - window.innerHeight;
+
+      const scrolled = -rect.top;
+      const progress = Math.min(Math.max(scrolled / (scrollable || 1), 0), 1);
+
+      // 文案在前 45% 滚动区间内完成入场
+      const textProgress = Math.min(progress / 0.45, 1);
+      content.style.opacity = textProgress.toFixed(3);
+      content.style.transform = `translateY(${((1 - textProgress) * 40).toFixed(1)}px)`;
+      content.style.filter = `blur(${((1 - textProgress) * 4).toFixed(1)}px)`;
+
+      if (bgImg) {
+        const scale = 1.05 + progress * 0.05;
+        const translate = progress * -20;
+        bgImg.style.transform = `scale(${scale.toFixed(3)}) translateY(${translate.toFixed(1)}px)`;
+      }
+
+      if (indicator) {
+        const opacity = Math.max(1 - progress * 4, 0);
+        indicator.style.opacity = opacity.toFixed(2);
+      }
+
+      ticking = false;
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    update();
+  }
+</script>

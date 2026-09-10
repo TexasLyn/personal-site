@@ -1,0 +1,44 @@
+---
+const agents = [
+  { name: 'Planner', tone: 'bg-indigo-950 text-indigo-300', text: 'Decomposing repo telemetry DAG', status: 'CONVERGED', statusTone: 'text-emerald-400' },
+  { name: 'Analyst', tone: 'bg-sky-950 text-sky-300', text: 'Context entropy = 0.14 bits/hr', status: 'OPTIMAL', statusTone: 'text-sky-400' },
+  { name: 'Memory', tone: 'bg-amber-950 text-amber-300', text: 'Local SQLite cache indexed', status: '1.8 MB', statusTone: 'text-amber-400' },
+];
+---
+
+<div class="rounded-2xl bg-zinc-950 border border-zinc-800 dark:border-slate-800 p-5 font-mono text-xs text-zinc-300 shadow-2xl">
+  <div
+    class="flex items-center justify-between pb-3 border-b border-zinc-800/80 text-zinc-400 text-[11px] mb-4"
+  >
+    <span class="flex items-center gap-2">
+      <span class="w-2.5 h-2.5 rounded-full bg-red-500/90 inline-block"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/90 inline-block"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-green-500/90 inline-block"></span>
+      <span class="ml-2 text-zinc-400">agent-orchestrator.rs</span>
+    </span>
+    <span class="text-zinc-400 font-mono text-[10px]">active state • 3 agents</span>
+  </div>
+
+  <div class="space-y-2.5 text-[11px]">
+    {
+      agents.map((agent) => (
+        <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/80 border border-zinc-800">
+          <div class="flex items-center gap-2">
+            <span class:list={['px-1.5 py-0.5 rounded font-semibold text-[10px]', agent.tone]}>
+              {agent.name}
+            </span>
+            <span class="text-zinc-200">{agent.text}</span>
+          </div>
+          <span class:list={['font-mono', agent.statusTone]}>{agent.status}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div
+    class="mt-3 pt-2.5 border-t border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-500 font-mono"
+  >
+    <span>Friction Index: 0.04 (minimal)</span>
+    <span class="text-emerald-400">Zero cloud egress</span>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import ProjectCard from './ProjectCard.astro';
+import { profile, projects } from '../data/site';
+---
+
+<section
+  id="projects"
+  class="py-20 md:py-28 bg-white dark:bg-canvas-dark border-b border-zinc-200/70 dark:border-slate-800 reveal-section"
+>
+  <div class="max-w-6xl mx-auto px-6 sm:px-10">
+    <SectionHeader
+      eyebrow="Intelligent Systems"
+      index="Index / 02"
+      title="Featured Projects"
+      meta="github.com/alexchen"
+      metaHref={profile.links.github}
+    />
+
+    <div class="space-y-12 pt-12">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html class="light scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alex Chen — AI &amp; Intelligent Systems Explorer</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            DEFAULT: "#4338ca",
+            hover: "#3730a3",
+          },
+          primary: {
+            DEFAULT: "#2a14b4",
+            container: "#4338ca",
+          }
+        },
+        fontFamily: {
+          sans: ["Geist", "ui-sans-serif", "system-ui", "-apple-system", "sans-serif"],
+          serif: ["Newsreader", "Georgia", "serif"],
+          mono: ["JetBrains Mono", "monospace"]
+        }
+      }
+    }
+  }
+</script>
+<script>
+  // Prevent flash of wrong theme
+  if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+</script>
+<style>
+  /* Global smooth color transitions for theme switching */
+  html, body {
+    transition-property: background-color, border-color, color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+  }
+  .reveal-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-section.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(1.4); }
+  }
+  .status-pulse {
+    animation: pulseGlow 2.2s infinite ease-in-out;
+  }
+</style>
+</head>
+<body class="bg-[#fafaf9] dark:bg-[#0B0F17] text-zinc-900 dark:text-zinc-100 font-sans text-[15px] antialiased selection:bg-indigo-100 selection:text-indigo-900 dark:selection:bg-indigo-900/50 dark:selection:text-indigo-200 min-h-screen flex flex-col justify-between">
+<!-- 3. Minimal Apple-Style Capsule Navbar -->
+<header class="fixed top-6 left-1/2 -translate-x-1/2 z-50 rounded-full bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-xl shadow-black/5 px-6 py-2.5 flex items-center gap-6">
+<!-- Left: Brand mark with status dot -->
+<a class="flex items-center gap-2.5 group text-zinc-900 dark:text-zinc-100 font-mono text-sm tracking-tight hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" href="#">
+<span class="relative flex h-2 w-2">
+<span class="status-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="font-semibold tracking-tight">alex.dev</span>
+</a>
+<!-- Center: Nav Items -->
+<nav class="flex items-center gap-1 text-xs font-medium text-zinc-700 dark:text-zinc-300">
+<a class="px-3 py-1.5 rounded-full text-zinc-900 dark:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors" href="#">Home</a>
+<a class="px-3 py-1.5 rounded-full hover:text-zinc-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors" href="#projects">Projects</a>
+<a class="px-3 py-1.5 rounded-full hover:text-zinc-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors" href="#updates">Updates</a>
+<a class="px-3 py-1.5 rounded-full hover:text-zinc-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors" href="#blog">Blog</a>
+</nav>
+<!-- Right: Theme Toggle Only -->
+<div class="flex items-center pl-2 border-l border-white/20 dark:border-white/10">
+<button aria-label="Toggle theme" class="p-1.5 text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 rounded-full transition-all focus:outline-none flex items-center justify-center" id="theme-toggle" type="button">
+<!-- Sun icon for dark mode -->
+<svg class="w-4 h-4 hidden dark:block text-amber-300" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="4"></circle>
+<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+</svg>
+<!-- Moon icon for light mode -->
+<svg class="w-4 h-4 block dark:hidden text-zinc-700" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+</svg>
+</button>
+</div>
+</header>
+<!-- 2. HERO PARALLAX & SCROLL-DRIVEN STICKY REVEAL -->
+<div class="relative h-[180vh] w-full" id="hero-scroll-container">
+<!-- Sticky Viewport -->
+<div class="sticky top-0 h-screen w-full overflow-hidden flex items-end pb-20 md:pb-28">
+<!-- Background Image Layer with Parallax Transform -->
+<img alt="Architectural studio and minimalist tech laboratory overlooking ocean skyline at dawn" class="absolute inset-0 w-full h-full object-cover scale-105 origin-center will-change-transform brightness-[0.88] contrast-[1.05]" id="hero-bg-img" src="https://lh3.googleusercontent.com/aida/AEtjO1UvEm_I6lv4WavKKQOhDilW05ZsdJ5PrT_sTWbNaIlDF7gct3VWX4SUdxjRFswtyaEEqA-jXdsTwaTIqsw9GQYeNNW98e_36uRlv6Mld5SNlPMGSgWdgo5PByajo22ahDb7qZlchg2ruaHgDwPZG7AJM_ynbsv9Jk7IYQ_3mdOfmv7JtviEdylTRAkrq4y9oWNNGybXcNPMd7BeeSrdXBKAkEgVhFoISiMYiRO9R71ZWzjIDFFb6bL7Tzk"/>
+<!-- Dark Cinematic Gradient Overlays for High Legibility -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#0B0F17] via-[#0B0F17]/75 to-black/30 pointer-events-none"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/85 via-[#0B0F17]/45 to-transparent pointer-events-none"></div>
+<div class="absolute top-0 left-0 right-0 h-36 bg-gradient-to-b from-black/50 to-transparent pointer-events-none"></div>
+<!-- Text Content Container: Initially invisible/blurred at top, reveals smoothly as user scrolls -->
+<div class="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-10 flex flex-col justify-end will-change-transform" id="hero-content" style="opacity: 0; transform: translateY(40px); filter: blur(4px);">
+<!-- Narrative Shift Badge / Tag -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-mono mb-6 w-fit shadow-sm">
+<span class="relative flex h-2 w-2">
+<span class="status-pulse absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-80"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-400"></span>
+</span>
+<span>✦ AI &amp; Intelligent Systems Explorer</span>
+</div>
+<!-- Updated Main Headline -->
+<h1 class="font-serif text-3xl sm:text-5xl lg:text-[54px] text-white font-normal leading-[1.12] tracking-[-0.02em] max-w-3xl mb-5 drop-shadow-sm">
+    Exploring Machine Intelligence, Complex Systems &amp; Playful Web Architectures.
+  </h1>
+<!-- Updated Subheadline -->
+<p class="font-sans text-base sm:text-lg text-zinc-200 leading-relaxed max-w-2xl font-light mb-8 drop-shadow-sm">
+    Freshman CS &amp; AI researcher exploring low-latency vector dynamics, autonomous agents, and elegant digital experiences at the intersection of intelligence and human interaction.
+  </p>
+<!-- CTA Actions -->
+<div class="flex flex-wrap items-center gap-4">
+<a class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all duration-200 shadow-lg shadow-indigo-600/30 hover:shadow-indigo-500/50 inline-flex items-center gap-2 group" href="#projects">
+<span>Explore Systems</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-y-0.5 transition-transform">arrow_downward</span>
+</a>
+<a class="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white text-sm font-medium transition-all duration-200 inline-flex items-center gap-2" href="#blog">
+<span>Read Research</span>
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</a>
+<!-- Social & Meta links -->
+<div class="flex items-center gap-3 pl-2 sm:pl-4 border-l border-white/20 text-white/80">
+<a class="p-2 rounded-lg bg-white/5 hover:bg-white/20 hover:text-white transition-colors" href="https://github.com" rel="noopener noreferrer" target="_blank" title="GitHub Profile">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</a>
+<a class="p-2 rounded-lg bg-white/5 hover:bg-white/20 hover:text-white transition-colors" href="mailto:alex@example.com" title="Send Email">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</a>
+<a class="p-2 rounded-lg bg-white/5 hover:bg-white/20 hover:text-white transition-colors" href="#" title="Research Curriculum">
+<span class="material-symbols-outlined text-[20px]">description</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Delicate Scroll Down Indicator -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-all flex flex-col items-center gap-1 z-20 pointer-events-none" id="scroll-indicator">
+<span class="font-mono text-[9px] tracking-[0.2em] uppercase opacity-80 font-medium">Scroll to explore</span>
+<span class="material-symbols-outlined text-[20px] animate-bounce">keyboard_arrow_down</span>
+</div>
+</div>
+</div>
+<!-- MAIN CONTENT WRAPPER: Sits immediately in document flow without empty gap -->
+<main class="flex-grow w-full relative z-20 bg-[#fafaf9] dark:bg-[#0B0F17]" id="content">
+<!-- 1. RECENT UPDATES (Chronicle): Milestones -->
+<section class="py-20 md:py-24 bg-slate-50/70 dark:bg-slate-900/30 border-b border-zinc-200/70 dark:border-slate-800 reveal-section" id="updates">
+<div class="max-w-6xl mx-auto px-6 sm:px-10">
+<!-- Section Header -->
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-10 border-b border-zinc-200/80 dark:border-slate-800">
+<div>
+<div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-indigo-400 font-medium mb-1">
+<span>Chronicle / 01</span>
+<span>•</span>
+<span>Milestones</span>
+</div>
+<h2 class="font-serif text-3xl sm:text-4xl font-normal text-zinc-900 dark:text-zinc-100">Recent Updates &amp; Milestones</h2>
+</div>
+<span class="font-mono text-xs text-zinc-500 dark:text-zinc-400 bg-white dark:bg-slate-900/70 px-3 py-1 rounded-full border border-zinc-200 dark:border-slate-800 shadow-sm self-start sm:self-auto">2024 — Present</span>
+</div>
+<!-- Structured Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
+<!-- Milestone Card 1 -->
+<div class="bg-white dark:bg-[#131926] rounded-2xl p-6 border border-zinc-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-500/40 transition-all flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 font-medium">Nov 2024</span>
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/50">Release</span>
+</div>
+<h4 class="text-base text-zinc-900 dark:text-zinc-100 font-medium leading-snug">Astro + Tailwind Blog Starter</h4>
+<p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed font-light">
+            Published modern minimal blog starter template focused on content collections and type safety. Reached 1.2k stars on GitHub within two weeks.
+          </p>
+</div>
+<div class="pt-5 border-t border-zinc-100 dark:border-slate-800/80 flex items-center text-xs font-mono text-zinc-500 dark:text-zinc-400 gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-zinc-400 dark:text-zinc-500">star</span>
+<span>1,200+ GitHub Stars</span>
+</div>
+</div>
+<!-- Milestone Card 2 -->
+<div class="bg-white dark:bg-[#131926] rounded-2xl p-6 border border-zinc-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-500/40 transition-all flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 font-medium">Oct 2024</span>
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/50">Award</span>
+</div>
+<h4 class="text-base text-zinc-900 dark:text-zinc-100 font-medium leading-snug">LocalRAG Offline Assistant</h4>
+<p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed font-light">
+            Awarded 1st Place at University Hackathon building <span class="font-mono text-xs text-zinc-800 dark:text-zinc-200 bg-zinc-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">LocalRAG</span>, an offline contextual knowledge assistant running entirely within browser WASM runtimes.
+          </p>
+</div>
+<div class="pt-5 border-t border-zinc-100 dark:border-slate-800/80 flex items-center text-xs font-mono text-zinc-500 dark:text-zinc-400 gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-amber-500">emoji_events</span>
+<span>1st Place Winner</span>
+</div>
+</div>
+<!-- Milestone Card 3 -->
+<div class="bg-white dark:bg-[#131926] rounded-2xl p-6 border border-zinc-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-500/40 transition-all flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 font-medium">Sep 2024</span>
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/50">Education</span>
+</div>
+<h4 class="text-base text-zinc-900 dark:text-zinc-100 font-medium leading-snug">Undergraduate Computer Science</h4>
+<p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed font-light">
+            Commenced studies in Computer Science, concentrating on systems architecture, discrete mathematics, and compiler design fundamentals.
+          </p>
+</div>
+<div class="pt-5 border-t border-zinc-100 dark:border-slate-800/80 flex items-center text-xs font-mono text-zinc-500 dark:text-zinc-400 gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-indigo-500 dark:text-indigo-400">school</span>
+<span>Candidate for B.S. CS</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. FEATURED PROJECTS: Intelligent Neural Windows & Interactive AI Inspector -->
+<section class="py-20 md:py-28 bg-white dark:bg-[#0B0F17] border-b border-zinc-200/70 dark:border-slate-800 reveal-section" id="projects">
+<div class="max-w-6xl mx-auto px-6 sm:px-10">
+<!-- Section Header -->
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-12 border-b border-zinc-200/60 dark:border-slate-800">
+<div>
+<div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-indigo-400 font-medium mb-1">
+<span>Index / 02</span>
+<span>•</span>
+<span>Intelligent Systems</span>
+</div>
+<h2 class="font-serif text-3xl sm:text-4xl font-normal text-zinc-900 dark:text-zinc-100">Featured Projects</h2>
+</div>
+<a class="font-mono text-xs text-zinc-500 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400 transition-colors inline-flex items-center gap-1.5 self-start sm:self-auto group" href="https://github.com" rel="noopener noreferrer" target="_blank">
+<span>github.com/alexchen</span>
+<span class="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">arrow_outward</span>
+</a>
+</div>
+<!-- Project Cards List -->
+<div class="space-y-12 pt-12">
+<!-- Project 1: OmniSearch AI (Neural Vector & Graph Inspector) -->
+<article class="rounded-3xl border border-zinc-200/90 dark:border-slate-800 bg-gradient-to-br from-zinc-50/60 via-white to-white dark:from-slate-900/60 dark:via-[#131926] dark:to-[#0e1420] p-8 sm:p-10 shadow-sm hover:shadow-xl hover:border-indigo-200 dark:hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+<!-- Narrative Column -->
+<div class="lg:col-span-6 space-y-5">
+<div class="flex items-center gap-3">
+<span class="font-mono text-xs text-indigo-600 dark:text-indigo-400 font-semibold px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/60 rounded">02.01</span>
+<span class="text-zinc-300 dark:text-slate-700">/</span>
+<span class="font-mono text-xs text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Active Neural Cluster
+            </span>
+</div>
+<h3 class="font-serif text-2xl sm:text-3xl text-zinc-900 dark:text-zinc-100 font-normal">OmniSearch AI</h3>
+<p class="text-zinc-600 dark:text-zinc-400 font-sans text-base leading-relaxed">
+            Local-first vector search agent engineered for personal knowledge bases. Operates with sub-15ms semantic retrieval times without transmitting unstructured data over external networks.
+          </p>
+<div class="flex flex-wrap gap-2 pt-1 font-mono text-xs">
+<span class="px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-100 dark:border-indigo-800/60 rounded-md text-indigo-700 dark:text-indigo-300 font-medium">Astro</span>
+<span class="px-2.5 py-1 bg-sky-50 dark:bg-sky-950/70 border border-sky-100 dark:border-sky-800/60 rounded-md text-sky-700 dark:text-sky-300 font-medium">TypeScript</span>
+<span class="px-2.5 py-1 bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-100 dark:border-emerald-800/60 rounded-md text-emerald-700 dark:text-emerald-300 font-medium">pgvector</span>
+<span class="px-2.5 py-1 bg-zinc-100 dark:bg-slate-800 border border-zinc-200 dark:border-slate-700 rounded-md text-zinc-700 dark:text-zinc-300">Neural Graph</span>
+</div>
+<div class="pt-4 flex items-center gap-6 text-sm font-medium">
+<a class="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-indigo-600 dark:hover:bg-indigo-400 dark:hover:text-white inline-flex items-center gap-1.5 transition-colors shadow-sm" href="#">
+<span>Source code</span>
+<span class="material-symbols-outlined text-[15px]">arrow_outward</span>
+</a>
+<a class="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white inline-flex items-center gap-1 transition-colors" href="#">
+<span>Live demo</span>
+<span class="material-symbols-outlined text-[15px]">arrow_outward</span>
+</a>
+</div>
+</div>
+<!-- Visual Column: macOS Intelligent Neural Inspector Window -->
+<div class="lg:col-span-6">
+<div class="rounded-2xl bg-zinc-950 border border-zinc-800 dark:border-slate-800 p-5 font-mono text-xs text-zinc-300 shadow-2xl">
+<!-- macOS Traffic Lights Header -->
+<div class="flex items-center justify-between pb-3 border-b border-zinc-800/80 text-zinc-400 text-[11px] mb-4">
+<span class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-red-500/90 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-yellow-500/90 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-green-500/90 inline-block"></span>
+<span class="ml-2 text-zinc-400">neural-inspector.wasm</span>
+</span>
+<span class="text-indigo-400 font-mono text-[10px] bg-indigo-950/70 px-2 py-0.5 rounded border border-indigo-800/50">dim: 768 • sub-15ms</span>
+</div>
+<!-- Neural Query & Embedding Simulation Canvas -->
+<div class="space-y-3 text-[12px]">
+<div class="p-3 rounded-lg bg-zinc-900/90 border border-zinc-800/90">
+<div class="flex justify-between items-center text-[10px] text-zinc-500 mb-1.5 uppercase tracking-wider">
+<span>Query Input Vector</span>
+<span class="text-emerald-400 font-medium">cosine: 0.942</span>
+</div>
+<p class="text-zinc-200 font-sans text-xs">"autonomous low-latency memory consolidation in WASM"</p>
+</div>
+<!-- Dynamic Vector Weight Clusters -->
+<div class="grid grid-cols-4 gap-2 pt-1 text-[11px]">
+<div class="p-2 rounded bg-zinc-900/60 border border-zinc-800/60 text-center">
+<div class="text-[10px] text-zinc-500">DIM 0..192</div>
+<div class="text-indigo-400 font-bold mt-0.5">0.871</div>
+</div>
+<div class="p-2 rounded bg-zinc-900/60 border border-zinc-800/60 text-center">
+<div class="text-[10px] text-zinc-500">DIM 193..384</div>
+<div class="text-sky-400 font-bold mt-0.5">0.934</div>
+</div>
+<div class="p-2 rounded bg-zinc-900/60 border border-zinc-800/60 text-center">
+<div class="text-[10px] text-zinc-500">DIM 385..576</div>
+<div class="text-emerald-400 font-bold mt-0.5">0.612</div>
+</div>
+<div class="p-2 rounded bg-zinc-900/60 border border-zinc-800/60 text-center">
+<div class="text-[10px] text-zinc-500">DIM 577..768</div>
+<div class="text-amber-400 font-bold mt-0.5">0.785</div>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between text-[11px] text-zinc-400 font-mono">
+<span class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+    Cluster: nomic-embed-v1.5 (local quantized)
+  </span>
+<span class="text-emerald-400">12.4ms avg</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Project 2: DevPulse CLI (Interactive Agent Simulation Canvas) -->
+<article class="rounded-3xl border border-zinc-200/90 dark:border-slate-800 bg-gradient-to-br from-zinc-50/60 via-white to-white dark:from-slate-900/60 dark:via-[#131926] dark:to-[#0e1420] p-8 sm:p-10 shadow-sm hover:shadow-xl hover:border-indigo-200 dark:hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+<!-- Visual Column: macOS Agent Simulation Dashboard -->
+<div class="lg:col-span-6 order-2 lg:order-1">
+<div class="rounded-2xl bg-zinc-950 border border-zinc-800 dark:border-slate-800 p-5 font-mono text-xs text-zinc-300 shadow-2xl">
+<!-- macOS Traffic Lights Header -->
+<div class="flex items-center justify-between pb-3 border-b border-zinc-800/80 text-zinc-400 text-[11px] mb-4">
+<span class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-red-500/90 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-yellow-500/90 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-green-500/90 inline-block"></span>
+<span class="ml-2 text-zinc-400">agent-orchestrator.rs</span>
+</span>
+<span class="text-zinc-400 font-mono text-[10px]">active state • 3 agents</span>
+</div>
+<!-- Simulation Canvas Details -->
+<div class="space-y-2.5 text-[11px]">
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/80 border border-zinc-800">
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 rounded bg-indigo-950 text-indigo-300 font-semibold text-[10px]">Planner</span>
+<span class="text-zinc-200">Decomposing repo telemetry DAG</span>
+</div>
+<span class="text-emerald-400 font-mono">CONVERGED</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/80 border border-zinc-800">
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 rounded bg-sky-950 text-sky-300 font-semibold text-[10px]">Analyst</span>
+<span class="text-zinc-200">Context entropy = 0.14 bits/hr</span>
+</div>
+<span class="text-sky-400 font-mono">OPTIMAL</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/80 border border-zinc-800">
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 rounded bg-amber-950 text-amber-300 font-semibold text-[10px]">Memory</span>
+<span class="text-zinc-200">Local SQLite cache indexed</span>
+</div>
+<span class="text-amber-400 font-mono">1.8 MB</span>
+</div>
+</div>
+<div class="mt-3 pt-2.5 border-t border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+<span>Friction Index: 0.04 (minimal)</span>
+<span class="text-emerald-400">Zero cloud egress</span>
+</div>
+</div>
+</div>
+<!-- Narrative Column -->
+<div class="lg:col-span-6 space-y-5 order-1 lg:order-2">
+<div class="flex items-center gap-3">
+<span class="font-mono text-xs text-indigo-600 dark:text-indigo-400 font-semibold px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/60 rounded">02.02</span>
+<span class="text-zinc-300 dark:text-slate-700">/</span>
+<span class="font-mono text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">Intelligent Telemetry</span>
+</div>
+<h3 class="font-serif text-2xl sm:text-3xl text-zinc-900 dark:text-zinc-100 font-normal">DevPulse CLI</h3>
+<p class="text-zinc-600 dark:text-zinc-400 font-sans text-base leading-relaxed">
+            Lightweight developer workflow analytics tool compiling local commit frequencies, shell friction indices, and context switching overhead into actionable metrics without background telemetry.
+          </p>
+<div class="flex flex-wrap gap-2 pt-1 font-mono text-xs">
+<span class="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/70 border border-amber-200 dark:border-amber-800/60 rounded-md text-amber-700 dark:text-amber-300 font-medium">Rust</span>
+<span class="px-2.5 py-1 bg-sky-50 dark:bg-sky-950/70 border border-sky-200 dark:border-sky-800/60 rounded-md text-sky-700 dark:text-sky-300 font-medium">SQLite</span>
+<span class="px-2.5 py-1 bg-zinc-100 dark:bg-slate-800 border border-zinc-200 dark:border-slate-700 rounded-md text-zinc-700 dark:text-zinc-300">Autonomous DAG</span>
+</div>
+<div class="pt-4 flex items-center gap-6 text-sm font-medium">
+<a class="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-indigo-600 dark:hover:bg-indigo-400 dark:hover:text-white inline-flex items-center gap-1.5 transition-colors shadow-sm" href="#">
+<span>crates.io / devpulse</span>
+<span class="material-symbols-outlined text-[15px]">arrow_outward</span>
+</a>
+<a class="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white inline-flex items-center gap-1 transition-colors" href="#">
+<span>Read design note</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</article>
+<!-- Project 3: Minimalist Blog Template (Architectural Research Monograph Engine) -->
+<article class="rounded-3xl border border-zinc-200/90 dark:border-slate-800 bg-gradient-to-br from-zinc-50/60 via-white to-white dark:from-slate-900/60 dark:via-[#131926] dark:to-[#0e1420] p-8 sm:p-10 shadow-sm hover:shadow-xl hover:border-indigo-200 dark:hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+<!-- Narrative Column -->
+<div class="lg:col-span-6 space-y-5">
+<div class="flex items-center gap-3">
+<span class="font-mono text-xs text-indigo-600 dark:text-indigo-400 font-semibold px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/60 rounded">02.03</span>
+<span class="text-zinc-300 dark:text-slate-700">/</span>
+<span class="font-mono text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">Open Source</span>
+</div>
+<h3 class="font-serif text-2xl sm:text-3xl text-zinc-900 dark:text-zinc-100 font-normal">Minimalist Blog Template</h3>
+<p class="text-zinc-600 dark:text-zinc-400 font-sans text-base leading-relaxed">
+            High-performance Astro v5 starter designed specifically for architectural monographs, systems research docs, and hyper-clean engineer personal domains with flawless Lighthouse metrics.
+          </p>
+<div class="flex flex-wrap gap-2 pt-1 font-mono text-xs">
+<span class="px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-100 dark:border-indigo-800/60 rounded-md text-indigo-700 dark:text-indigo-300 font-medium">Astro v5</span>
+<span class="px-2.5 py-1 bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-100 dark:border-emerald-800/60 rounded-md text-emerald-700 dark:text-emerald-300 font-medium">Content Collections</span>
+<span class="px-2.5 py-1 bg-zinc-100 dark:bg-slate-800 border border-zinc-200 dark:border-slate-700 rounded-md text-zinc-700 dark:text-zinc-300">Tailwind</span>
+</div>
+<div class="pt-4 flex items-center gap-6 text-sm font-medium">
+<a class="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-indigo-600 dark:hover:bg-indigo-400 dark:hover:text-white inline-flex items-center gap-1.5 transition-colors shadow-sm" href="#">
+<span>View repository</span>
+<span class="material-symbols-outlined text-[15px]">arrow_outward</span>
+</a>
+</div>
+</div>
+<!-- Visual Column: macOS Verified Audit Window -->
+<div class="lg:col-span-6">
+<div class="rounded-2xl border border-zinc-200/80 dark:border-slate-800 bg-white dark:bg-[#131926] p-7 space-y-4 shadow-md">
+<!-- macOS Traffic Lights Header -->
+<div class="flex justify-between items-center pb-3 border-b border-zinc-100 dark:border-slate-800 text-xs font-mono text-zinc-400">
+<span class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block"></span>
+<span class="ml-1 text-zinc-600 dark:text-zinc-300 font-medium">lighthouse-audit.json</span>
+</span>
+<span class="text-emerald-700 dark:text-emerald-300 font-semibold bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded">100 / 100 / 100 / 100</span>
+</div>
+<p class="font-serif italic text-zinc-700 dark:text-zinc-300 text-lg leading-snug">
+  "Designed specifically for research monographs, architecture docs, and zero-distraction personal sites."
+</p>
+<div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 pt-2 flex items-center justify-between border-t border-zinc-100 dark:border-slate-800">
+<span>Release v2.1.0</span>
+<span class="text-indigo-600 dark:text-indigo-400 font-medium">1,200+ stars on GitHub</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- 5. RECENT WRITING: Editorial Table Rows -->
+<section class="py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/30 border-b border-zinc-200/70 dark:border-slate-800 reveal-section" id="blog">
+<div class="max-w-6xl mx-auto px-6 sm:px-10">
+<!-- Section Header -->
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-10 border-b border-zinc-200/80 dark:border-slate-800">
+<div>
+<div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-indigo-400 font-medium mb-1">
+<span>Essays / 03</span>
+<span>•</span>
+<span>Reflections</span>
+</div>
+<h2 class="font-serif text-3xl sm:text-4xl font-normal text-zinc-900 dark:text-zinc-100">Recent Writing</h2>
+</div>
+<a class="font-mono text-xs text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors inline-flex items-center gap-1.5 self-start sm:self-auto group" href="#blog">
+<span>Archive (14 posts)</span>
+<span class="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- Editorial Table Rows Inside Card Layout -->
+<div class="mt-8 bg-white dark:bg-[#131926] rounded-2xl border border-zinc-200/80 dark:border-slate-800 divide-y divide-zinc-100 dark:divide-slate-800/80 shadow-sm overflow-hidden">
+<!-- Article 1 -->
+<a class="px-6 py-6 group flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-zinc-50/80 dark:hover:bg-slate-800/40 transition-colors" href="#">
+<div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
+<span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 min-w-[100px]">Nov 18, 2024</span>
+<span class="text-base sm:text-lg text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors font-medium">
+  Deep Dive: Astro Content Collections Architecture &amp; Type Safety
+</span>
+</div>
+<div class="flex items-center gap-5 text-xs font-mono text-zinc-400 dark:text-zinc-500">
+<span class="px-2.5 py-0.5 rounded bg-zinc-100 dark:bg-slate-800 text-zinc-600 dark:text-zinc-300">Articles</span>
+<span>6 min</span>
+<span class="material-symbols-outlined text-[16px] text-zinc-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-1 transition-all">arrow_forward</span>
+</div>
+</a>
+<!-- Article 2 -->
+<a class="px-6 py-6 group flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-zinc-50/80 dark:hover:bg-slate-800/40 transition-colors" href="#">
+<div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
+<span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 min-w-[100px]">Nov 05, 2024</span>
+<span class="text-base sm:text-lg text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors font-medium">
+  Building a Zero-Config Dark Mode Toggle in Pure JavaScript
+</span>
+</div>
+<div class="flex items-center gap-5 text-xs font-mono text-zinc-400 dark:text-zinc-500">
+<span class="px-2.5 py-0.5 rounded bg-zinc-100 dark:bg-slate-800 text-zinc-600 dark:text-zinc-300">Notes</span>
+<span>3 min</span>
+<span class="material-symbols-outlined text-[16px] text-zinc-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-1 transition-all">arrow_forward</span>
+</div>
+</a>
+<!-- Article 3 -->
+<a class="px-6 py-6 group flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-zinc-50/80 dark:hover:bg-slate-800/40 transition-colors" href="#">
+<div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
+<span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 min-w-[100px]">Oct 24, 2024</span>
+<span class="text-base sm:text-lg text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors font-medium">
+  Why I Switched from Next.js to Astro for My Personal Site
+</span>
+</div>
+<div class="flex items-center gap-5 text-xs font-mono text-zinc-400 dark:text-zinc-500">
+<span class="px-2.5 py-0.5 rounded bg-zinc-100 dark:bg-slate-800 text-zinc-600 dark:text-zinc-300">Articles</span>
+<span>8 min</span>
+<span class="material-symbols-outlined text-[16px] text-zinc-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-1 transition-all">arrow_forward</span>
+</div>
+</a>
+</div>
+<!-- Bottom Read More -->
+<div class="pt-8 flex justify-center sm:justify-start">
+<a class="font-mono text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 inline-flex items-center gap-2 transition-colors px-4 py-2 rounded-lg bg-white dark:bg-[#131926] border border-zinc-200 dark:border-slate-800 shadow-sm" href="#blog">
+<span>View all 14 published articles</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- 6. Footer -->
+<footer class="border-t border-zinc-200/80 dark:border-slate-800 py-12 bg-white dark:bg-[#0B0F17] relative z-20">
+<div class="max-w-6xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+<div class="flex items-center gap-2">
+<span class="font-semibold text-zinc-900 dark:text-zinc-100">alex.dev</span>
+<span class="text-zinc-300 dark:text-slate-700">/</span>
+<span>© 2025 Alex Chen. Crafted with care &amp; precision.</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#">Index</a>
+<a class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#projects">Work</a>
+<a class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#updates">Timeline</a>
+<a class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#blog">Writing</a>
+<a class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#">RSS</a>
+<a class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="https://github.com" rel="noopener noreferrer" target="_blank">Source</a>
+</div>
+</div>
+</footer>
+<!-- Interactive Scripts: Parallax Scroll Reveal & Theme Toggle -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Theme Toggle Logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      });
+    }
+
+    // 2. Hero Parallax & Scroll-Driven Sticky Reveal
+    const heroScrollContainer = document.getElementById('hero-scroll-container');
+    const heroContent = document.getElementById('hero-content');
+    const heroBgImg = document.getElementById('hero-bg-img');
+    const scrollIndicator = document.getElementById('scroll-indicator');
+
+    let ticking = false;
+
+    function updateHeroScroll() {
+      if (!heroScrollContainer || !heroContent) return;
+
+      const rect = heroScrollContainer.getBoundingClientRect();
+      const containerHeight = heroScrollContainer.offsetHeight - window.innerHeight;
+
+      // Scroll progress through the 180vh container: 0 at top, 1 at bottom
+      const scrolled = -rect.top;
+      const progress = Math.min(Math.max(scrolled / (containerHeight || 1), 0), 1);
+
+      // Hero text entrance: progresses from 0 to 1 over first 45% of scroll
+      const textProgress = Math.min(progress / 0.45, 1);
+      const opacity = textProgress;
+      const translateY = (1 - textProgress) * 40; // 40px -> 0px
+      const blur = (1 - textProgress) * 4;       // 4px -> 0px
+
+      heroContent.style.opacity = opacity.toFixed(3);
+      heroContent.style.transform = `translateY(${translateY.toFixed(1)}px)`;
+      heroContent.style.filter = `blur(${blur.toFixed(1)}px)`;
+
+      // Subtle parallax shift for background image
+      if (heroBgImg) {
+        const bgScale = 1.05 + progress * 0.05;
+        const bgTranslate = progress * -20;
+        heroBgImg.style.transform = `scale(${bgScale.toFixed(3)}) translateY(${bgTranslate.toFixed(1)}px)`;
+      }
+
+      // Scroll to explore indicator: fades away rapidly upon scrolling
+      if (scrollIndicator) {
+        const indicatorOpacity = Math.max(1 - progress * 4, 0);
+        scrollIndicator.style.opacity = indicatorOpacity.toFixed(2);
+        scrollIndicator.style.pointerEvents = indicatorOpacity <= 0.05 ? 'none' : 'auto';
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateHeroScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initial update on page load
+    updateHeroScroll();
+
+    // 3. Section Reveal Observer
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal-section').forEach(el => observer.observe(el));
+  });
+</script>
+</body></html>

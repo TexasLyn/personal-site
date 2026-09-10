@@ -1,0 +1,62 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { postCount, posts } from '../data/site';
+---
+
+<section
+  id="blog"
+  class="py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/30 border-b border-zinc-200/70 dark:border-slate-800 reveal-section"
+>
+  <div class="max-w-6xl mx-auto px-6 sm:px-10">
+    <SectionHeader
+      eyebrow="Reflections"
+      index="Essays / 03"
+      title="Recent Writing"
+      meta={`Archive (${postCount} posts)`}
+      metaHref="/#blog"
+      metaIcon="arrow_forward"
+    />
+
+    <div
+      class="mt-8 bg-white dark:bg-surface-dark rounded-2xl border border-zinc-200/80 dark:border-slate-800 divide-y divide-zinc-100 dark:divide-slate-800/80 shadow-sm overflow-hidden"
+    >
+      {
+        posts.map((post) => (
+          <a
+            href={post.href}
+            class="px-6 py-6 group flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-zinc-50/80 dark:hover:bg-slate-800/40 transition-colors"
+          >
+            <div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
+              <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 min-w-[100px]">
+                {post.date}
+              </span>
+              <span class="text-base sm:text-lg text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors font-medium">
+                {post.title}
+              </span>
+            </div>
+
+            <div class="flex items-center gap-5 text-xs font-mono text-zinc-400 dark:text-zinc-500">
+              <span class="px-2.5 py-0.5 rounded bg-zinc-100 dark:bg-slate-800 text-zinc-600 dark:text-zinc-300">
+                {post.category}
+              </span>
+              <span>{post.readingTime}</span>
+              <span class="material-symbols-outlined text-[16px] text-zinc-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-1 transition-all">
+                arrow_forward
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="pt-8 flex justify-center sm:justify-start">
+      <a
+        href="/#blog"
+        class="font-mono text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 inline-flex items-center gap-2 transition-colors px-4 py-2 rounded-lg bg-white dark:bg-surface-dark border border-zinc-200 dark:border-slate-800 shadow-sm"
+      >
+        <span>View all {postCount} published articles</span>
+        <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+---
+type Props = {
+  eyebrow: string;
+  index: string;
+  title: string;
+  meta?: string;
+  metaHref?: string;
+  metaIcon?: string;
+  bordered?: boolean;
+};
+
+const {
+  eyebrow,
+  index,
+  title,
+  meta,
+  metaHref,
+  metaIcon = 'arrow_outward',
+  bordered = true,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'flex flex-col sm:flex-row sm:items-baseline justify-between gap-2',
+    bordered && 'pb-10 border-b border-zinc-200/80 dark:border-slate-800',
+  ]}
+>
+  <div>
+    <div
+      class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-indigo-600 dark:text-indigo-400 font-medium mb-1"
+    >
+      <span>{index}</span>
+      <span>•</span>
+      <span>{eyebrow}</span>
+    </div>
+    <h2 class="font-serif text-3xl sm:text-4xl font-normal text-zinc-900 dark:text-zinc-100">
+      {title}
+    </h2>
+  </div>
+
+  {
+    meta && metaHref && (
+      <a
+        href={metaHref}
+        target={metaHref.startsWith('http') ? '_blank' : undefined}
+        rel={metaHref.startsWith('http') ? 'noopener noreferrer' : undefined}
+        class="font-mono text-xs text-zinc-500 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400 transition-colors inline-flex items-center gap-1.5 self-start sm:self-auto group"
+      >
+        <span>{meta}</span>
+        <span class="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">
+          {metaIcon}
+        </span>
+      </a>
+    )
+  }
+
+  {
+    meta && !metaHref && (
+      <span class="font-mono text-xs text-zinc-500 dark:text-zinc-400 bg-white dark:bg-slate-900/70 px-3 py-1 rounded-full border border-zinc-200 dark:border-slate-800 shadow-sm self-start sm:self-auto">
+        {meta}
+      </span>
+    )
+  }
+</div>
