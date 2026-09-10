@@ -1,12 +1,20 @@
 ---
-import { footer } from '../data/site';
+import { getSite } from '../data/site';
+
+/** 首页传 ''，文章页传语言首页路径，让 #about 这类锚点能跳回首页 */
+type Props = { homePrefix?: string };
+
+const { footer } = getSite(Astro.currentLocale);
+const { homePrefix = '' } = Astro.props;
+
+const resolve = (href: string) => (href.startsWith('#') ? `${homePrefix}${href}` : href);
 ---
 
 <footer class="footer section" id="footer">
   <div class="footer__container container grid">
     <div class="footer__content grid">
       <div class="footer__data">
-        <h3 class="footer__title">联系方式</h3>
+        <h3 class="footer__title">{footer.contactTitle}</h3>
         <p class="footer__description" set:html={footer.contactHtml} />
         <div>
           {
@@ -34,7 +42,7 @@ import { footer } from '../data/site';
                 <li class="footer__item">
                   <a
                     class="footer__link"
-                    href={link.href}
+                    href={resolve(link.href)}
                     target={link.href.startsWith('http') ? '_blank' : undefined}
                     rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   >

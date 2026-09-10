@@ -9,6 +9,12 @@ export default defineConfig({
   // 关掉遥测：否则 Astro 会往 ~/Library/Preferences/astro 写文件
   telemetry: false,
   integrations: [sitemap()],
+  // 中文是默认语言（路径不带前缀），英文在 /en/ 下
+  i18n: {
+    defaultLocale: 'zh',
+    locales: ['zh', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
   markdown: {
     shikiConfig: {
       theme: 'github-dark-default',

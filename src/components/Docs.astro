@@ -1,53 +1,48 @@
 ---
-import { getCollection, render } from 'astro:content';
-import { docs } from '../data/site';
+import { getCollection } from 'astro:content';
+import { getLang, getSite, postPath } from '../data/site';
 
-const posts = (await getCollection('blog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const lang = getLang(Astro.currentLocale);
+const { blog } = getSite(lang);
 
-const articles = await Promise.all(
-  posts.map(async (post) => {
-    const { Content, headings } = await render(post);
-    return {
-      id: post.id,
-      data: post.data,
-      Content,
-      toc: headings.filter((h) => h.depth === 2).map((h) => ({ text: h.text })),
-    };
-  })
+const posts = (lang === 'en' ? await getCollection('blogEn') : await getCollection('blog')).sort(
+  (a, b) => b.data.date.localeCompare(a.data.date)
 );
 ---
 
 <section class="docs__section section" id="docs">
   <div class="container">
-    <h2 class="section__title docs__section-title">{docs.title}</h2>
+    <h2 class="section__title docs__section-title">{blog.title}</h2>
 
     <div id="blog-posts-list">
       {
-        articles.map((article) => (
-          <article class="blog-card" data-article-id={article.id}>
+        posts.map((post) => (
+          <article class="blog-card">
             <div class="blog-card__inner">
               <div class="blog-card__grid">
                 <div class="blog-card__main">
                   <div>
                     <div class="blog-card__meta">
-                      <span class="blog-card__tag">{article.data.category}</span>
+                      <span class="blog-card__tag">{post.data.category}</span>
                       <span>•</span>
-                      <time>{article.data.date}</time>
+                      <time>{post.data.date}</time>
                       <span>•</span>
-                      <span>{article.data.readTime}</span>
+                      <span>{post.data.readTime}</span>
                     </div>
-                    <h3 class="blog-card__title">{article.data.title}</h3>
-                    <p class="blog-card__excerpt">{article.data.excerpt}</p>
+                    <h3 class="blog-card__title">
+                      <a href={postPath(lang, post.id)}>{post.data.title}</a>
+                    </h3>
+                    <p class="blog-card__excerpt">{post.data.excerpt}</p>
                   </div>
-                  <a class="blog-card__more" href={`#blog/${article.id}`}>
-                    阅读全文 <i class="ri-arrow-right-line" />
+                  <a class="blog-card__more" href={postPath(lang, post.id)}>
+                    {blog.readMore} <i class="ri-arrow-right-line" />
                   </a>
                 </div>
 
-                {article.data.cover && (
-                  <div class="blog-card__cover">
-                    <img src={article.data.cover} alt={article.data.title} loading="lazy" />
-                  </div>
+                {post.data.cover && (
+                  <a class="blog-card__cover" href={postPath(lang, post.id)} tabindex="-1">
+                    <img src={post.data.cover} alt={post.data.title} loading="lazy" />
+                  </a>
                 )}
               </div>
             </div>
@@ -56,229 +51,4 @@ const articles = await Promise.all(
       }
     </div>
   </div>
-
-  {/* 阅读抽屉 */}
-  <div class="drawer-overlay" id="article-drawer-overlay"></div>
-  <aside class="drawer" id="article-drawer" aria-hidden="true">
-    <div class="drawer__progress" id="drawer-progress-bar"></div>
-
-    <div class="drawer__bar">
-      <button class="drawer__close" id="drawer-close" type="button">
-        <i class="ri-close-line"></i> {docs.drawerHint}
-      </button>
-      <div class="drawer__bar-right">
-        <span id="drawer-meta-readtime"></span>
-        <button class="drawer__top" id="drawer-to-top" type="button" title="返回文章顶部">
-          <i class="ri-arrow-up-line"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="drawer__scroll" id="drawer-scroll-body">
-      <div class="drawer__inner">
-        <div class="drawer__meta">
-          <span class="drawer__tag" id="drawer-tag"></span>
-          <span>/</span>
-          <time id="drawer-date"></time>
-          <span>/</span>
-          <span id="drawer-author"></span>
-        </div>
-
-        <h1 class="drawer__title" id="drawer-title"></h1>
-
-        <div class="drawer__cover" id="drawer-cover-wrap">
-          <img id="drawer-cover-img" alt="" />
-        </div>
-
-        <nav class="drawer__toc" id="drawer-toc">
-          <div class="drawer__toc-title">{docs.tocTitle}</div>
-          <div class="drawer__toc-items" id="drawer-toc-items"></div>
-        </nav>
-
-        <div class="article__body" id="drawer-content"></div>
-      </div>
-    </div>
-  </aside>
-
-  {/* 每篇文章的正文预渲染好放在 template 里，点开时克隆进抽屉，不需要请求接口 */}
-  {
-    articles.map((article) => (
-      <template
-        id={`article-${article.id}`}
-        data-title={article.data.title}
-        data-category={article.data.category}
-        data-date={article.data.date}
-        data-readtime={article.data.readTime}
-        data-author={article.data.author}
-        data-cover={article.data.cover ?? ''}
-        data-toc={JSON.stringify(article.toc)}
-      >
-        <article.Content />
-      </template>
-    ))
-  }
 </section>
-
-<script>
-  type Toc = { text: string };
-
-  const overlay = document.getElementById('article-drawer-overlay');
-  const drawer = document.getElementById('article-drawer');
-  const scrollBody = document.getElementById('drawer-scroll-body');
-  const progressBar = document.getElementById('drawer-progress-bar');
-  const content = document.getElementById('drawer-content');
-  const tocItems = document.getElementById('drawer-toc-items');
-  const tocNav = document.getElementById('drawer-toc');
-  const coverWrap = document.getElementById('drawer-cover-wrap');
-  const coverImg = document.getElementById('drawer-cover-img') as HTMLImageElement | null;
-
-  const setText = (id: string, value: string) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  };
-
-  /** 给正文里的代码块加上「文件名 + 复制」标题栏 */
-  const decorateCodeBlocks = (root: HTMLElement) => {
-    root.querySelectorAll('pre').forEach((pre) => {
-      if (pre.parentElement?.classList.contains('code-block')) return;
-
-      const block = document.createElement('div');
-      block.className = 'code-block';
-
-      const header = document.createElement('div');
-      header.className = 'code-block__header';
-
-      const name = document.createElement('span');
-      name.textContent =
-        pre.dataset.filename || (pre.dataset.language ? pre.dataset.language : 'code');
-
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'code-block__copy';
-      button.innerHTML = '<i class="ri-file-copy-line"></i> 复制';
-      button.addEventListener('click', async () => {
-        const text = pre.textContent ?? '';
-        try {
-          await navigator.clipboard.writeText(text);
-        } catch {
-          const area = document.createElement('textarea');
-          area.value = text;
-          document.body.appendChild(area);
-          area.select();
-          document.execCommand('copy');
-          area.remove();
-        }
-        button.innerHTML = '<i class="ri-check-line"></i> 已复制';
-        setTimeout(() => {
-          button.innerHTML = '<i class="ri-file-copy-line"></i> 复制';
-        }, 1600);
-      });
-
-      header.append(name, button);
-      pre.parentNode?.insertBefore(block, pre);
-      block.append(header, pre);
-    });
-  };
-
-  const openArticle = (id: string, updateHash = true) => {
-    const template = document.getElementById(`article-${id}`) as HTMLTemplateElement | null;
-    if (!template || !content) return;
-
-    const { dataset } = template;
-    setText('drawer-title', dataset.title ?? '');
-    setText('drawer-tag', dataset.category ?? '');
-    setText('drawer-date', dataset.date ?? '');
-    setText('drawer-author', dataset.author ?? '');
-    setText('drawer-meta-readtime', dataset.readtime ?? '');
-
-    content.replaceChildren(template.content.cloneNode(true));
-    decorateCodeBlocks(content);
-
-    if (dataset.cover && coverImg && coverWrap) {
-      coverImg.src = dataset.cover;
-      coverImg.alt = dataset.title ?? '';
-      coverWrap.style.display = 'block';
-    } else if (coverWrap) {
-      coverWrap.style.display = 'none';
-    }
-
-    // 目录：按正文里第 n 个 h2 定位，不依赖标题 id
-    const headings = content.querySelectorAll('h2');
-    const toc: Toc[] = JSON.parse(dataset.toc || '[]');
-    tocItems?.replaceChildren();
-    if (toc.length && tocItems && tocNav) {
-      tocNav.style.display = '';
-      toc.forEach((item, index) => {
-        const link = document.createElement('a');
-        link.className = 'drawer__toc-link';
-        link.href = '#';
-        link.textContent = item.text;
-        link.addEventListener('click', (event) => {
-          event.preventDefault();
-          headings[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-        tocItems.appendChild(link);
-      });
-    } else if (tocNav) {
-      tocNav.style.display = 'none';
-    }
-
-    overlay?.classList.add('is-open');
-    drawer?.classList.add('is-open');
-    drawer?.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('drawer-open');
-
-    if (scrollBody) scrollBody.scrollTop = 0;
-    if (progressBar) progressBar.style.width = '0%';
-
-    if (updateHash) history.pushState({ articleId: id }, '', `#blog/${id}`);
-  };
-
-  const closeArticle = (updateHash = true) => {
-    overlay?.classList.remove('is-open');
-    drawer?.classList.remove('is-open');
-    drawer?.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('drawer-open');
-
-    if (updateHash && location.hash.startsWith('#blog/')) {
-      history.pushState(null, '', '#docs');
-    }
-  };
-
-  document.getElementById('drawer-close')?.addEventListener('click', () => closeArticle());
-  overlay?.addEventListener('click', () => closeArticle());
-  document.getElementById('drawer-to-top')?.addEventListener('click', () => {
-    scrollBody?.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeArticle();
-  });
-
-  scrollBody?.addEventListener('scroll', () => {
-    const total = scrollBody.scrollHeight - scrollBody.clientHeight;
-    const percent = total > 0 ? (scrollBody.scrollTop / total) * 100 : 0;
-    if (progressBar) progressBar.style.width = `${percent}%`;
-  });
-
-  document.querySelectorAll('.blog-card').forEach((card) => {
-    card.addEventListener('click', (event) => {
-      if ((event.target as HTMLElement).closest('a')) return;
-      const id = (card as HTMLElement).dataset.articleId;
-      if (id) openArticle(id);
-    });
-  });
-
-  const syncWithHash = () => {
-    const hash = window.location.hash;
-    if (hash.startsWith('#blog/')) {
-      openArticle(hash.replace('#blog/', ''), false);
-    } else if (document.body.classList.contains('drawer-open')) {
-      closeArticle(false);
-    }
-  };
-
-  window.addEventListener('hashchange', syncWithHash);
-  window.addEventListener('popstate', syncWithHash);
-  syncWithHash();
-</script>

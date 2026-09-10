@@ -1,0 +1,224 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLang, getSite, homePath } from '../data/site';
+
+type Props = {
+  title: string;
+  category: string;
+  date: string;
+  readTime: string;
+  author: string;
+  cover?: string;
+  description?: string;
+  toc: { slug: string; text: string }[];
+  prev?: { title: string; href: string };
+  next?: { title: string; href: string };
+};
+
+const { title, category, date, readTime, author, cover, description, toc, prev, next } =
+  Astro.props;
+
+const lang = getLang(Astro.currentLocale);
+const site = getSite(lang);
+const home = homePath(lang);
+
+const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<BaseLayout title={`${title} — ${site.meta.title}`} description={description ?? site.meta.description}>
+  <Header homePrefix={home} solid />
+
+  <main
+    class="main article-page"
+    data-copy-label={site.blog.copy}
+    data-copied-label={site.blog.copied}
+  >
+    <div class="container">
+      <a class="article-page__back" href={`${home}#docs`}>
+        <i class="ri-arrow-left-line"></i> {site.blog.backToList}
+      </a>
+
+      <div class="article-page__grid">
+        <article class="article-page__article">
+          <header class="article-page__header">
+            <div class="article-page__meta">
+              <span class="article-page__tag">{category}</span>
+              <span>•</span>
+              <time>{date}</time>
+              <span>•</span>
+              <span>{readTime}</span>
+            </div>
+            <h1 class="article-page__title">{title}</h1>
+            <p class="article-page__byline">{site.blog.writtenBy} {author}</p>
+          </header>
+
+          {
+            cover && (
+              <div class="article-page__cover">
+                <img src={cover} alt={title} />
+              </div>
+            )
+          }
+
+          <div class="article__body">
+            <slot />
+          </div>
+
+          {
+            (prev || next) && (
+              <nav class="article-nav">
+                {prev && (
+                  <a class="article-nav__item" href={prev.href}>
+                    <span class="article-nav__label">
+                      <i class="ri-arrow-left-line" /> {site.blog.previous}
+                    </span>
+                    <span class="article-nav__title">{prev.title}</span>
+                  </a>
+                )}
+                {next && (
+                  <a class="article-nav__item article-nav__item--next" href={next.href}>
+                    <span class="article-nav__label">
+                      {site.blog.next} <i class="ri-arrow-right-line" />
+                    </span>
+                    <span class="article-nav__title">{next.title}</span>
+                  </a>
+                )}
+              </nav>
+            )
+          }
+        </article>
+
+        <aside class="article-page__aside">
+          {
+            toc.length > 0 && (
+              <nav class="article-toc">
+                <div class="article-toc__title">{site.blog.outline}</div>
+                <ul class="article-toc__list">
+                  {toc.map((item) => (
+                    <li>
+                      <a class="article-toc__link" href={`#${item.slug}`}>
+                        {item.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )
+          }
+
+          <div class="article-share">
+            <div class="article-toc__title">{site.blog.share}</div>
+            <div class="article-share__links">
+              <a
+                class="article-share__link"
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="X / Twitter"
+              >
+                <i class="ri-twitter-x-line"></i>
+              </a>
+              <button
+                class="article-share__link"
+                id="share-copy"
+                type="button"
+                data-url={shareUrl}
+                title={site.blog.copyLink}
+              >
+                <i class="ri-link"></i>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <Footer homePrefix={home} />
+
+  <script>
+    const main = document.querySelector('.article-page');
+    const copyLabel = main?.getAttribute('data-copy-label') ?? 'Copy';
+    const copiedLabel = main?.getAttribute('data-copied-label') ?? 'Copied';
+
+    // 代码块统一加上「文件名 + 复制」标题栏
+    document.querySelectorAll<HTMLPreElement>('.article__body pre').forEach((pre) => {
+      if (pre.parentElement?.classList.contains('code-block')) return;
+
+      const block = document.createElement('div');
+      block.className = 'code-block';
+
+      const header = document.createElement('div');
+      header.className = 'code-block__header';
+
+      const name = document.createElement('span');
+      name.textContent =
+        pre.dataset.filename || (pre.dataset.language ? pre.dataset.language : 'code');
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'code-block__copy';
+      button.innerHTML = `<i class="ri-file-copy-line"></i> ${copyLabel}`;
+      button.addEventListener('click', async () => {
+        const text = pre.textContent ?? '';
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const area = document.createElement('textarea');
+          area.value = text;
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand('copy');
+          area.remove();
+        }
+        button.innerHTML = `<i class="ri-check-line"></i> ${copiedLabel}`;
+        setTimeout(() => {
+          button.innerHTML = `<i class="ri-file-copy-line"></i> ${copyLabel}`;
+        }, 1600);
+      });
+
+      header.append(name, button);
+      pre.parentNode?.insertBefore(block, pre);
+      block.append(header, pre);
+    });
+
+    // 复制文章链接
+    const copyButton = document.getElementById('share-copy');
+    const shareIcon = copyButton?.querySelector('i');
+    copyButton?.addEventListener('click', async () => {
+      const url = copyButton.dataset.url ?? location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        if (shareIcon) shareIcon.className = 'ri-check-line';
+        setTimeout(() => {
+          if (shareIcon) shareIcon.className = 'ri-link';
+        }, 1600);
+      } catch {
+        /* 剪贴板不可用就忽略 */
+      }
+    });
+
+    // 目录高亮当前阅读位置
+    const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.article-toc__link'));
+    const headings = tocLinks
+      .map((link) => document.querySelector<HTMLElement>(decodeURI(link.hash)))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (headings.length) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            tocLinks.forEach((link) => link.classList.remove('is-active'));
+            const index = headings.indexOf(entry.target as HTMLElement);
+            if (index >= 0) tocLinks[index]?.classList.add('is-active');
+          });
+        },
+        { rootMargin: '-15% 0px -70% 0px' }
+      );
+      headings.forEach((heading) => observer.observe(heading));
+    }
+  </script>
+</BaseLayout>

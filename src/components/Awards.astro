@@ -1,5 +1,7 @@
 ---
-import { awards } from '../data/site';
+import { getSite } from '../data/site';
+
+const { awards } = getSite(Astro.currentLocale);
 ---
 
 <section class="experience section" id="awards">

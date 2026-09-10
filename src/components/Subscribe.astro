@@ -1,5 +1,7 @@
 ---
-import { subscribe } from '../data/site';
+import { getSite } from '../data/site';
+
+const { subscribe } = getSite(Astro.currentLocale);
 ---
 
 <section class="subscribe section">

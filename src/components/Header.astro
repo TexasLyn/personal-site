@@ -1,29 +1,51 @@
 ---
-import { brand, nav, themeLabel } from '../data/site';
+import { getLang, getSite, homePath } from '../data/site';
+
+/**
+ * homePrefix：首页传 ''，文章页传语言首页路径，让 #about 这类锚点能跳回首页
+ * solid：文章页用。首页顶栏是压在深色大图上的白字，文章页要换成白底深字
+ */
+type Props = { homePrefix?: string; solid?: boolean };
+
+const site = getSite(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale);
+const { homePrefix = '', solid = false } = Astro.props;
+const isHome = homePrefix === '';
+
+// 语言切换：中英路径互为镜像（/ ↔ /en/，/blog/x/ ↔ /en/blog/x/）
+const path = Astro.url.pathname;
+const langSwitchHref =
+  lang === 'en' ? path.replace(/^\/en/, '') || '/' : `/en${path === '/' ? '/' : path}`;
 ---
 
-<header class="header" id="header">
+<header class:list={['header', solid && 'header--solid']} id="header">
   <nav class="nav container">
-    <a class="nav__logo" href={brand.href}>
-      <i class={brand.icon} style="font-size: 1.2rem;"></i>
-      {brand.name}
+    <a class="nav__logo" href={homePath(lang)}>
+      <i class={site.brand.icon} style="font-size: 1.2rem;"></i>
+      {site.brand.name}
     </a>
 
     <div class="nav__menu" id="nav-menu">
       <ul class="nav__list">
         {
-          nav.map((item, i) => (
+          site.nav.map((item, i) => (
             <li class="nav__item">
-              <a class:list={['nav__link', i === 0 && 'active-link']} href={item.href}>
+              <a
+                class:list={['nav__link', i === 0 && isHome && 'active-link']}
+                href={`${homePrefix}${item.href}`}
+              >
                 {item.label}
               </a>
             </li>
           ))
         }
+        <li class="nav__item">
+          <a class="nav__link" href={langSwitchHref}>{site.langSwitchLabel}</a>
+        </li>
       </ul>
 
       <div class="nav__dark">
-        <span class="change-theme-name">{themeLabel}</span>
+        <span class="change-theme-name">{site.themeLabel}</span>
         <i class="ri-moon-line change-theme" id="theme-button"></i>
       </div>
 

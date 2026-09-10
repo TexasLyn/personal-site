@@ -1,0 +1,47 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+import { getLang, homePath } from '../../../data/site';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blogEn')).sort((a, b) =>
+    b.data.date.localeCompare(a.data.date)
+  );
+
+  return posts.map((post, index) => ({
+    params: { id: post.id },
+    props: {
+      prevId: index > 0 ? posts[index - 1].id : null,
+      nextId: index < posts.length - 1 ? posts[index + 1].id : null,
+    },
+  }));
+}
+
+const { prevId, nextId } = Astro.props;
+const post = await getEntry('blogEn', Astro.params.id!);
+if (!post) throw new Error(`Post not found: ${Astro.params.id}`);
+
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2).map((h) => ({ slug: h.slug, text: h.text }));
+
+const lang = getLang(Astro.currentLocale);
+const base = `${homePath(lang)}blog`;
+
+const prevPost = prevId ? await getEntry('blogEn', prevId) : undefined;
+const nextPost = nextId ? await getEntry('blogEn', nextId) : undefined;
+---
+
+<ArticleLayout
+  title={post.data.title}
+  category={post.data.category}
+  date={post.data.date}
+  readTime={post.data.readTime}
+  author={post.data.author}
+  cover={post.data.cover}
+  description={post.data.excerpt}
+  toc={toc}
+  prev={prevPost && { title: prevPost.data.title, href: `${base}/${prevPost.id}/` }}
+  next={nextPost && { title: nextPost.data.title, href: `${base}/${nextPost.id}/` }}
+>
+  <Content />
+</ArticleLayout>

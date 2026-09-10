@@ -1,12 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Awards from '../components/Awards.astro';
-import Work from '../components/Work.astro';
-import Docs from '../components/Docs.astro';
-import Subscribe from '../components/Subscribe.astro';
+import HomeSections from '../components/HomeSections.astro';
 import Footer from '../components/Footer.astro';
 import ScrollUp from '../components/ScrollUp.astro';
 ---
@@ -15,31 +10,8 @@ import ScrollUp from '../components/ScrollUp.astro';
   <Header />
 
   <main class="main">
-    <Hero />
-    <About />
-    <Awards />
-    <Work />
-    <Docs />
-    <Subscribe />
+    <HomeSections />
     <Footer />
     <ScrollUp />
   </main>
-
-  <script>
-    import ScrollReveal from 'scrollreveal';
-
-    const sr = ScrollReveal({
-      distance: '60px',
-      duration: 2500,
-      delay: 400,
-      reset: false,
-    });
-
-    sr.reveal('.home__data, .subscribe__description', { origin: 'top' });
-    sr.reveal('.home__social-link', { origin: 'bottom', interval: 100 });
-    sr.reveal('.about__data, .experience__content', { origin: 'left' });
-    sr.reveal('.about__img, .experience__img, .experience__detail', { origin: 'right' });
-    sr.reveal('.discover__container', { origin: 'bottom' });
-    sr.reveal('.footer__data', { origin: 'top', interval: 100 });
-  </script>
 </BaseLayout>

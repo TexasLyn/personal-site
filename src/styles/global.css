@@ -1194,36 +1194,6 @@ html.dark-theme .docs__toc-link.active {
     }
 }
 
-/*=============== 博客 / 抽屉 附加样式 ===============*/
-  @media screen and (min-width: 768px) {
-    .blog-card__grid {
-      grid-template-columns: 1fr 280px !important;
-      align-items: center;
-    }
-  }
-  .blog-card:hover .blog-title-hover {
-    color: var(--first-color) !important;
-  }
-  .blog-card:hover .blog-cover-img {
-    transform: scale(1.04);
-  }
-  html.dark-theme .blog-card:hover .blog-title-hover {
-    color: hsl(var(--hue-color), 80%, 75%) !important;
-  }
-  html.dark-theme #drawer-progress-bar {
-    background: hsl(var(--hue-color), 80%, 75%);
-  }
-  html.dark-theme #drawer-toc {
-    border-left-color: hsl(var(--hue-color), 80%, 75%);
-  }
-  body.drawer-open {
-    overflow: hidden;
-  }
-  body.drawer-open .main {
-    filter: blur(2px);
-    transition: filter 0.35s;
-  }
-
 /*=============== 博客卡片（把设计稿里的内联样式收成类） ===============*/
 .docs__section-title {
     margin-bottom: 3rem;
@@ -1240,8 +1210,11 @@ html.dark-theme .docs__toc-link.active {
 .blog-card {
     padding-bottom: 2rem;
     border-bottom: 1px solid var(--border-color);
-    cursor: pointer;
     transition: transform 0.25s, opacity 0.25s;
+}
+
+.blog-card__title a {
+    color: inherit;
 }
 
 .blog-card__inner {
@@ -1336,196 +1309,6 @@ html.dark-theme .blog-card:hover .blog-card__title {
     transform: scale(1.04);
 }
 
-/*=============== 阅读抽屉 ===============*/
-.drawer-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.35s ease;
-}
-
-.drawer-overlay.is-open {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    max-width: 860px;
-    height: 100%;
-    background: var(--container-color);
-    color: var(--text-color);
-    z-index: 1001;
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.18);
-    overflow: hidden;
-}
-
-.drawer.is-open {
-    transform: translateX(0);
-}
-
-.drawer__progress {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 3px;
-    width: 0%;
-    background: var(--first-color);
-    z-index: 20;
-    transition: width 0.1s linear;
-}
-
-html.dark-theme .drawer__progress {
-    background: hsl(var(--hue-color), 80%, 75%);
-}
-
-.drawer__bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.9rem 1.75rem;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--container-color);
-    z-index: 10;
-}
-
-.drawer__bar-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: var(--smaller-font-size);
-    color: var(--text-color-light);
-}
-
-.drawer__close,
-.drawer__top {
-    background: transparent;
-    transition: background 0.2s;
-}
-
-.drawer__close {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--title-color);
-    font-size: var(--small-font-size);
-    font-weight: 600;
-    padding: 0.4rem 0.6rem;
-    border-radius: 0.25rem;
-}
-
-.drawer__close i {
-    font-size: 1.25rem;
-}
-
-.drawer__close:hover {
-    background: var(--code-bg);
-}
-
-.drawer__top {
-    color: var(--text-color-light);
-    font-size: 1.1rem;
-}
-
-.drawer__scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding: 2.5rem 2rem 4rem;
-}
-
-.drawer__inner {
-    max-width: 720px;
-    margin: 0 auto;
-}
-
-.drawer__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: var(--smaller-font-size);
-    color: var(--text-color-light);
-    margin-bottom: 1rem;
-}
-
-.drawer__tag {
-    color: var(--first-color);
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.drawer__title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--title-color);
-    line-height: 1.35;
-    margin-bottom: 1.5rem;
-}
-
-.drawer__cover {
-    display: none;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: 0.5rem;
-    margin-bottom: 2.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.drawer__cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.drawer__toc {
-    margin-bottom: 2.5rem;
-    padding: 1.25rem 1.5rem;
-    background: var(--code-bg);
-    border-radius: 0.5rem;
-    border-left: 3px solid var(--first-color);
-}
-
-html.dark-theme .drawer__toc {
-    border-left-color: hsl(var(--hue-color), 80%, 75%);
-}
-
-.drawer__toc-title {
-    font-size: var(--smaller-font-size);
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    color: var(--title-color);
-    margin-bottom: 0.6rem;
-}
-
-.drawer__toc-items {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-}
-
-.drawer__toc-link {
-    font-size: var(--small-font-size);
-    color: var(--text-color);
-    transition: color 0.2s;
-}
-
-.drawer__toc-link:hover {
-    color: var(--title-color);
-}
-
 /*=============== Markdown 正文里的代码块与表格 ===============*/
 .article__body pre {
     padding: 1rem 1.15rem;
@@ -1575,4 +1358,243 @@ html.dark-theme .drawer__toc {
         grid-template-columns: 1fr 280px !important;
         align-items: center;
     }
+}
+
+/*=============== 文章页（二级页面） ===============*/
+/*
+ * 顶栏是 fixed，桌面端模板把 body 的 margin-top 归零了（首页是大图顶到最上面），
+ * 所以文章页要自己让出顶栏高度。
+ */
+.article-page {
+    padding: calc(var(--header-height) + 2.5rem) 0 6rem;
+}
+
+.article-page__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--small-font-size);
+    font-weight: 600;
+    color: var(--text-color);
+    transition: color 0.2s;
+}
+
+.article-page__back:hover {
+    color: var(--first-color);
+}
+
+.article-page__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+    margin-top: 2.5rem;
+}
+
+.article-page__article {
+    min-width: 0;
+    max-width: 46rem;
+}
+
+.article-page__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: var(--smaller-font-size);
+    color: var(--text-color-light);
+    margin-bottom: 1rem;
+}
+
+.article-page__tag {
+    color: var(--first-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.article-page__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--title-color);
+    line-height: 1.35;
+    margin-bottom: 0.9rem;
+}
+
+.article-page__byline {
+    font-size: var(--small-font-size);
+    color: var(--text-color-light);
+}
+
+.article-page__cover {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    margin: 2rem 0 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.article-page__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-page__aside {
+    display: none;
+}
+
+.article-toc {
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border-color);
+}
+
+.article-toc__title {
+    font-size: var(--smaller-font-size);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    color: var(--title-color);
+    margin-bottom: 0.85rem;
+}
+
+.article-toc__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.article-toc__link {
+    font-size: var(--small-font-size);
+    color: var(--text-color-light);
+    transition: color 0.2s;
+}
+
+.article-toc__link:hover,
+.article-toc__link.is-active {
+    color: var(--first-color);
+}
+
+html.dark-theme .article-toc__link:hover,
+html.dark-theme .article-toc__link.is-active {
+    color: hsl(var(--hue-color), 80%, 75%);
+}
+
+.article-share__links {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.article-share__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 0.35rem;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    background: transparent;
+    font-size: 1.05rem;
+    transition: 0.2s;
+}
+
+.article-share__link:hover {
+    color: var(--first-color);
+    border-color: var(--first-color);
+}
+
+.article-nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.article-nav__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    transition: border-color 0.2s;
+}
+
+.article-nav__item:hover {
+    border-color: var(--first-color);
+}
+
+.article-nav__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--smaller-font-size);
+    color: var(--text-color-light);
+}
+
+.article-nav__title {
+    font-size: var(--small-font-size);
+    font-weight: 600;
+    color: var(--title-color);
+    line-height: 1.5;
+}
+
+@media screen and (min-width: 768px) {
+    .article-nav {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .article-nav__item--next {
+        text-align: right;
+    }
+
+    .article-nav__item--next .article-nav__label {
+        justify-content: flex-end;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .article-page__grid {
+        grid-template-columns: minmax(0, 1fr) 240px;
+        gap: 4rem;
+        align-items: start;
+    }
+
+    .article-page__aside {
+        display: block;
+        position: sticky;
+        top: calc(var(--header-height) + 2rem);
+    }
+}
+
+@media screen and (min-width: 768px) {
+    /* 桌面端顶栏比 --header-height 高 1.5rem */
+    .article-page {
+        padding-top: calc(var(--header-height) + 4rem);
+    }
+}
+
+/*=============== 文章页顶栏：白底深字（首页顶栏是压在大图上的白字） ===============*/
+.header--solid {
+    background-color: var(--body-color);
+    box-shadow: 0 0 4px hsla(var(--hue-color), 64%, 15%, 0.08);
+}
+
+.header--solid .nav__logo,
+.header--solid .nav__toggle,
+.header--solid .nav__link,
+.header--solid .change-theme {
+    color: var(--title-color);
+}
+
+.header--solid .nav__link:hover {
+    color: var(--first-color);
+    opacity: 1;
+}
+
+.header--solid .active-link::before {
+    background-color: var(--first-color);
 }

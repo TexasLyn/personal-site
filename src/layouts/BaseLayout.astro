@@ -1,18 +1,21 @@
 ---
 import '../styles/global.css';
-import { meta } from '../data/site';
+import { getLang, getSite } from '../data/site';
 
 type Props = {
   title?: string;
   description?: string;
 };
 
-const { title = meta.title, description = meta.description } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const site = getSite(lang);
+const { title = site.meta.title, description = site.meta.description } = Astro.props;
+
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="zh">
+<html lang={lang === 'en' ? 'en' : 'zh-CN'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

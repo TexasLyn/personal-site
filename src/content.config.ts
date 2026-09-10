@@ -24,4 +24,18 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+/** English posts. Same fields, files live in src/content/blog-en/ */
+const blogEn = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog-en' }),
+  schema: z.object({
+    title: z.string(),
+    category: z.string(),
+    date: z.string(),
+    readTime: z.string(),
+    author: z.string(),
+    excerpt: z.string(),
+    cover: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, blogEn };
