@@ -10,10 +10,10 @@ const { awards } = getSite(Astro.currentLocale);
   <div class="experience__container container grid">
     <div class="experience__content grid">
       {
-        awards.stats.map((stat) => (
+        awards.facts.map((fact) => (
           <div class="experience__data">
-            <h2 class="experience__number">{stat.value}</h2>
-            <span class="experience__description" set:html={stat.labelHtml} />
+            <span class="experience__fact">{fact.value}</span>
+            <span class="experience__description">{fact.label}</span>
           </div>
         ))
       }

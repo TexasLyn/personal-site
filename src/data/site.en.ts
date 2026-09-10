@@ -3,21 +3,21 @@ import type { SiteContent } from './types';
 /** English copy */
 export const en: SiteContent = {
   meta: {
-    title: "Texas's Home",
+    title: "Texas's Garage",
     description:
       "Lin Jincheng's personal homepage. Freshman in the Technology Science Experimental Class at Nanjing University.",
   },
 
   brand: {
-    icon: 'ri-home-heart-fill',
-    name: "Texas's Home",
+    icon: 'ri-tools-fill',
+    name: "Texas's Garage",
     href: '/en/',
   },
 
   nav: [
     { label: 'Home', href: '#home' },
     { label: 'About', href: '#about' },
-    { label: 'Awards', href: '#awards' },
+    { label: 'Experience', href: '#awards' },
     { label: 'Work', href: '#work' },
     { label: 'Blog / Docs', href: '#docs' },
   ],
@@ -50,11 +50,11 @@ export const en: SiteContent = {
   },
 
   awards: {
-    title: 'Awards & Experience',
-    stats: [
-      { value: '0', labelHtml: 'Year of<br />scholarship' },
-      { value: '0', labelHtml: 'Contest<br />awards' },
-      { value: '0', labelHtml: 'Zhihu<br />articles' },
+    title: 'Experience',
+    facts: [
+      { label: 'University', value: 'Nanjing University' },
+      { label: 'Program', value: 'Technology Science Experimental Class' },
+      { label: 'Year', value: 'Freshman · 2026 intake' },
     ],
     // Add new entries like: { year: '2027', text: '...', result: 'First Prize' }
     items: [{ year: '2026', text: 'Enrolled at Nanjing University', textBold: true }],
@@ -112,8 +112,7 @@ export const en: SiteContent = {
 
   footer: {
     contactTitle: 'Contact',
-    // Add email / homepage back once you have them
-    contactHtml: 'Phone: 15658114885',
+    // Add email / phone / homepage once you have them
     socials: [
       { label: 'GitHub', icon: 'ri-github-fill', href: '#' },
       { label: 'Zhihu', icon: 'ri-zhihu-fill', href: '#' },

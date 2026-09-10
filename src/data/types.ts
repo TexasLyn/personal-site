@@ -45,7 +45,8 @@ export type SiteContent = {
 
   awards: {
     title: string;
-    stats: { value: string; labelHtml: string }[];
+    /** 左上角那三格。原来是「数字 + 标签」，现在用来放学校 / 班级 / 年级这类档案 */
+    facts: { label: string; value: string }[];
     items: AwardItem[];
     images: ImageSlot[];
   };
@@ -81,8 +82,8 @@ export type SiteContent = {
   };
 
   footer: {
-    /** 可写 HTML */
-    contactHtml: string;
+    /** 可写 HTML，留空就不显示这一段 */
+    contactHtml?: string;
     contactTitle: string;
     socials: SocialLink[];
     groups: { title: string; links: { label: string; href: string }[] }[];

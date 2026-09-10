@@ -3,20 +3,20 @@ import type { SiteContent } from './types';
 /** 中文版文案 */
 export const zh: SiteContent = {
   meta: {
-    title: "Texas's Home",
+    title: "Texas's Garage",
     description: '林锦承 (Lin Jincheng) 的个人主页。南京大学技术科学实验班，大一。',
   },
 
   brand: {
-    icon: 'ri-home-heart-fill',
-    name: "Texas's Home",
+    icon: 'ri-tools-fill',
+    name: "Texas's Garage",
     href: '/',
   },
 
   nav: [
     { label: '首页', href: '#home' },
     { label: '介绍', href: '#about' },
-    { label: '奖项', href: '#awards' },
+    { label: '经历', href: '#awards' },
     { label: '工作', href: '#work' },
     { label: '文档 / 博客', href: '#docs' },
   ],
@@ -48,11 +48,11 @@ export const zh: SiteContent = {
   },
 
   awards: {
-    title: '奖项与经历',
-    stats: [
-      { value: '0', labelHtml: '年<br />奖学金' },
-      { value: '0', labelHtml: '竞赛<br />获奖' },
-      { value: '0', labelHtml: '知乎<br />文章' },
+    title: '经历',
+    facts: [
+      { label: '学校', value: '南京大学' },
+      { label: '班级', value: '技术科学实验班' },
+      { label: '年级', value: '大一 · 2026 级' },
     ],
     // 之后有新奖项就往这里加：{ year: '2027', text: 'xxx', result: '一等奖' }
     items: [{ year: '2026', text: '南京大学 入学', textBold: true }],
@@ -98,8 +98,7 @@ export const zh: SiteContent = {
 
   footer: {
     contactTitle: '联系方式',
-    // 邮箱 / 主页地址有了再加回来
-    contactHtml: '电话: 15658114885',
+    // 邮箱 / 电话 / 主页地址有了再填
     socials: [
       { label: 'GitHub', icon: 'ri-github-fill', href: '#' },
       { label: '知乎', icon: 'ri-zhihu-fill', href: '#' },

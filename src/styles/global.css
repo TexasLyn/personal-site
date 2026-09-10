@@ -459,6 +459,17 @@ input {
     display: block;
 }
 
+/* 用文字代替原来那三个大数字（学校 / 班级 / 年级） */
+.experience__fact {
+    display: block;
+    font-size: var(--normal-font-size);
+    font-weight: var(--font-semi-bold);
+    color: var(--title-color);
+    line-height: 1.35;
+    margin-bottom: var(--mb-0-5);
+    text-wrap: balance;
+}
+
 .experience__data {
     text-align: center;
 }
