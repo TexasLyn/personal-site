@@ -72,21 +72,19 @@ export const en: SiteContent = {
   work: {
     title: 'Ongoing Work',
     items: [
-      { title: 'Creeper', description: 'They say creepers explode~', image: '/images/work-1.jpg' },
       {
-        title: 'Draw!',
-        description: 'A surprisingly pretty table-making tool',
-        image: '/images/work-2.jpg',
+        title: 'People Around China',
+        description:
+          'Turns a class list into a graduation destination map. Multi-stage routes, overseas destinations, pinyin search — one offline HTML file.',
+        image: '/images/work-graduation-map.jpg',
+        href: 'https://github.com/TexasLyn/graduation-destination-map',
       },
       {
-        title: 'Slacking~',
-        description: 'Who could possibly work every single day',
-        image: '/images/work-3.jpg',
-      },
-      {
-        title: 'Question Generation',
-        description: "Let's stump the AI!",
-        image: '/images/work-4.jpg',
+        title: 'Tide Volunteer',
+        description:
+          'A local workbench for Zhejiang gaokao applicants: six years of admission data, plan ranking, and PDF-based admission simulation.',
+        image: '/images/work-gaokao-planner.jpg',
+        href: 'https://github.com/TexasLyn/zhejiang-gaokao-planner',
       },
     ],
   },

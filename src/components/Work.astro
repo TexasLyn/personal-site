@@ -11,13 +11,18 @@ const { work } = getSite(Astro.currentLocale);
     <div class="swiper-wrapper">
       {
         work.items.map((item) => (
-          <div class="discover__card swiper-slide">
+          <a
+            class="discover__card swiper-slide"
+            href={item.href ?? '#'}
+            target={item.href ? '_blank' : undefined}
+            rel={item.href ? 'noopener noreferrer' : undefined}
+          >
             <img class="discover__img" src={item.image} alt={item.title} loading="lazy" />
             <div class="discover__data">
               <h2 class="discover__title">{item.title}</h2>
               <span class="discover__description">{item.description}</span>
             </div>
-          </div>
+          </a>
         ))
       }
     </div>

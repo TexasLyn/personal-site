@@ -601,6 +601,13 @@ html.dark-theme .footer__description a {
     transition: var(--img-transition);
 }
 
+/* 项目卡片整体可点，去掉链接默认样式 */
+a.discover__card {
+    display: block;
+    color: var(--white-color);
+    text-decoration: none;
+}
+
 .discover__card::after {
     content: '';
     position: absolute;

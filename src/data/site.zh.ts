@@ -70,10 +70,20 @@ export const zh: SiteContent = {
   work: {
     title: '正在进行的工作',
     items: [
-      { title: '苦力怕', description: '听说苦力怕会爆炸哦~', image: '/images/work-1.jpg' },
-      { title: '画画!', description: '一个很漂亮的表格制作工具', image: '/images/work-2.jpg' },
-      { title: '摸鱼~', description: '怎么会有人要天天工作呢', image: '/images/work-3.jpg' },
-      { title: '问题生成', description: '让我们把AI难倒！', image: '/images/work-4.jpg' },
+      {
+        title: '蹭饭图 · 开源版',
+        description:
+          '把一份名单变成一张毕业去向地图。多阶段路线、出境目的地、拼音搜索，离线单文件双击即用。',
+        image: '/images/work-graduation-map.jpg',
+        href: 'https://github.com/TexasLyn/graduation-destination-map',
+      },
+      {
+        title: '潮汐志愿',
+        description:
+          '浙江考生的本地志愿工作台：六年官方投档线查询、方案排序、梯度体检，用志愿表 PDF 模拟录取。',
+        image: '/images/work-gaokao-planner.jpg',
+        href: 'https://github.com/TexasLyn/zhejiang-gaokao-planner',
+      },
     ],
   },
 

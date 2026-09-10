@@ -55,7 +55,13 @@ export type SiteContent = {
 
   work: {
     title: string;
-    items: { title: string; description: string; image: string }[];
+    items: {
+      title: string;
+      description: string;
+      image: string;
+      /** 有链接时整张卡片可点 */
+      href?: string;
+    }[];
   };
 
   blog: {
