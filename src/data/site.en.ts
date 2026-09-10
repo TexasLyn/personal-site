@@ -31,9 +31,12 @@ export const en: SiteContent = {
     cta: { label: 'Learn more', href: '#about' },
     image: { src: '/images/hero.jpg', alt: 'Starry sky' },
     socials: [
-      // TODO: replace with your own GitHub / Zhihu links
-      { label: 'GitHub', icon: 'ri-github-fill', href: '#' },
-      { label: 'Zhihu', icon: 'ri-zhihu-line', href: '#' },
+      { label: 'GitHub', icon: 'ri-github-fill', href: 'https://github.com/TexasLyn' },
+      {
+        label: 'Zhihu',
+        icon: 'ri-zhihu-line',
+        href: 'https://www.zhihu.com/people/sugarlin-61',
+      },
       { label: 'WeChat', icon: 'ri-wechat-fill', href: '#footer' },
     ],
   },
@@ -41,7 +44,7 @@ export const en: SiteContent = {
   about: {
     titleHtml: 'Lin Jincheng<br />Technology Science Experimental Class, Nanjing University · Freshman',
     description:
-      'Freshman in the Technology Science Experimental Class at Nanjing University.',
+      'Freshman in the Technology Science Experimental Class at Nanjing University, majoring in Intelligent Science and Technology.',
     cta: { label: 'Get in touch', href: '#footer' },
     images: [
       { src: '/images/about-1.jpg', alt: 'Nanjing University' },
@@ -53,8 +56,9 @@ export const en: SiteContent = {
     title: 'Experience',
     facts: [
       { label: 'University', value: 'Nanjing University' },
-      { label: 'Program', value: 'Technology Science Experimental Class' },
+      { label: 'Major', value: 'Intelligent Science and Technology' },
       { label: 'Year', value: 'Freshman · 2026 intake' },
+      { label: 'City', value: 'Nanjing, Jiangsu' },
     ],
     // Add new entries like: { year: '2027', text: '...', result: 'First Prize' }
     items: [{ year: '2026', text: 'Enrolled at Nanjing University', textBold: true }],
@@ -104,18 +108,29 @@ export const en: SiteContent = {
     title: 'Subscribe on Zhihu & GitHub',
     description: 'Follow me on Zhihu and GitHub for the latest updates and project progress!',
     socials: [
-      // TODO: replace with your own GitHub / Zhihu links
-      { label: 'GitHub', icon: 'ri-github-fill', href: '#' },
-      { label: 'Zhihu', icon: 'ri-zhihu-fill', href: '#' },
+      { label: 'GitHub', icon: 'ri-github-fill', href: 'https://github.com/TexasLyn' },
+      {
+        label: 'Zhihu',
+        icon: 'ri-zhihu-fill',
+        href: 'https://www.zhihu.com/people/sugarlin-61',
+      },
     ],
   },
 
   footer: {
     contactTitle: 'Contact',
-    // Add email / phone / homepage once you have them
+    contactHtml:
+      'Email: <a href="mailto:SugarLin0405@outlook.com">SugarLin0405@outlook.com</a><br />' +
+      'Alt: <a href="mailto:Texaslyn2026@gmail.com">Texaslyn2026@gmail.com</a><br />' +
+      'Campus: <a href="mailto:261880347@smail.nju.edu.cn">261880347@smail.nju.edu.cn</a><br />' +
+      '<span class="footer__muted">WeChat: Texas_Lin2025</span>',
     socials: [
-      { label: 'GitHub', icon: 'ri-github-fill', href: '#' },
-      { label: 'Zhihu', icon: 'ri-zhihu-fill', href: '#' },
+      { label: 'GitHub', icon: 'ri-github-fill', href: 'https://github.com/TexasLyn' },
+      {
+        label: 'Zhihu',
+        icon: 'ri-zhihu-fill',
+        href: 'https://www.zhihu.com/people/sugarlin-61',
+      },
     ],
     groups: [
       {
@@ -123,8 +138,8 @@ export const en: SiteContent = {
         links: [
           { label: 'About me', href: '#about' },
           { label: 'Blog & Docs', href: '#docs' },
-          { label: 'GitHub', href: '#' },
-          { label: 'Zhihu', href: '#' },
+          { label: 'GitHub', href: 'https://github.com/TexasLyn' },
+          { label: 'Zhihu', href: 'https://www.zhihu.com/people/sugarlin-61' },
         ],
       },
       {
