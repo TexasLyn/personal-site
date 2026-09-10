@@ -496,6 +496,18 @@ html.dark-theme .footer__description a {
     text-wrap: balance;
 }
 
+/* 介绍区头像 */
+.about__avatar {
+    width: 6.5rem;
+    height: 6.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.25rem;
+    border: 2px solid var(--container-color);
+    box-shadow: 0 8px 24px rgba(14, 55, 63, 0.18);
+    background: var(--code-bg);
+}
+
 .experience__data {
     text-align: center;
 }

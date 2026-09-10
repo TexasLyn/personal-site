@@ -46,6 +46,7 @@ export const en: SiteContent = {
     description:
       'Freshman in the Technology Science Experimental Class at Nanjing University, majoring in Intelligent Science and Technology.',
     cta: { label: 'Get in touch', href: '#footer' },
+    avatar: { src: '/images/avatar.jpg', alt: 'Avatar of Lin Jincheng' },
     images: [
       { src: '/images/about-1.jpg', alt: 'Nanjing University' },
       { src: '/images/about-2.jpg', alt: 'Campus' },

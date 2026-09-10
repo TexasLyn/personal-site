@@ -44,6 +44,7 @@ export const zh: SiteContent = {
     titleHtml: '林锦承, Lin Jincheng<br />南京大学技术科学实验班 · 大一',
     description: '现就读于南京大学技术科学实验班，方向为智能科学与技术，大一。',
     cta: { label: '立即联系我！', href: '#footer' },
+    avatar: { src: '/images/avatar.jpg', alt: '林锦承的头像' },
     images: [
       { src: '/images/about-1.jpg', alt: '南京大学' },
       { src: '/images/about-2.jpg', alt: '校园' },

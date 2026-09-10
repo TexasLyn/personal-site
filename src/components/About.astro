@@ -7,6 +7,14 @@ const { about } = getSite(Astro.currentLocale);
 <section class="about section" id="about">
   <div class="about__container container grid">
     <div class="about__data">
+      <img
+        class="about__avatar"
+        src={about.avatar.src}
+        alt={about.avatar.alt}
+        width="104"
+        height="104"
+        loading="lazy"
+      />
       <h2 class="section__title about__title" set:html={about.titleHtml} />
       <p class="about__description">{about.description}</p>
       <a class="button" href={about.cta.href}>{about.cta.label}</a>

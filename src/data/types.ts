@@ -40,6 +40,8 @@ export type SiteContent = {
     titleHtml: string;
     description: string;
     cta: { label: string; href: string };
+    /** 头像，圆形显示在名字上方 */
+    avatar: ImageSlot;
     images: ImageSlot[];
   };
 
