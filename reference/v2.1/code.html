@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+
+<html lang="zh"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://sklight-liang.github.io/assets/img/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+<!-- Remixicon -->
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet"/>
+<!-- Swiper CSS -->
+<link href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" rel="stylesheet"/>
+<title>Miao Miao's Home</title>
+<style>
+        /*=============== GOOGLE FONTS ===============*/
+        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@500;600;700&family=Fira+Code:wght@400;500;600&display=swap");
+
+        /*=============== VARIABLES CSS ===============*/
+        :root {
+            --header-height: 3rem;
+
+            /*========== Colors ==========*/
+            --hue-color: 190;
+
+            /* HSL color mode */
+            --first-color: hsl(var(--hue-color), 64%, 22%);
+            --first-color-second: hsl(var(--hue-color), 64%, 22%);
+            --first-color-alt: hsl(var(--hue-color), 64%, 15%);
+            --title-color: hsl(var(--hue-color), 24%, 15%);
+            --text-color: hsl(var(--hue-color), 12%, 35%);
+            --text-color-light: hsl(var(--hue-color), 12%, 65%);
+            --white-color: #FFF;
+            --body-color: hsl(var(--hue-color), 100%, 99%);
+            --container-color: #FFF;
+            --border-color: rgba(14, 55, 63, 0.1);
+            --code-bg: rgba(14, 55, 63, 0.05);
+            --code-color: #1e293b;
+            --code-pre-bg: #1e252b;
+            --code-pre-text: #e2e8f0;
+            --badge-bg: rgba(14, 55, 63, 0.08);
+
+            /*========== Font and typography ==========*/
+            --body-font: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --title-font: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --mono-font: 'Fira Code', Consolas, Monaco, monospace;
+            --biggest-font-size: 2.5rem;
+            --h1-font-size: 1.5rem;
+            --h2-font-size: 1.25rem;
+            --h3-font-size: 1rem;
+            --normal-font-size: .938rem;
+            --small-font-size: .813rem;
+            --smaller-font-size: .75rem;
+
+            /*========== Font weight ==========*/
+            --font-medium: 500;
+            --font-semi-bold: 600;
+            --font-bold: 700;
+
+            /*========== Margenes Bottom ==========*/
+            --mb-0-25: .25rem;
+            --mb-0-5: .5rem;
+            --mb-0-75: .75rem;
+            --mb-1: 1rem;
+            --mb-1-25: 1.25rem;
+            --mb-1-5: 1.5rem;
+            --mb-2: 2rem;
+            --mb-2-5: 2.5rem;
+
+            /*========== z index ==========*/
+            --z-tooltip: 10;
+            --z-fixed: 100;
+
+            /*========== Transitions ==========*/
+            --img-transition: .3s;
+            --img-hidden: hidden;
+            --img-scale: scale(1.1);
+        }
+
+        @media screen and (min-width: 968px) {
+            :root {
+                --biggest-font-size: 4rem;
+                --h1-font-size: 2.25rem;
+                --h2-font-size: 1.75rem;
+                --h3-font-size: 1.25rem;
+                --normal-font-size: 1rem;
+                --small-font-size: .875rem;
+                --smaller-font-size: .813rem;
+            }
+        }
+
+        /*========== Variables Dark theme ==========*/
+        body.dark-theme {
+            --first-color-second: hsl(var(--hue-color), 30%, 8%);
+            --title-color: hsl(var(--hue-color), 24%, 95%);
+            --text-color: hsl(var(--hue-color), 8%, 75%);
+            --body-color: hsl(var(--hue-color), 29%, 16%);
+            --container-color: hsl(var(--hue-color), 29%, 20%);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --code-bg: rgba(255, 255, 255, 0.08);
+            --code-color: #cbd5e1;
+            --code-pre-bg: #141a1e;
+            --code-pre-text: #e2e8f0;
+            --badge-bg: rgba(255, 255, 255, 0.12);
+        }
+
+        /*========== Button Dark/Light ==========*/
+        .nav__dark {
+            display: flex;
+            align-items: center;
+            column-gap: 2rem;
+            position: absolute;
+            left: 3rem;
+            bottom: 4rem;
+        }
+
+        .change-theme, 
+        .change-theme-name {
+            color: var(--text-color);
+        }
+
+        .change-theme {
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .change-theme-name {
+            font-size: var(--small-font-size);
+        }
+
+        /*=============== BASE ===============*/
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: var(--header-height) 0 0 0;
+            font-family: var(--body-font);
+            font-size: var(--normal-font-size);
+            background-color: var(--body-color);
+            color: var(--text-color);
+            transition: background-color .4s, color .4s;
+        }
+
+        h1, h2, h3 {
+            color: var(--title-color);
+            font-weight: var(--font-semi-bold);
+            font-family: var(--title-font);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img, video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        button, input {
+            border: none;
+            font-family: var(--body-font);
+            font-size: var(--normal-font-size);
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        input {
+            outline: none;
+        }
+
+        .main {
+            overflow-x: hidden;
+        }
+
+        /*=============== REUSABLE CSS CLASSES ===============*/
+        .section {
+            padding: 4.5rem 0 2.5rem;
+        }
+
+        .section__title {
+            font-size: var(--h2-font-size);
+            color: var(--title-color);
+            text-align: center;
+            text-transform: capitalize;
+            margin-bottom: var(--mb-2);
+        }
+
+        .container {
+            max-width: 968px;
+            margin-left: var(--mb-1);
+            margin-right: var(--mb-1);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        /*=============== HEADER ===============*/
+        .header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: var(--z-fixed);
+            background-color: transparent;
+            transition: .4s;
+        }
+
+        .scroll-header {
+            background-color: var(--body-color);
+            box-shadow: 0 0 4px hsla(var(--hue-color), 64%, 15%, .15);
+        }
+
+        .scroll-header .nav__logo,
+        .scroll-header .nav__toggle {
+            color: var(--title-color);
+        }
+
+        /*=============== NAV ===============*/
+        .nav {
+            height: var(--header-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav__logo, 
+        .nav__toggle {
+            color: var(--white-color);
+        }
+
+        .nav__logo {
+            font-weight: var(--font-semi-bold);
+            display: inline-flex;
+            align-items: center;
+            column-gap: .35rem;
+        }
+
+        .nav__toggle {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .nav__menu {
+            position: relative;
+        }
+
+        @media screen and (max-width: 767px) {
+            .nav__menu {
+                position: fixed;
+                background-color: var(--body-color);
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100%;
+                box-shadow: -1px 0 4px rgba(14, 55, 63, 0.15);
+                padding: 3rem;
+                transition: .4s;
+            }
+        }
+
+        .nav__list {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2.5rem;
+        }
+
+        .nav__link {
+            color: var(--text-color-light);
+            font-weight: var(--font-semi-bold);
+            text-transform: capitalize;
+            transition: .3s;
+        }
+
+        .nav__link:hover {
+            color: var(--title-color);
+        }
+
+        .nav__close {
+            position: absolute;
+            top: .75rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: var(--title-color);
+            cursor: pointer;
+        }
+
+        .show-menu {
+            right: 0;
+        }
+
+        .active-link {
+            position: relative;
+            color: var(--title-color);
+        }
+
+        .active-link::before {
+            content: '';
+            position: absolute;
+            background-color: var(--title-color);
+            width: 100%;
+            height: 2px;
+            bottom: -.75rem;
+            left: 0;
+        }
+
+        /*=============== BUTTONS ===============*/
+        .button {
+            display: inline-block;
+            background-color: var(--first-color);
+            color: var(--white-color);
+            padding: 1rem 2rem;
+            border-radius: .25rem;
+            font-weight: var(--font-semi-bold);
+            transition: .3s;
+        }
+
+        .button:hover {
+            background-color: var(--first-color-alt);
+        }
+
+        /*=============== HOME ===============*/
+        .home {
+            position: relative;
+            height: 100vh;
+        }
+
+        .home__img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            object-position: 83%;
+        }
+
+        .home__container {
+            position: relative;
+            height: calc(100vh - var(--header-height));
+            align-content: center;
+            row-gap: 3rem;
+        }
+
+        .home__data-subtitle, 
+        .home__data-title, 
+        .home__social-link, 
+        .home__info {
+            color: var(--white-color);
+        }
+
+        .home__data-subtitle {
+            display: block;
+            font-weight: var(--font-semi-bold);
+            margin-bottom: var(--mb-0-75);
+            letter-spacing: 0.5px;
+        }
+
+        .home__data-title {
+            font-size: var(--biggest-font-size);
+            font-weight: var(--font-medium);
+            margin-bottom: var(--mb-2-5);
+            line-height: 1.15;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .home__social {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1.5rem;
+        }
+
+        .home__social-link {
+            font-size: 1.35rem;
+            width: max-content;
+            transition: .3s;
+        }
+
+        .home__social-link:hover {
+            transform: translateX(.25rem);
+            color: hsl(var(--hue-color), 80%, 75%);
+        }
+
+        /*=============== ABOUT ===============*/
+        .about__data {
+            text-align: center;
+        }
+
+        .about__container {
+            row-gap: 2.5rem;
+        }
+
+        .about__description {
+            margin-bottom: var(--mb-2);
+            line-height: 1.7;
+        }
+
+        .about__img {
+            display: flex;
+            column-gap: 1rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about__img-overlay {
+            overflow: hidden;
+            border-radius: .5rem;
+            box-shadow: 0 8px 24px rgba(14, 55, 63, 0.15);
+        }
+
+        .about__img-one {
+            width: 130px;
+            transition: var(--img-transition);
+        }
+
+        .about__img-two {
+            width: 180px;
+            transition: var(--img-transition);
+        }
+
+        .about__img-one:hover, 
+        .about__img-two:hover {
+            transform: var(--img-scale);
+        }
+
+        /*=============== EXPERIENCE / AWARDS ===============*/
+        .experience__container {
+            row-gap: 2.5rem;
+            justify-content: center;
+            justify-items: center;
+        }
+
+        .experience__content {
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 1rem;
+            justify-items: center;
+            padding: 0 .5rem;
+        }
+
+        .experience__number {
+            font-size: var(--h2-font-size);
+            font-weight: var(--font-semi-bold);
+            margin-bottom: var(--mb-0-5);
+        }
+
+        .experience__description {
+            font-size: var(--small-font-size);
+            line-height: 1.3;
+            display: block;
+        }
+
+        .experience__data {
+            text-align: center;
+        }
+
+        .experience__detail {
+            text-align: left;
+            font-size: var(--normal-font-size);
+            line-height: 2.1;
+            padding: 1rem 1.5rem;
+            background: var(--container-color);
+            border-radius: .5rem;
+            box-shadow: 0 4px 16px rgba(14, 55, 63, 0.08);
+            display: inline-block;
+        }
+
+        .experience__img {
+            position: relative;
+            padding-bottom: 2rem;
+            display: flex;
+            column-gap: 1rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .experience__overlay {
+            overflow: hidden;
+            border-radius: .5rem;
+            box-shadow: 0 8px 24px rgba(14, 55, 63, 0.15);
+        }
+
+        .experience__img-one {
+            width: 150px;
+            transition: var(--img-transition);
+        }
+
+        .experience__img-two {
+            width: 200px;
+            transition: var(--img-transition);
+        }
+
+        .experience__img-one:hover, 
+        .experience__img-two:hover {
+            transform: var(--img-scale);
+        }
+
+        /*=============== DISCOVER / WORK ===============*/
+        .discover__container {
+            padding: 1rem 0;
+            overflow: hidden;
+            max-width: 1000px;
+        }
+
+        .discover__card {
+            position: relative;
+            width: 240px;
+            height: 320px;
+            overflow: hidden;
+            border-radius: .75rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+        }
+
+        .discover__data {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1rem;
+            right: 1rem;
+            z-index: 2;
+        }
+
+        .discover__title, 
+        .discover__description {
+            color: var(--white-color);
+        }
+
+        .discover__title {
+            font-size: var(--h3-font-size);
+            margin-bottom: var(--mb-0-25);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .discover__description {
+            display: block;
+            font-size: var(--smaller-font-size);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .discover__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--img-transition);
+        }
+
+        .discover__card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
+        }
+
+        .discover__card:hover .discover__img {
+            transform: var(--img-scale);
+        }
+
+        /*=============== DOCUMENTATION & BLOG SYSTEM (MINIMALIST RESTRUCTURE) ===============*/
+        .docs__section {
+            padding: 5rem 0 3.5rem;
+        }
+
+        .docs__wrapper {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media screen and (min-width: 992px) {
+            .docs__wrapper {
+                grid-template-columns: 240px 1fr 200px;
+                gap: 3.5rem;
+                align-items: flex-start;
+            }
+        }
+
+        /* Docs Search & Sidebar - Transparent & Clean */
+        .docs__sidebar {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            position: sticky;
+            top: calc(var(--header-height) + 1.5rem);
+            max-height: calc(100vh - 5rem);
+            overflow-y: auto;
+        }
+
+        .docs__search-box {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .docs__search-input {
+            width: 100%;
+            padding: 0.35rem 0.5rem 0.35rem 1.75rem;
+            background: transparent;
+            border: none;
+            color: var(--title-color);
+            font-size: var(--small-font-size);
+            transition: border-color 0.2s;
+        }
+
+        .docs__search-input::placeholder {
+            color: var(--text-color-light);
+            font-size: var(--smaller-font-size);
+        }
+
+        .docs__search-icon {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-color-light);
+            font-size: 0.95rem;
+        }
+
+        .docs__category-title {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-color-light);
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .docs__category-title:first-child {
+            margin-top: 0;
+        }
+
+        .docs__nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            border-left: 1px solid var(--border-color);
+            margin-left: 0.25rem;
+        }
+
+        .docs__nav-item {
+            display: flex;
+            align-items: baseline;
+            padding: 0.4rem 0.75rem;
+            font-size: var(--small-font-size);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: color 0.2s;
+            border-left: 2px solid transparent;
+            margin-left: -1px;
+            line-height: 1.45;
+        }
+
+        .docs__nav-item:hover {
+            color: var(--title-color);
+        }
+
+        .docs__nav-item.active {
+            background: transparent;
+            color: var(--title-color);
+            font-weight: 600;
+            border-left-color: var(--first-color);
+        }
+
+        body.dark-theme .docs__nav-item.active {
+            border-left-color: hsl(var(--hue-color), 80%, 75%);
+            color: #fff;
+        }
+
+        /* Article Main View - Pure Clean Typography */
+        .docs__content {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            min-height: 600px;
+        }
+
+        .article__meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.25rem;
+            font-size: var(--smaller-font-size);
+            color: var(--text-color-light);
+            margin-bottom: 1rem;
+            align-items: center;
+            font-family: var(--body-font);
+        }
+
+        .article__tag {
+            background: transparent;
+            color: var(--text-color);
+            padding: 0;
+            border-radius: 0;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        .article__meta-divider {
+            color: var(--border-color);
+        }
+
+        .article__title {
+            font-size: 1.95rem;
+            line-height: 1.3;
+            color: var(--title-color);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+        }
+
+        .article__body h2 {
+            font-size: 1.25rem;
+            color: var(--title-color);
+            margin: 2.75rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .article__body h3 {
+            font-size: 1.05rem;
+            color: var(--title-color);
+            margin: 1.75rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        .article__body p {
+            line-height: 1.85;
+            color: var(--text-color);
+            margin-bottom: 1.25rem;
+            font-size: var(--normal-font-size);
+        }
+
+        .article__body ul {
+            list-style: disc;
+            margin-left: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        .article__body li {
+            margin-bottom: 0.4rem;
+        }
+
+        .article__body blockquote {
+            border-left: 2px solid var(--first-color);
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            margin: 1.75rem 0;
+            background: transparent;
+            border-radius: 0;
+            font-style: italic;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        body.dark-theme .article__body blockquote {
+            border-left-color: hsl(var(--hue-color), 80%, 75%);
+        }
+
+        .article__body code:not(pre code) {
+            background-color: var(--code-bg);
+            color: var(--title-color);
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.2rem;
+            font-family: var(--mono-font);
+            font-size: 0.88em;
+        }
+
+        /* Minimalist Code Block */
+        .code-block {
+            position: relative;
+            background-color: var(--code-pre-bg);
+            border-radius: 0.35rem;
+            margin: 1.75rem 0;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .code-block__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.4rem 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-family: var(--mono-font);
+            font-size: var(--smaller-font-size);
+            color: #8b99a6;
+        }
+
+        .code-block__copy {
+            background: transparent;
+            color: #8b99a6;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.2rem;
+            padding: 0.15rem 0.5rem;
+            font-size: var(--smaller-font-size);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.2s;
+            opacity: 0.7;
+        }
+
+        .code-block:hover .code-block__copy {
+            opacity: 1;
+        }
+
+        .code-block__copy:hover {
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .code-block pre {
+            padding: 1rem 1.15rem;
+            overflow-x: auto;
+            color: var(--code-pre-text);
+            font-family: var(--mono-font);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        .code-token-keyword { color: #f472b6; }
+        .code-token-func { color: #60a5fa; }
+        .code-token-string { color: #34d399; }
+        .code-token-comment { color: #64748b; font-style: italic; }
+
+        /* Minimal Line Academic Table */
+        .docs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: var(--small-font-size);
+            border-top: 1px solid var(--title-color);
+            border-bottom: 1px solid var(--title-color);
+        }
+
+        .docs-table th, .docs-table td {
+            padding: 0.75rem 0.85rem;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .docs-table th {
+            background: transparent;
+            color: var(--title-color);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            border-bottom: 1px solid var(--title-color);
+        }
+
+        .docs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Right Table of Contents (TOC) - Pure Minimalist Tree */
+        .docs__toc {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            position: sticky;
+            top: calc(var(--header-height) + 1.5rem);
+            box-shadow: none;
+            max-height: calc(100vh - 5rem);
+            overflow-y: auto;
+        }
+
+        @media screen and (max-width: 991px) {
+            .docs__toc {
+                display: none;
+            }
+        }
+
+        .docs__toc-title {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: var(--text-color-light);
+            margin-bottom: 0.85rem;
+        }
+
+        .docs__toc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            border-left: 1px solid var(--border-color);
+            padding-left: 0.75rem;
+        }
+
+        .docs__toc-link {
+            font-size: var(--smaller-font-size);
+            color: var(--text-color-light);
+            transition: color 0.2s;
+            display: block;
+            line-height: 1.45;
+            position: relative;
+        }
+
+        .docs__toc-link:hover {
+            color: var(--title-color);
+        }
+
+        .docs__toc-link.active {
+            color: var(--title-color);
+            font-weight: 600;
+        }
+
+        body.dark-theme .docs__toc-link.active {
+            color: #fff;
+        }
+
+        /*=============== SUBSCRIBE ===============*/
+        .subscribe__bg {
+            background-color: var(--first-color-second);
+            padding: 3rem 0;
+            transition: background-color .4s;
+        }
+
+        .subscribe__container {
+            text-align: center;
+        }
+
+        .subscribe__title, 
+        .subscribe__description {
+            color: var(--white-color);
+        }
+
+        .subscribe__title {
+            margin-bottom: var(--mb-0-5);
+        }
+
+        .subscribe__description {
+            margin-bottom: var(--mb-1-5);
+            line-height: 1.6;
+        }
+
+        .subscribe__social {
+            display: flex;
+            justify-content: center;
+            column-gap: 1.75rem;
+        }
+
+        .subscribe__social-link {
+            font-size: 1.75rem;
+            color: var(--white-color);
+            transition: .3s;
+        }
+
+        .subscribe__social-link:hover {
+            transform: translateY(-.25rem);
+            color: hsl(var(--hue-color), 80%, 75%);
+        }
+
+        /*=============== FOOTER ===============*/
+        .footer__container {
+            row-gap: 3rem;
+        }
+
+        .footer__content {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .footer__title, 
+        .footer__subtitle {
+            font-size: var(--h3-font-size);
+            margin-bottom: var(--mb-0-75);
+        }
+
+        .footer__description {
+            font-size: var(--small-font-size);
+            line-height: 1.8;
+            margin-bottom: var(--mb-1-25);
+        }
+
+        .footer__social {
+            font-size: 1.35rem;
+            color: var(--title-color);
+            margin-right: var(--mb-1);
+            transition: .3s;
+        }
+
+        .footer__social:hover {
+            color: var(--first-color);
+        }
+
+        .footer__item {
+            margin-bottom: var(--mb-0-5);
+        }
+
+        .footer__link {
+            font-size: var(--small-font-size);
+            color: var(--text-color);
+            transition: .3s;
+        }
+
+        .footer__link:hover {
+            color: var(--title-color);
+        }
+
+        /*=============== SCROLL UP ===============*/
+        .scrollup {
+            position: fixed;
+            right: 1.5rem;
+            bottom: -20%;
+            background-color: var(--first-color);
+            padding: .5rem;
+            display: flex;
+            opacity: .9;
+            z-index: var(--z-tooltip);
+            transition: .4s;
+            border-radius: .25rem;
+        }
+
+        .scrollup:hover {
+            background-color: var(--first-color-alt);
+            opacity: 1;
+        }
+
+        .scrollup__icon {
+            color: var(--white-color);
+            font-size: 1.25rem;
+        }
+
+        .show-scroll {
+            bottom: 3rem;
+        }
+
+        /*=============== MEDIA QUERIES ===============*/
+        @media screen and (max-width: 320px) {
+            .container {
+                margin-left: var(--mb-1);
+                margin-right: var(--mb-1);
+            }
+            .experience__content {
+                padding: 0;
+            }
+            .experience__overlay:nth-child(1) {
+                width: 190px;
+            }
+            .discover__card {
+                width: 200px;
+                height: 280px;
+            }
+        }
+
+        @media screen and (min-width: 568px) {
+            .about__container,
+            .experience__container {
+                grid-template-columns: repeat(2, 1fr);
+                align-items: center;
+            }
+            .about__data,
+            .about__title {
+                text-align: initial;
+            }
+            .about__img {
+                justify-content: flex-end;
+            }
+            .experience__img {
+                padding: 0;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            body {
+                margin: 0;
+            }
+            .nav {
+                height: calc(var(--header-height) + 1.5rem);
+            }
+            .nav__link {
+                color: var(--white-color);
+                text-transform: initial;
+            }
+            .nav__link:hover {
+                color: var(--white-color);
+                opacity: .85;
+            }
+            .nav__dark {
+                position: initial;
+            }
+            .nav__menu {
+                display: flex;
+                column-gap: 2rem;
+                align-items: center;
+            }
+            .nav__list {
+                flex-direction: row;
+                column-gap: 2.5rem;
+            }
+            .nav__toggle,
+            .nav__close {
+                display: none;
+            }
+            .change-theme-name {
+                display: none;
+            }
+            .change-theme {
+                color: var(--white-color);
+            }
+            .active-link::before {
+                background-color: var(--white-color);
+            }
+            .scroll-header .nav__link {
+                color: var(--text-color);
+            }
+            .scroll-header .active-link {
+                color: var(--title-color);
+            }
+            .scroll-header .active-link::before {
+                background-color: var(--title-color);
+            }
+            .scroll-header .change-theme {
+                color: var(--text-color);
+            }
+            .section {
+                padding: 7rem 0 2rem;
+            }
+            .home__container {
+                grid-template-columns: 2fr 1fr;
+            }
+            .home__data {
+                align-self: center;
+            }
+            .home__social {
+                flex-direction: row;
+                align-self: flex-end;
+                margin-bottom: 3rem;
+                column-gap: 2.5rem;
+            }
+            .about__img-one {
+                width: 170px;
+            }
+            .about__img-two {
+                width: 240px;
+            }
+            .experience__img-one {
+                width: 190px;
+            }
+            .experience__img-two {
+                width: 250px;
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .container {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .home__img {
+                height: 100vh;
+            }
+            .about__img-one {
+                width: 200px;
+            }
+            .about__img-two {
+                width: 280px;
+            }
+            .experience__content {
+                margin: 1rem 0;
+                column-gap: 2rem;
+            }
+            .footer__content {
+                justify-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<!--==================== HEADER ====================-->
+<header class="header" id="header">
+<nav class="nav container">
+<a class="nav__logo" href="#home">
+<i class="ri-home-heart-fill" style="font-size: 1.2rem;"></i>
+                Miao Miao's Home
+            </a>
+<div class="nav__menu" id="nav-menu">
+<ul class="nav__list">
+<li class="nav__item"><a class="nav__link active-link" href="#home">首页</a></li>
+<li class="nav__item"><a class="nav__link" href="#about">介绍</a></li>
+<li class="nav__item"><a class="nav__link" href="#awards">奖项</a></li>
+<li class="nav__item"><a class="nav__link" href="#work">工作</a></li>
+<li class="nav__item"><a class="nav__link" href="#docs">文档 / 博客</a></li>
+<li class="nav__item">
+<a class="nav__link" href="index.html">English</a>
+</li>
+</ul>
+<div class="nav__dark">
+<span class="change-theme-name">深色模式</span>
+<i class="ri-moon-line change-theme" id="theme-button"></i>
+</div>
+<i class="ri-close-line nav__close" id="nav-close"></i>
+</div>
+<div class="nav__toggle" id="nav-toggle">
+<i class="ri-function-line"></i>
+</div>
+</nav>
+</header>
+<main class="main">
+<!--==================== HOME ====================-->
+<section class="home" id="home">
+<img alt="Starry Sky" class="home__img" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2Urk95__gMfBxD_ISw2jr2hU0FNbZQqPg0OPS5CnA05rH5cc2jUqqT-523d2Ax9M8s0SGUW6IaWYtH5lPvUldxv18bbG8KAIlzK22FIkFBY29qXaN5py7tPoYw7MTXI8B_9ZIMG1U0amGm__hCVS3BXyy9MFla5aOYfD9juyzjJw4PuijHXsb1ubFCZzGFutZml8V9faavymKEf4UhG_mqknw2dJQ6MI1atS8bKyBnjGZfNz5xegDSA"/>
+<div class="home__container container grid">
+<div class="home__data">
+<span class="home__data-subtitle mobile-margin" style="margin-left: 3pt;">即使我们不抬头仰望，</span>
+<h1 class="home__data-title"> <b>星空</b>，也在<br/>注视着我们</h1>
+<a class="button mobile-hide" href="#about">了解更多</a>
+</div>
+<div class="home__social">
+<a class="home__social-link" href="https://github.com/SKlight-Liang" target="_blank" title="GitHub"><i class="ri-github-fill"></i></a>
+<a class="home__social-link" href="https://www.zhihu.com/people/67-38-50-46" target="_blank" title="知乎"><i class="ri-zhihu-line"></i></a>
+<a class="home__social-link" href="#footer" title="WeChat"><i class="ri-wechat-fill"></i></a>
+</div>
+</div>
+</section>
+<!--==================== ABOUT ====================-->
+<section class="about section" id="about">
+<div class="about__container container grid">
+<div class="about__data">
+<h2 class="section__title about__title">梁忆炎, Liang Yiyan<br/>CS in Peking University</h2>
+<p class="about__description">现就读于北京大学信息科学技术学院，攻读信息与计算科学专业。目前致力于数据清洗和分析工作，旨在为特定的智能体训练过程提供更加精准和高效的数据支撑。</p>
+<a class="button" href="#footer">立即联系我！</a>
+</div>
+<div class="about__img">
+<div class="about__img-overlay"><img alt="Peking University" class="about__img-one" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQDlkTKFN1wS1K4RE9lF0558TxxdVgUYllFpz-1b8tjrfEXhfpaZx613YxcvLPZDWH1SCdZxeoL7JLRGQxnpmZrE9yn3Lnqd-DriPPhpvLhazpiKogjofyGhh7wAdhp6PbIudy3rZYZ5GHKg12jlxDs9ytPTqGwFsDPaibyluGQTLHGdoUTmGu6MMHP1qn6lXw1RenLPLU_-qR2VCneXTPNMQHIjJevEw6Lpxuw8qJVuWgpscD0ESZKQ"/></div>
+<div class="about__img-overlay"><img alt="Campus Research" class="about__img-two" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByFDlvbFmV_IlYSzaAF-np6JdCf6ETPrU9Feolff9V9F38lWrpxJwnIzrrD0cPD_U0NbKhz-9PC3e2B5JZItvLlLSC2j_iz5uxhZ1Jz2ZvycYdN2T_f6SWn79AyzkUEMJsrnDlJjPgnjcsZ69BCPv8QvDCFXC_NHExgHqW34gYgvQT1jp3qh24zaVjEegXq9bfvxDFEZk3wFtgDqSkf_CKfWcJv8XflPvSBPZA34aKkqveSHqwh7b5ew"/></div>
+</div>
+</div>
+</section>
+<!--==================== AWARDS / EXPERIENCE ====================-->
+<section class="experience section" id="awards">
+<h2 class="section__title">奖项与经历</h2>
+<div class="experience__container container grid">
+<div class="experience__content grid">
+<div class="experience__data"><h2 class="experience__number">1</h2><span class="experience__description">年<br/>奖学金</span></div>
+<div class="experience__data"><h2 class="experience__number">5</h2><span class="experience__description">竞赛<br/>获奖</span></div>
+<div class="experience__data"><h2 class="experience__number">117+</h2><span class="experience__description">知乎<br/>文章</span></div>
+</div>
+<div class="experience__data grid">
+<span class="experience__detail">
+                        2023 　 <b>秦宛顺-靳云汇奖学金</b> <br/>
+                        2023 　 <b>北京大学三好学生</b> <br/>
+                        2023 　 (CUPT)本科生项目展示 　 三等奖 <br/>
+                        2023 　 <b>北京大学思政教育优秀论文</b> <br/>
+                        2023 　 九坤杯大学生程序设计竞赛 　 三等奖 <br/>
+                        2024 　 北京大学大学生程序设计竞赛 　 二等奖 <br/>
+                        2025 　 美国大学生建模大赛 　 <b>Honorable Mention</b> <br/>
+                        2025 　 清华大学大学生程序设计竞赛暨高校邀请赛 　 <b>第十名</b> <br/>
+</span>
+</div>
+<div class="experience__img grid">
+<div class="experience__overlay"><img alt="Awards Recognition" class="experience__img-one" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDasuT9QQQMw9OWqyEd964lI0JoP4UNCnjEA58r2OEcxGZPnffzOhRjbovtVWR0uqIQIH60bFtIhjOzT8YrRUERv5hDYjjWr3tKTiCSrd4AIo1kiKCtxlzJ356t0F1I77rxwj3w-i75vXDF5f--6TQ5UKc8oyFCAgaDC-zqeVnsBFQTMOWa96XeGdMRkf6qkHXqqOLcsU0b_rrGT7dPPpIOAUMym4U8kCwiKrvgsGCP0wsYFMT_6K7aCA"/></div>
+<div class="experience__overlay"><img alt="Programming Contest" class="experience__img-two" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE8vkq-L7UuHx2JyxZqXu-5iansZEiylBY6pYYDy2b1lTXj3d27Gm6vI-unQXBJ_t4f7D2WI5JpLBUblof8WXR-tppBAPXfgL9q-LHq2LQC6Wx02s9o2kkKaPMM5YxWeJQm7AlcWV275ytgmg83bFMt1FNJkMJM7b0d6HBHYDKKSe10_FX--vQwhBHHwwvUYvcOYoOyQns7EbZFLcv5goAw7aZivTRlQhPLUeyQzXjlm2yj6YimHjRUw" style="margin-top: 20pt;"/></div>
+</div>
+</div>
+</section>
+<!--==================== WORK ====================-->
+<section class="work section" id="work">
+<h2 class="section__title">正在进行的工作</h2>
+<div class="discover__container container swiper-container">
+<div class="swiper-wrapper">
+<div class="discover__card swiper-slide">
+<img alt="苦力怕" class="discover__img" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkI9I8UZWJqebzXNWz5kd7q6nsv_2KIbKK6XjvnSjqH7I7qolGh0LNna3xI4UY1Ctjj4V7ByLOdgehuAGffGjuNPueNf-EZA4V4M4RECYL_DBC3RDanNIhE-gmFm6vGkxMGeuIUP83hA1ecvctDS-djDXOB4V-wY0oQufQtzIzcsSDS61eDN5iVKX-WaFihIS0rnYWapUHiq1U3EAfmclRY0PIyry53l7NkT7F-RYUM_YsMX8G5dPlZQ"/>
+<div class="discover__data">
+<h2 class="discover__title">苦力怕</h2>
+<span class="discover__description">听说苦力怕会爆炸哦~</span>
+</div>
+</div>
+<div class="discover__card swiper-slide">
+<img alt="画画!" class="discover__img" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANkQDbQP-YPV0reAlMsS-hSjAuoYBmWwVpaqJ8L6hva_4i0ZrmJEMdsAyB0NxiCdGJVuRyaQRe9A55x7RgtyyOTW0WsTeavDO52nKbqPsvhdRQbU3-z5IL1LA5FUCq3ehpXJLXTFcM1bkPtE3A7dUeWV7NKGCrh_lIqDLJYM2sFLbymsexxCR563geGKohUHwEIIELFQhJf_CVeJLnDwLiRWwIFhkcX0OgI0eqYwyoZMYUev0o93kV8A"/>
+<div class="discover__data">
+<h2 class="discover__title">画画!</h2>
+<span class="discover__description">一个很漂亮的表格制作工具</span>
+</div>
+</div>
+<div class="discover__card swiper-slide">
+<img alt="摸鱼~" class="discover__img" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoEs4TwrU5GhHD1usmCw3GrwQ_JgrjnFv0Rt8Omlz2ud5Ccm2jlLiiyLcJ8Q7EasWMKAVXoNi3rV88MhUaKpZjauN6c1gJXclt5Oigv2l6lQQ9OAmNW0y_TQzB9UPh9UFnzeExT_Uz5TQWbvOmJwYy9d12NHtp_uUu_9ld3AHFeaTK7ZaaPB0r_OUT-KRZ8WD8Jn4fSRxc6RC0CTSTWna8uZHaPCc7QKYaQHnDNjAi5C-ydPqPXv9SVQ"/>
+<div class="discover__data">
+<h2 class="discover__title">摸鱼~</h2>
+<span class="discover__description">怎么会有人要天天工作呢</span>
+</div>
+</div>
+<div class="discover__card swiper-slide">
+<img alt="问题生成" class="discover__img" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSdqwmmsn7FfhJm70BrwfnH2Dv2rcqil3oLuH4J7b0KJgf0p3WtpbyvSQ3Qc_xFH4AtUD3e5YX4dvCZ01dptFdhoPfvGQJdH9xaBSaf0h9BC-IqN_iENr_5MVtAPOvRqFJ5_7dWsS2Udhqe9m16awZ7vIESBGuG3nb96gIbJ22qk4HimeNdDdSm83JFYVALWIwluYfvjpLzFcgp6M969BFeBktY8YXhzpXKjMxY-7QZEgeSHs6DVCkXQ"/>
+<div class="discover__data">
+<h2 class="discover__title">问题生成</h2>
+<span class="discover__description">让我们把AI难倒！</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!--==================== DOCUMENTATION & BLOG ====================-->
+<section class="docs__section section" id="docs"><div class="container">
+<h2 class="section__title" style="margin-bottom: 3rem;">文档与博客 (Blog &amp; Docs)</h2>
+<div id="blog-posts-list" style="display: flex; flex-direction: column; gap: 2.25rem; max-width: 860px; margin: 0 auto;">
+<!-- Article Card 1 -->
+<article class="blog-card" onclick="openArticleDrawer('art-1')" style="display: flex; flex-direction: column; md:flex-row; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: transform 0.25s, opacity 0.25s;">
+<div class="blog-card__inner" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+<div class="blog-card__grid" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+<div style="display: flex; flex-direction: column; justify-content: space-between;">
+<div>
+<div style="display: flex; align-items: center; gap: 0.75rem; font-size: var(--smaller-font-size); color: var(--text-color-light); margin-bottom: 0.6rem;">
+<span style="color: var(--first-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">AI &amp; Agent</span>
+<span>•</span>
+<time>2025-02-18</time>
+<span>•</span>
+<span>8 分钟阅读</span>
+</div>
+<h3 class="blog-title-hover" style="font-size: 1.35rem; font-weight: 600; color: var(--title-color); line-height: 1.4; margin-bottom: 0.75rem; transition: color 0.2s;">
+                大模型智能体数据清洗与高质量数据合成实践
+              </h3>
+<p style="font-size: var(--small-font-size); color: var(--text-color); line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 1rem;">
+                探讨大模型智能体在开放工具调用中的核心噪音模式，提出基于 AST 抽象语法树校验及级联蒸馏过滤的系统工程方法，显著降低 Agent 推理幻觉。
+              </p>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: var(--small-font-size); font-weight: 600; color: var(--title-color);">
+              阅读全文 <i class="ri-arrow-right-line"></i>
+</div>
+</div>
+<div style="aspect-ratio: 16/9; overflow: hidden; border-radius: 0.5rem; background: var(--code-bg); box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+<img alt="Agent Data Cleaning" class="blog-cover-img" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSdqwmmsn7FfhJm70BrwfnH2Dv2rcqil3oLuH4J7b0KJgf0p3WtpbyvSQ3Qc_xFH4AtUD3e5YX4dvCZ01dptFdhoPfvGQJdH9xaBSaf0h9BC-IqN_iENr_5MVtAPOvRqFJ5_7dWsS2Udhqe9m16awZ7vIESBGuG3nb96gIbJ22qk4HimeNdDdSm83JFYVALWIwluYfvjpLzFcgp6M969BFeBktY8YXhzpXKjMxY-7QZEgeSHs6DVCkXQ" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s;"/>
+</div>
+</div>
+</div>
+</article>
+<!-- Article Card 2 -->
+<article class="blog-card" onclick="openArticleDrawer('art-2')" style="display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: transform 0.25s, opacity 0.25s;">
+<div class="blog-card__inner" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+<div class="blog-card__grid" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+<div style="display: flex; flex-direction: column; justify-content: space-between;">
+<div>
+<div style="display: flex; align-items: center; gap: 0.75rem; font-size: var(--smaller-font-size); color: var(--text-color-light); margin-bottom: 0.6rem;">
+<span style="color: var(--first-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">前端与系统开发</span>
+<span>•</span>
+<time>2024-12-05</time>
+<span>•</span>
+<span>10 分钟阅读</span>
+</div>
+<h3 class="blog-title-hover" style="font-size: 1.35rem; font-weight: 600; color: var(--title-color); line-height: 1.4; margin-bottom: 0.75rem; transition: color 0.2s;">
+                基于 WASM 与 WebGL 的轻量向量可视化系统设计
+              </h3>
+<p style="font-size: var(--small-font-size); color: var(--text-color); line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 1rem;">
+                针对高维 Embedding 聚类与交互卡顿，构建 Rust/WASM 共享线性内存矩阵降维，辅以 WebGL Instanced Arrays 实现百万点阵 60fps 顺畅漫游渲染。
+              </p>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: var(--small-font-size); font-weight: 600; color: var(--title-color);">
+              阅读全文 <i class="ri-arrow-right-line"></i>
+</div>
+</div>
+<div style="aspect-ratio: 16/9; overflow: hidden; border-radius: 0.5rem; background: var(--code-bg); box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+<img alt="Vector Visualization" class="blog-cover-img" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANkQDbQP-YPV0reAlMsS-hSjAuoYBmWwVpaqJ8L6hva_4i0ZrmJEMdsAyB0NxiCdGJVuRyaQRe9A55x7RgtyyOTW0WsTeavDO52nKbqPsvhdRQbU3-z5IL1LA5FUCq3ehpXJLXTFcM1bkPtE3A7dUeWV7NKGCrh_lIqDLJYM2sFLbymsexxCR563geGKohUHwEIIELFQhJf_CVeJLnDwLiRWwIFhkcX0OgI0eqYwyoZMYUev0o93kV8A" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s;"/>
+</div>
+</div>
+</div>
+</article>
+<!-- Article Card 3 (Text-only degradation example) -->
+<article class="blog-card" onclick="openArticleDrawer('art-3')" style="display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: transform 0.25s, opacity 0.25s;">
+<div style="display: flex; flex-direction: column; justify-content: space-between;">
+<div>
+<div style="display: flex; align-items: center; gap: 0.75rem; font-size: var(--smaller-font-size); color: var(--text-color-light); margin-bottom: 0.6rem;">
+<span style="color: var(--first-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">学术算法与竞赛</span>
+<span>•</span>
+<time>2024-08-15</time>
+<span>•</span>
+<span>9 分钟阅读</span>
+</div>
+<h3 class="blog-title-hover" style="font-size: 1.35rem; font-weight: 600; color: var(--title-color); line-height: 1.4; margin-bottom: 0.75rem; transition: color 0.2s;">
+            ACM/ICPC 与高校建模竞赛算法解题手记
+          </h3>
+<p style="font-size: var(--small-font-size); color: var(--text-color); line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 1rem;">
+            系统记录从动力学常微分方程数值求解（MCM/ICM）、马尔可夫链状态转移，到动态规划凸包斜率优化（Convex Hull Trick）的实战思考与工程推导。
+          </p>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: var(--small-font-size); font-weight: 600; color: var(--title-color);">
+          阅读全文 <i class="ri-arrow-right-line"></i>
+</div>
+</div>
+</article>
+</div>
+</div>
+<!-- Article Reading Drawer Overlay -->
+<div id="article-drawer-overlay" onclick="closeArticleDrawer()" style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.35s ease;"></div>
+<aside id="article-drawer" style="position: fixed; top: 0; right: 0; width: 100%; max-width: 860px; height: 100%; background: var(--container-color); color: var(--text-color); z-index: 1001; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-shadow: -8px 0 32px rgba(0,0,0,0.18); overflow: hidden;">
+<!-- Reading Progress Bar -->
+<div id="drawer-progress-bar" style="position: absolute; top: 0; left: 0; height: 3px; width: 0%; background: var(--first-color); z-index: 20; transition: width 0.1s linear;"></div>
+<!-- Drawer Top Bar -->
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.75rem; border-bottom: 1px solid var(--border-color); background: var(--container-color); z-index: 10;">
+<button onclick="closeArticleDrawer()" style="display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--title-color); font-size: var(--small-font-size); font-weight: 600; padding: 0.4rem 0.6rem; border-radius: 0.25rem; transition: background 0.2s;">
+<i class="ri-close-line" style="font-size: 1.25rem;"></i> 关闭阅读 (Esc)
+    </button>
+<div style="display: flex; align-items: center; gap: 1rem;">
+<span id="drawer-meta-readtime" style="font-size: var(--smaller-font-size); color: var(--text-color-light);"></span>
+<button onclick="window.scrollToDrawerTop()" style="background: transparent; color: var(--text-color-light); font-size: 1.1rem;" title="返回文章顶部">
+<i class="ri-arrow-up-line"></i>
+</button>
+</div>
+</div>
+<!-- Drawer Scrollable Content -->
+<div id="drawer-scroll-body" style="flex: 1; overflow-y: auto; padding: 2.5rem 2rem 4rem;">
+<div style="max-width: 720px; margin: 0 auto;">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; font-size: var(--smaller-font-size); color: var(--text-color-light); margin-bottom: 1rem;">
+<span id="drawer-tag" style="color: var(--first-color); font-weight: 600; text-transform: uppercase;"></span>
+<span>/</span>
+<time id="drawer-date"></time>
+<span>/</span>
+<span id="drawer-author"></span>
+</div>
+<h1 id="drawer-title" style="font-size: 2rem; font-weight: 700; color: var(--title-color); line-height: 1.35; margin-bottom: 1.5rem;"></h1>
+<div id="drawer-cover-wrap" style="display: none; aspect-ratio: 16/9; overflow: hidden; border-radius: 0.5rem; margin-bottom: 2.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+<img alt="Cover" id="drawer-cover-img" src="" style="width: 100%; height: 100%; object-fit: cover;"/>
+</div>
+<!-- Article Layout: TOC on Top for Quick Jump -->
+<nav id="drawer-toc" style="margin-bottom: 2.5rem; padding: 1.25rem 1.5rem; background: var(--code-bg); border-radius: 0.5rem; border-left: 3px solid var(--first-color);">
+<div style="font-size: var(--smaller-font-size); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; color: var(--title-color); margin-bottom: 0.6rem;">目录导航</div>
+<div id="drawer-toc-items" style="display: flex; flex-direction: column; gap: 0.45rem;"></div>
+</nav>
+<div class="article__body" id="drawer-content"></div>
+</div>
+</div>
+</aside>
+<style>
+  @media screen and (min-width: 768px) {
+    .blog-card__grid {
+      grid-template-columns: 1fr 280px !important;
+      align-items: center;
+    }
+  }
+  .blog-card:hover .blog-title-hover {
+    color: var(--first-color) !important;
+  }
+  .blog-card:hover .blog-cover-img {
+    transform: scale(1.04);
+  }
+  body.dark-theme .blog-card:hover .blog-title-hover {
+    color: hsl(var(--hue-color), 80%, 75%) !important;
+  }
+  body.dark-theme #drawer-progress-bar {
+    background: hsl(var(--hue-color), 80%, 75%);
+  }
+  body.dark-theme #drawer-toc {
+    border-left-color: hsl(var(--hue-color), 80%, 75%);
+  }
+  body.drawer-open {
+    overflow: hidden;
+  }
+  body.drawer-open .main {
+    filter: blur(2px);
+    transition: filter 0.35s;
+  }
+</style>
+<script>
+  const drawerArticles = {
+    'art-1': {
+      title: '大模型智能体数据清洗与高质量数据合成实践',
+      category: 'AI & Agent',
+      date: '2025-02-18',
+      readTime: '8 分钟阅读',
+      author: '梁忆炎 (Miao Miao)',
+      cover: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCSdqwmmsn7FfhJm70BrwfnH2Dv2rcqil3oLuH4J7b0KJgf0p3WtpbyvSQ3Qc_xFH4AtUD3e5YX4dvCZ01dptFdhoPfvGQJdH9xaBSaf0h9BC-IqN_iENr_5MVtAPOvRqFJ5_7dWsS2Udhqe9m16awZ7vIESBGuG3nb96gIbJ22qk4HimeNdDdSm83JFYVALWIwluYfvjpLzFcgp6M969BFeBktY8YXhzpXKjMxY-7QZEgeSHs6DVCkXQ',
+      toc: [
+        { id: 'd-sec-1', text: '1. 智能体交互数据的三大噪音特征' },
+        { id: 'd-sec-2', text: '2. 流水线设计与基于 AST 的规则清洗' },
+        { id: 'd-sec-3', text: '3. 过滤指标与训练收敛对比' },
+        { id: 'd-sec-4', text: '4. 总结与未来展望' }
+      ],
+      body: `
+        <p>在当前大语言模型（LLM）驱动的自治智能体（Autonomous Agents）研发中，高质量的轨迹数据（Trajectory Data）和工具调用环境（Tool-use Environment）是决定模型能否具备稳定推理与规划能力的核心资产。本文将系统梳理在北大信科研习期间，针对大规模智能体训练过程中的数据清洗流水线设计与可控合成方案。</p>
+        <blockquote>“垃圾进，垃圾出 (Garbage in, Garbage out) 在 Agentic 架构中表现尤为致命——低信噪比的工具回执会呈指数级诱发幻觉链条。”</blockquote>
+        <h2 id="d-sec-1">1. 智能体交互数据的三大噪音特征</h2>
+        <p>在采集开放互联网工具链交互日志时，我们总结了影响模型微调效率的核心问题：</p>
+        <ul>
+          <li><strong>语义漂移与冗余反射：</strong> Agent 发生单步错误后，多次无意义地重试无效命令，导致多轮会话窗口被膨胀冗余 Token 占满。</li>
+          <li><strong>动态环境回执截断：</strong> 终端或网络 API 返回巨型 JSON/HTML（如上万字符的错误堆栈），直接破坏了 Prompt 结构。</li>
+          <li><strong>非决定性状态依赖：</strong> 部分环境执行依赖不可再现的外部时空状态，导致训练样本因果性断裂。</li>
+        </ul>
+        <h2 id="d-sec-2">2. 流水线设计与基于 AST 的规则清洗</h2>
+        <p>为确保保留关键推理步骤并剔除低价值轨迹，我们构建了包含<strong>粗筛 (Filter)</strong>、<strong>AST 抽象语义验证 (Syntax Sanitizer)</strong> 以及 <strong>LLM 反思压缩器 (Distiller)</strong> 的级联架构：</p>
+        <div class="code-block">
+          <div class="code-block__header">
+            <span>trajectory_cleaner.py</span>
+            <button class="code-block__copy" onclick="copyCode(this)">
+              <i class="ri-file-copy-line"></i> 复制
+            </button>
+          </div>
+          <pre><code><span class="code-token-keyword">import</span> ast
+<span class="code-token-keyword">from</span> typing <span class="code-token-keyword">import</span> List, Dict
+
+<span class="code-token-keyword">class</span> <span class="code-token-func">AgentTrajectoryFilter</span>:
+    <span class="code-token-keyword">def</span> <span class="code-token-func">__init__</span>(self, max_retry_thresh: int = <span class="code-token-string">2</span>):
+        self.max_retries = max_retry_thresh
+
+    <span class="code-token-keyword">def</span> <span class="code-token-func">sanitize_action</span>(self, tool_call: Dict) -> bool:
+        <span class="code-token-comment"># 解析 Python-style 调用 AST，过滤不安全及语法损坏的工具调用</span>
+        <span class="code-token-keyword">try</span>:
+            tree = ast.parse(tool_call.get(<span class="code-token-string">'code'</span>, <span class="code-token-string">''</span>))
+            <span class="code-token-keyword">return</span> len(tree.body) > <span class="code-token-string">0</span>
+        <span class="code-token-keyword">except</span> SyntaxError:
+            <span class="code-token-keyword">return</span> <span class="code-token-keyword">False</span></code></pre>
+        </div>
+        <h2 id="d-sec-3">3. 过滤指标与训练收敛对比</h2>
+        <p>采用该流程处理 50k 条原始开源复杂多步任务（如 WebShop 与 InterCode）后的效果对比分析如下表：</p>
+        <table class="docs-table">
+          <thead>
+            <tr>
+              <th>数据集版本</th>
+              <th>总条目数 (Tokens)</th>
+              <th>任务成功率 (Pass@1)</th>
+              <th>推理幻觉率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>原始未清洗基准</td>
+              <td>120M</td>
+              <td>38.4%</td>
+              <td>24.6%</td>
+            </tr>
+            <tr>
+              <td>启发式清洗过滤</td>
+              <td>76M</td>
+              <td>46.2%</td>
+              <td>14.1%</td>
+            </tr>
+            <tr>
+              <td>级联清洗 + 质量合成 (Ours)</td>
+              <td>52M</td>
+              <td><strong>58.7%</strong></td>
+              <td><strong>4.2%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="d-sec-4">4. 总结与未来展望</h2>
+        <p>高质量数据清洗不仅能大幅节约训练显存与算力开销，更能显著提高 Agent 面对未知工具时的零样本（Zero-shot）泛化表现。后续工作将拓展至多模态 GUI 智能体的动作数据配准。</p>
+      `
+    },
+    'art-2': {
+      title: '基于 WASM 与 WebGL 的轻量向量可视化系统设计',
+      category: '前端与系统开发',
+      date: '2024-12-05',
+      readTime: '10 分钟阅读',
+      author: '梁忆炎 (Miao Miao)',
+      cover: 'https://lh3.googleusercontent.com/aida-public/AB6AXuANkQDbQP-YPV0reAlMsS-hSjAuoYBmWwVpaqJ8L6hva_4i0ZrmJEMdsAyB0NxiCdGJVuRyaQRe9A55x7RgtyyOTW0WsTeavDO52nKbqPsvhdRQbU3-z5IL1LA5FUCq3ehpXJLXTFcM1bkPtE3A7dUeWV7NKGCrh_lIqDLJYM2sFLbymsexxCR563geGKohUHwEIIELFQhJf_CVeJLnDwLiRWwIFhkcX0OgI0eqYwyoZMYUev0o93kV8A',
+      toc: [
+        { id: 'd-sec-w1', text: '1. 为什么选择 Rust + WASM' },
+        { id: 'd-sec-w2', text: '2. WebGL 实例渲染 (Instanced Arrays)' },
+        { id: 'd-sec-w3', text: '3. SIMD 降维计算加速' }
+      ],
+      body: `
+        <p>为了在大模型特征分析中实现数十万级高维 Embedding 向量在浏览器端的实时聚类与流式漫游，纯 JavaScript 的运算性能和内存管理往往成为瓶颈。我们设计了由 Rust 编译为 WebAssembly 负责矩阵分解，并通过 WebGL 进行百万级点阵渲染的系统。</p>
+        <h2 id="d-sec-w1">1. 为什么选择 Rust + WASM</h2>
+        <p>高维向量的余弦相似度计算涉及密集的浮点数内积计算。借助 WASM 的直接内存线性共享机制，我们无需在 JS 与 C++ / Rust 引擎之间反复序列化和传递数组，整体数据加载耗时降低了近 78%。</p>
+        <h2 id="d-sec-w2">2. WebGL 实例渲染 (Instanced Arrays)</h2>
+        <p>在前端渲染数万个带有特定分类色值和高亮状态的向量聚类点时，频繁的 Draw Call 会引起明显掉帧。通过结合 <code>ANGLE_instanced_arrays</code> 扩展，单次 Draw Call 即可提交全部实例数据。</p>
+        <div class="code-block">
+          <div class="code-block__header">
+            <span>render_instanced.js</span>
+            <button class="code-block__copy" onclick="copyCode(this)">
+              <i class="ri-file-copy-line"></i> 复制
+            </button>
+          </div>
+          <pre><code><span class="code-token-keyword">const</span> ext = gl.getExtension(<span class="code-token-string">'ANGLE_instanced_arrays'</span>);
+<span class="code-token-comment">// 绑定实例位置矩阵缓存</span>
+gl.bindBuffer(gl.ARRAY_BUFFER, instanceBuffer);
+ext.vertexAttribDivisorANGLE(locPosition, <span class="code-token-string">1</span>);
+ext.drawArraysInstancedANGLE(gl.TRIANGLE_STRIP, <span class="code-token-string">0</span>, <span class="code-token-string">4</span>, numPoints);</code></pre>
+        </div>
+        <h2 id="d-sec-w3">3. SIMD 降维计算加速</h2>
+        <p>借助浏览器对 WebAssembly Fixed-width SIMD 的支持，我们将 t-SNE / UMAP 中最耗时的距离排序过程向量化，保证了 60fps 的顺畅交互体验。</p>
+      `
+    },
+    'art-3': {
+      title: 'ACM/ICPC 与高校建模竞赛算法解题手记',
+      category: '学术算法与竞赛',
+      date: '2024-08-15',
+      readTime: '9 分钟阅读',
+      author: '梁忆炎 (Miao Miao)',
+      cover: null,
+      toc: [
+        { id: 'd-sec-m1', text: '1. 2025 美赛 (MCM/ICM) 动力学建模反思' },
+        { id: 'd-sec-m2', text: '2. 动态规划与斜率优化 (Convex Hull Trick)' }
+      ],
+      body: `
+        <p>算法竞赛不仅是对数据结构和复杂度的极限推导，更是将现实物理问题转化为精确数学模型的思维锤炼。本篇手记收录了在北京大学程序设计竞赛与美赛冲刺期间沉淀的核心模板与思想心得。</p>
+        <h2 id="d-sec-m1">1. 2025 美赛 (MCM/ICM) 动力学建模反思</h2>
+        <p>在连续时间复杂网络演化模拟中，常微分方程组（ODEs）数值解通常受制于刚性误差（Stiffness）。采用变步长龙格-库塔方法（RK45）配合马尔可夫蒙特卡洛（MCMC）进行参数标定，能够显著增强模型的鲁棒性与置信区间。</p>
+        <h2 id="d-sec-m2">2. 动态规划与斜率优化 (Convex Hull Trick)</h2>
+        <p>针对形如 <code>dp[i] = min(dp[j] + f(j) * g(i))</code> 的转移方程，通过维护决策点的凸包单调队列，可将原本 O(N^2) 的二次时间复杂度优化至 O(N log N) 甚至 O(N)。</p>
+        <div class="code-block">
+          <div class="code-block__header">
+            <span>convex_hull_trick.cpp</span>
+            <button class="code-block__copy" onclick="copyCode(this)">
+              <i class="ri-file-copy-line"></i> 复制
+            </button>
+          </div>
+          <pre><code><span class="code-token-keyword">struct</span> Line {
+    <span class="code-token-keyword">long long</span> k, b;
+    <span class="code-token-keyword">long long</span> eval(<span class="code-token-keyword">long long</span> x) <span class="code-token-keyword">const</span> { <span class="code-token-keyword">return</span> k * x + b; }
+};
+<span class="code-token-comment">// 保持斜率单调递增，队列双指针维护切线</span></code></pre>
+        </div>
+      `
+    }
+  };
+
+  function openArticleDrawer(id, updateHash = true) {
+    const art = drawerArticles[id];
+    if (!art) return;
+
+    document.getElementById('drawer-title').textContent = art.title;
+    document.getElementById('drawer-tag').textContent = art.category;
+    document.getElementById('drawer-date').textContent = art.date;
+    document.getElementById('drawer-meta-readtime').textContent = art.readTime;
+    document.getElementById('drawer-author').textContent = art.author;
+    document.getElementById('drawer-content').innerHTML = art.body;
+
+    const coverWrap = document.getElementById('drawer-cover-wrap');
+    const coverImg = document.getElementById('drawer-cover-img');
+    if (art.cover) {
+      coverImg.src = art.cover;
+      coverWrap.style.display = 'block';
+    } else {
+      coverWrap.style.display = 'none';
+    }
+
+    const tocList = document.getElementById('drawer-toc-items');
+    tocList.innerHTML = '';
+    art.toc.forEach(item => {
+      const a = document.createElement('a');
+      a.href = '#' + item.id;
+      a.textContent = item.text;
+      a.style.cssText = 'font-size: var(--small-font-size); color: var(--text-color); transition: color 0.2s; text-decoration: none;';
+      a.onmouseover = () => a.style.color = 'var(--title-color)';
+      a.onmouseout = () => a.style.color = 'var(--text-color)';
+      a.onclick = (e) => {
+        e.preventDefault();
+        const el = document.getElementById(item.id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      };
+      tocList.appendChild(a);
+    });
+
+    const overlay = document.getElementById('article-drawer-overlay');
+    const drawer = document.getElementById('article-drawer');
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'auto';
+    drawer.style.transform = 'translateX(0)';
+    document.body.classList.add('drawer-open');
+
+    const scrollBody = document.getElementById('drawer-scroll-body');
+    scrollBody.scrollTop = 0;
+    document.getElementById('drawer-progress-bar').style.width = '0%';
+
+    if (updateHash) {
+      history.pushState({ articleId: id }, '', '#blog/' + id);
+    }
+  }
+
+  function closeArticleDrawer(updateHash = true) {
+    const overlay = document.getElementById('article-drawer-overlay');
+    const drawer = document.getElementById('article-drawer');
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    drawer.style.transform = 'translateX(100%)';
+    document.body.classList.remove('drawer-open');
+
+    if (updateHash && location.hash.startsWith('#blog/')) {
+      history.pushState(null, '', '#docs');
+    }
+  }
+
+  window.scrollToDrawerTop = function() {
+    const scrollBody = document.getElementById('drawer-scroll-body');
+    if (scrollBody) scrollBody.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Drawer Scroll Progress
+  const scrollBody = document.getElementById('drawer-scroll-body');
+  if (scrollBody) {
+    scrollBody.addEventListener('scroll', function() {
+      const total = scrollBody.scrollHeight - scrollBody.clientHeight;
+      const current = scrollBody.scrollTop;
+      const percent = total > 0 ? (current / total) * 100 : 0;
+      document.getElementById('drawer-progress-bar').style.width = percent + '%';
+    });
+  }
+
+  // Keyboard Esc Listener
+  window.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeArticleDrawer();
+    }
+  });
+
+  // URL Hash Listener
+  function checkHashArticle() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#blog/')) {
+      const artId = hash.replace('#blog/', '');
+      if (drawerArticles[artId]) {
+        openArticleDrawer(artId, false);
+      }
+    } else if (document.body.classList.contains('drawer-open')) {
+      closeArticleDrawer(false);
+    }
+  }
+  window.addEventListener('hashchange', checkHashArticle);
+  window.addEventListener('popstate', checkHashArticle);
+  checkHashArticle();
+</script></section>
+<!--==================== SUBSCRIBE ====================-->
+<section class="subscribe section">
+<div class="subscribe__bg">
+<div class="subscribe__container container">
+<h2 class="section__title subscribe__title">订阅我的知乎和GitHub</h2>
+<p class="subscribe__description">订阅我的知乎和GitHub，获取最新动态和项目进展！</p>
+<div class="subscribe__social">
+<a class="subscribe__social-link" href="https://github.com/SKlight-Liang" target="_blank"><i class="ri-github-fill"></i></a>
+<a class="subscribe__social-link" href="https://www.zhihu.com/people/67-38-50-46" target="_blank"><i class="ri-zhihu-fill"></i></a>
+</div>
+</div>
+</div>
+</section>
+<!--==================== FOOTER ====================-->
+<footer class="footer section" id="footer">
+<div class="footer__container container grid">
+<div class="footer__content grid">
+<div class="footer__data">
+<h3 class="footer__title">联系方式</h3>
+<p class="footer__description">
+                            邮箱: 2200011633@stu.pku.edu.cn <br/>
+                            电话: +86 188 5751 7710 <br/>
+                            主页: https://sklight-liang.github.io/
+                        </p>
+<div>
+<a class="footer__social" href="https://github.com/SKlight-Liang" target="_blank"><i class="ri-github-fill"></i></a>
+<a class="footer__social" href="https://www.zhihu.com/people/67-38-50-46" target="_blank"><i class="ri-zhihu-fill"></i></a>
+</div>
+</div>
+<div class="footer__data">
+<h3 class="footer__subtitle">关于</h3>
+<ul>
+<li class="footer__item"><a class="footer__link" href="#about">关于我</a></li>
+<li class="footer__item"><a class="footer__link" href="#docs">技术文档与博客</a></li>
+<li class="footer__item"><a class="footer__link" href="https://github.com/SKlight-Liang" target="_blank">GitHub</a></li>
+<li class="footer__item"><a class="footer__link" href="https://www.zhihu.com/people/67-38-50-46" target="_blank">知乎</a></li>
+</ul>
+</div>
+<div class="footer__data">
+<h3 class="footer__subtitle">支持</h3>
+<ul>
+<li class="footer__item"><a class="footer__link" href="https://github.com/SKlight-Liang/SKlight-Liang.github.io/issues" target="_blank">常见问题</a></li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+<!--==================== SCROLL UP ====================-->
+<a class="scrollup" href="#home" id="scroll-up"><i class="ri-arrow-up-line scrollup__icon"></i></a>
+</main>
+<!-- Swiper JS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<!-- ScrollReveal JS CDN -->
+<script src="https://unpkg.com/scrollreveal"></script>
+<!-- Interactive JavaScript -->
+<script>
+        /*==================== SHOW MENU ====================*/
+        const navMenu = document.getElementById('nav-menu'),
+              navToggle = document.getElementById('nav-toggle'),
+              navClose = document.getElementById('nav-close');
+
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.add('show-menu');
+            });
+        }
+
+        if (navClose) {
+            navClose.addEventListener('click', () => {
+                navMenu.classList.remove('show-menu');
+            });
+        }
+
+        /*==================== REMOVE MENU MOBILE ====================*/
+        const navLink = document.querySelectorAll('.nav__link');
+
+        function linkAction() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.remove('show-menu');
+        }
+        navLink.forEach(n => n.addEventListener('click', linkAction));
+
+        /*==================== CHANGE BACKGROUND HEADER ====================*/
+        function scrollHeader() {
+            const header = document.getElementById('header');
+            if (this.scrollY >= 100) header.classList.add('scroll-header'); 
+            else header.classList.remove('scroll-header');
+        }
+        window.addEventListener('scroll', scrollHeader);
+
+        /*==================== SWIPER DISCOVER ====================*/
+        let swiper = new Swiper(".discover__container", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            loop: true,
+            spaceBetween: 32,
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+            },
+            autoplay: {
+                delay: 3500,
+                disableOnInteraction: false,
+            },
+        });
+
+        /*==================== SHOW SCROLL UP ====================*/ 
+        function scrollUp() {
+            const scrollUp = document.getElementById('scroll-up');
+            if (this.scrollY >= 200) scrollUp.classList.add('show-scroll'); 
+            else scrollUp.classList.remove('show-scroll');
+        }
+        window.addEventListener('scroll', scrollUp);
+
+        /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
+        const sections = document.querySelectorAll('section[id]');
+
+        function scrollActive() {
+            const scrollY = window.pageYOffset;
+
+            sections.forEach(current => {
+                const sectionHeight = current.offsetHeight;
+                const sectionTop = current.offsetTop - 50;
+                let sectionId = current.getAttribute('id');
+
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    document.querySelector('.nav__menu a[href*=' + sectionId + ']')?.classList.add('active-link');
+                } else {
+                    document.querySelector('.nav__menu a[href*=' + sectionId + ']')?.classList.remove('active-link');
+                }
+            });
+        }
+        window.addEventListener('scroll', scrollActive);
+
+        /*==================== SCROLL REVEAL ANIMATION ====================*/
+        if (typeof ScrollReveal !== 'undefined') {
+            const sr = ScrollReveal({
+                distance: '60px',
+                duration: 2500,
+                delay: 400,
+                reset: false
+            });
+
+            sr.reveal(`.home__data, .subscribe__description`, { origin: 'top' });
+            sr.reveal(`.home__social-link`, { origin: 'bottom', interval: 100 });
+            sr.reveal(`.about__data, .experience__content`, { origin: 'left' });
+            sr.reveal(`.about__img, .experience__img, .experience__detail`, { origin: 'right' });
+            sr.reveal(`.discover__container`, { origin: 'bottom' });
+            sr.reveal(`.footer__data`, { origin: 'top', interval: 100 });
+        }
+
+        /*==================== DARK LIGHT THEME ====================*/ 
+        const themeButton = document.getElementById('theme-button');
+        const darkTheme = 'dark-theme';
+        const iconTheme = 'ri-sun-line';
+
+        const selectedTheme = localStorage.getItem('selected-theme');
+        const selectedIcon = localStorage.getItem('selected-icon');
+
+        const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light';
+        const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'ri-moon-line' : 'ri-sun-line';
+
+        if (selectedTheme) {
+            document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme);
+            themeButton.classList[selectedIcon === 'ri-moon-line' ? 'add' : 'remove'](iconTheme);
+        }
+
+        themeButton.addEventListener('click', () => {
+            document.body.classList.toggle(darkTheme);
+            themeButton.classList.toggle(iconTheme);
+            localStorage.setItem('selected-theme', getCurrentTheme());
+            localStorage.setItem('selected-icon', getCurrentIcon());
+        });
+
+        /*==================== DOCUMENTATION & BLOG REPOSITORY ====================*/
+        const articlesDB = {
+            "art-1": {
+                title: "大模型智能体数据清洗与高质量数据合成实践",
+                category: "AI & Agent",
+                date: "2025-02-18",
+                readTime: "8 分钟阅读",
+                author: "梁忆炎 (Miao Miao)",
+                toc: [
+                    { id: "sec-1", text: "1. 智能体交互数据的三大噪音特征" },
+                    { id: "sec-2", text: "2. 流水线设计与基于 AST 的规则清洗" },
+                    { id: "sec-3", text: "3. 过滤指标与训练收敛对比" },
+                    { id: "sec-4", text: "4. 总结与未来展望" }
+                ],
+                body: `
+                    <p>在当前大语言模型（LLM）驱动的自治智能体（Autonomous Agents）研发中，高质量的轨迹数据（Trajectory Data）和工具调用环境（Tool-use Environment）是决定模型能否具备稳定推理与规划能力的核心资产。本文将系统梳理在北大信科研习期间，针对大规模智能体训练过程中的数据清洗流水线设计与可控合成方案。</p>
+                    <blockquote>“垃圾进，垃圾出 (Garbage in, Garbage out) 在 Agentic 架构中表现尤为致命——低信噪比的工具回执会呈指数级诱发幻觉链条。”</blockquote>
+                    <h2 id="sec-1">1. 智能体交互数据的三大噪音特征</h2>
+                    <p>在采集开放互联网工具链交互日志时，我们总结了影响模型微调效率的核心问题：</p>
+                    <ul>
+                        <li><strong>语义漂移与冗余反射：</strong> Agent 发生单步错误后，多次无意义地重试无效命令，导致多轮会话窗口被膨胀冗余 Token 占满。</li>
+                        <li><strong>动态环境回执截断：</strong> 终端或网络 API 返回巨型 JSON/HTML（如上万字符的错误堆栈），直接破坏了 Prompt 结构。</li>
+                        <li><strong>非决定性状态依赖：</strong> 部分环境执行依赖不可再现的外部时空状态，导致训练样本因果性断裂。</li>
+                    </ul>
+                    <h2 id="sec-2">2. 流水线设计与基于 AST 的规则清洗</h2>
+                    <p>为确保保留关键推理步骤并剔除低价值轨迹，我们构建了包含<strong>粗筛 (Filter)</strong>、<strong>AST 抽象语义验证 (Syntax Sanitizer)</strong> 以及 <strong>LLM 反思压缩器 (Distiller)</strong> 的级联架构：</p>
+                    <div class="code-block">
+                        <div class="code-block__header">
+                            <span>trajectory_cleaner.py</span>
+                            <button class="code-block__copy" onclick="copyCode(this)">
+                                <i class="ri-file-copy-line"></i> 复制
+                            </button>
+                        </div>
+                        <pre><code><span class="code-token-keyword">import</span> ast
+<span class="code-token-keyword">from</span> typing <span class="code-token-keyword">import</span> List, Dict
+
+<span class="code-token-keyword">class</span> <span class="code-token-func">AgentTrajectoryFilter</span>:
+    <span class="code-token-keyword">def</span> <span class="code-token-func">__init__</span>(self, max_retry_thresh: int = <span class="code-token-string">2</span>):
+        self.max_retries = max_retry_thresh
+
+    <span class="code-token-keyword">def</span> <span class="code-token-func">sanitize_action</span>(self, tool_call: Dict) -> bool:
+        <span class="code-token-comment"># 解析 Python-style 调用 AST，过滤不安全及语法损坏的工具调用</span>
+        <span class="code-token-keyword">try</span>:
+            tree = ast.parse(tool_call.get(<span class="code-token-string">'code'</span>, <span class="code-token-string">''</span>))
+            <span class="code-token-keyword">return</span> len(tree.body) > <span class="code-token-string">0</span>
+        <span class="code-token-keyword">except</span> SyntaxError:
+            <span class="code-token-keyword">return</span> <span class="code-token-keyword">False</span></code></pre>
+                    </div>
+                    <h2 id="sec-3">3. 过滤指标与训练收敛对比</h2>
+                    <p>采用该流程处理 50k 条原始开源复杂多步任务（如 WebShop 与 InterCode）后的效果对比分析如下表：</p>
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>数据集版本</th>
+                                <th>总条目数 (Tokens)</th>
+                                <th>任务成功率 (Pass@1)</th>
+                                <th>推理幻觉率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>原始未清洗基准</td>
+                                <td>120M</td>
+                                <td>38.4%</td>
+                                <td>24.6%</td>
+                            </tr>
+                            <tr>
+                                <td>启发式清洗过滤</td>
+                                <td>76M</td>
+                                <td>46.2%</td>
+                                <td>14.1%</td>
+                            </tr>
+                            <tr>
+                                <td>级联清洗 + 质量合成 (Ours)</td>
+                                <td>52M</td>
+                                <td><strong>58.7%</strong></td>
+                                <td><strong>4.2%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2 id="sec-4">4. 总结与未来展望</h2>
+                    <p>高质量数据清洗不仅能大幅节约训练显存与算力开销，更能显著提高 Agent 面对未知工具时的零样本（Zero-shot）泛化表现。后续工作将拓展至多模态 GUI 智能体的动作数据配准。</p>
+                `
+            },
+            "art-2": {
+                title: "多智能体协作与决策反馈回路",
+                category: "AI & Agent",
+                date: "2025-01-12",
+                readTime: "6 分钟阅读",
+                author: "梁忆炎 (Miao Miao)",
+                toc: [
+                    { id: "sec-agent-arch", text: "1. 拓扑通讯架构设计" },
+                    { id: "sec-agent-eval", text: "2. 共识机制与仲裁器" }
+                ],
+                body: `
+                    <p>在处理高度复杂的多阶段任务时，单智能体往往会因为注意力分散而产生认知过载。通过引入多智能体博弈与协作网络（Role-playing Multi-agent Setup），可以实现各司其职的模块化求解系统。</p>
+                    <h2 id="sec-agent-arch">1. 拓扑通讯架构设计</h2>
+                    <p>我们评测了总线式（Message Bus）、星形中枢（Centralized Hub）与点对点链式传输三种范式。实践表明，针对学术代码生成任务，<strong>Planner-Critic-Coder</strong> 三元星形拓扑能取得最优的效费比。</p>
+                    <div class="code-block">
+                        <div class="code-block__header">
+                            <span>consensus.rs</span>
+                            <button class="code-block__copy" onclick="copyCode(this)">
+                                <i class="ri-file-copy-line"></i> 复制
+                            </button>
+                        </div>
+                        <pre><code><span class="code-token-keyword">pub struct</span> AgentMessage {
+    <span class="code-token-keyword">pub</span> sender: String,
+    <span class="code-token-keyword">pub</span> payload: serde_json::Value,
+    <span class="code-token-keyword">pub</span> confidence: f64,
+}</code></pre>
+                    </div>
+                    <h2 id="sec-agent-eval">2. 共识机制与仲裁器</h2>
+                    <p>当 Coder 与 Critic 产生分歧时，引入基于验证测试套件（Unit Test Oracles）的自动化仲裁机制，将主观语言争议转化为客观沙盒执行判定，大幅压缩了死循环概率。</p>
+                `
+            },
+            "art-3": {
+                title: "基于 WASM 与 WebGL 的轻量向量可视化系统",
+                category: "前端与系统开发",
+                date: "2024-12-05",
+                readTime: "10 分钟阅读",
+                author: "梁忆炎 (Miao Miao)",
+                toc: [
+                    { id: "sec-wasm-perf", text: "1. 为什么选择 Rust + WASM" },
+                    { id: "sec-webgl-render", text: "2. WebGL 实例渲染 (Instanced Arrays)" },
+                    { id: "sec-simd-opt", text: "3. SIMD 降维计算加速" }
+                ],
+                body: `
+                    <p>为了在大模型特征分析中实现数十万级高维 Embedding 向量在浏览器端的实时聚类与流式漫游，纯 JavaScript 的运算性能和内存管理往往成为瓶颈。我们设计了由 Rust 编译为 WebAssembly 负责矩阵分解，并通过 WebGL 进行百万级点阵渲染的系统。</p>
+                    <h2 id="sec-wasm-perf">1. 为什么选择 Rust + WASM</h2>
+                    <p>高维向量的余弦相似度计算涉及密集的浮点数内积计算。借助 WASM 的直接内存线性共享机制，我们无需在 JS 与 C++ / Rust 引擎之间反复序列化和传递数组，整体数据加载耗时降低了近 78%。</p>
+                    <h2 id="sec-webgl-render">2. WebGL 实例渲染 (Instanced Arrays)</h2>
+                    <p>在前端渲染数万个带有特定分类色值和高亮状态的向量聚类点时，频繁的 Draw Call 会引起明显掉帧。通过结合 <code>ANGLE_instanced_arrays</code> 扩展，单次 Draw Call 即可提交全部实例数据。</p>
+                    <div class="code-block">
+                        <div class="code-block__header">
+                            <span>render_instanced.js</span>
+                            <button class="code-block__copy" onclick="copyCode(this)">
+                                <i class="ri-file-copy-line"></i> 复制
+                            </button>
+                        </div>
+                        <pre><code><span class="code-token-keyword">const</span> ext = gl.getExtension(<span class="code-token-string">'ANGLE_instanced_arrays'</span>);
+<span class="code-token-comment">// 绑定实例位置矩阵缓存</span>
+gl.bindBuffer(gl.ARRAY_BUFFER, instanceBuffer);
+ext.vertexAttribDivisorANGLE(locPosition, <span class="code-token-string">1</span>);
+ext.drawArraysInstancedANGLE(gl.TRIANGLE_STRIP, <span class="code-token-string">0</span>, <span class="code-token-string">4</span>, numPoints);</code></pre>
+                    </div>
+                    <h2 id="sec-simd-opt">3. SIMD 降维计算加速</h2>
+                    <p>借助浏览器对 WebAssembly Fixed-width SIMD 的支持，我们将 t-SNE / UMAP 中最耗时的距离排序过程向量化，保证了 60fps 的顺畅交互体验。</p>
+                `
+            },
+            "art-4": {
+                title: "高性能 Canvas 表格引擎架构",
+                category: "前端与系统开发",
+                date: "2024-10-20",
+                readTime: "7 分钟阅读",
+                author: "梁忆炎 (Miao Miao)",
+                toc: [
+                    { id: "sec-grid-model", text: "1. 虚拟滚动的数学建模" },
+                    { id: "sec-hit-test", text: "2. 百万单元格 Hit-testing 点击判定" }
+                ],
+                body: `
+                    <p>在“画画!”表格工具的研发过程中，针对复杂公式联动和无限画布平移缩放需求，传统的 DOM 节点树面临严重的渲染吞吐制约。我们自研了全 Canvas 双缓冲渲染的独立虚拟表格核心引擎。</p>
+                    <h2 id="sec-grid-model">1. 虚拟滚动的数学建模</h2>
+                    <p>基于当前视口的 <code>scrollLeft</code>, <code>scrollTop</code>, <code>clientWidth</code>, <code>clientHeight</code>，通过二分查找快速计算起止行列索引（Row/Col Index），只在离屏缓冲区绘制可见视口加缓冲边界单元格。</p>
+                    <h2 id="sec-hit-test">2. 百万单元格 Hit-testing 点击判定</h2>
+                    <p>使用前缀和数组（Prefix Sum）维护变高行高与变宽列宽，使得坐标到 Cell 索引的点选查询可以在 O(log N) 时间内完成，即便千万级数据也不会造成任何卡顿。</p>
+                `
+            },
+            "art-5": {
+                title: "ACM/ICPC 与建模竞赛算法解题手记",
+                category: "学术算法与竞赛",
+                date: "2024-08-15",
+                readTime: "9 分钟阅读",
+                author: "梁忆炎 (Miao Miao)",
+                toc: [
+                    { id: "sec-mcm-notes", text: "1. 2025 美赛 (MCM/ICM) 动力学建模反思" },
+                    { id: "sec-icpc-dp", text: "2. 动态规划与斜率优化 (Convex Hull Trick)" }
+                ],
+                body: `
+                    <p>算法竞赛不仅是对数据结构和复杂度的极限推导，更是将现实物理问题转化为精确数学模型的思维锤炼。本篇手记收录了在北京大学程序设计竞赛与美赛冲刺期间沉淀的核心模板与思想心得。</p>
+                    <h2 id="sec-mcm-notes">1. 2025 美赛 (MCM/ICM) 动力学建模反思</h2>
+                    <p>在连续时间复杂网络演化模拟中，常微分方程组（ODEs）数值解通常受制于刚性误差（Stiffness）。采用变步长龙格-库塔方法（RK45）配合马尔可夫蒙特卡洛（MCMC）进行参数标定，能够显著增强模型的鲁棒性与置信区间。</p>
+                    <h2 id="sec-icpc-dp">2. 动态规划与斜率优化 (Convex Hull Trick)</h2>
+                    <p>针对形如 <code>dp[i] = min(dp[j] + f(j) * g(i))</code> 的转移方程，通过维护决策点的凸包单调队列，可将原本 O(N^2) 的二次时间复杂度优化至 O(N log N) 甚至 O(N)。</p>
+                    <div class="code-block">
+                        <div class="code-block__header">
+                            <span>convex_hull_trick.cpp</span>
+                            <button class="code-block__copy" onclick="copyCode(this)">
+                                <i class="ri-file-copy-line"></i> 复制
+                            </button>
+                        </div>
+                        <pre><code><span class="code-token-keyword">struct</span> Line {
+    <span class="code-token-keyword">long long</span> k, b;
+    <span class="code-token-keyword">long long</span> eval(<span class="code-token-keyword">long long</span> x) <span class="code-token-keyword">const</span> { <span class="code-token-keyword">return</span> k * x + b; }
+};
+<span class="code-token-comment">// 保持斜率单调递增，队列双指针维护切线</span></code></pre>
+                    </div>
+                `
+            }
+        };
+
+        /* Function to render an article by ID */
+        function loadArticle(id) {
+            const art = articlesDB[id];
+            if (!art) return;
+
+            document.getElementById('article-title').textContent = art.title;
+            document.getElementById('article-category-badge').textContent = art.category;
+            document.getElementById('article-date').textContent = art.date;
+            document.getElementById('article-read-time').textContent = art.readTime;
+            document.getElementById('article-author').textContent = art.author;
+            document.getElementById('article-body').innerHTML = art.body;
+
+            // Render TOC
+            const tocContainer = document.getElementById('docs-toc-container');
+            tocContainer.innerHTML = '';
+            art.toc.forEach((item, index) => {
+                const link = document.createElement('a');
+                link.className = `docs__toc-link ${index === 0 ? 'active' : ''}`;
+                link.href = `#${item.id}`;
+                link.textContent = item.text;
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.querySelectorAll('.docs__toc-link').forEach(el => el.classList.remove('active'));
+                    link.classList.add('active');
+                });
+                tocContainer.appendChild(link);
+            });
+
+            // Update active state in sidebar
+            document.querySelectorAll('.docs__nav-item').forEach(item => {
+                item.classList.toggle('active', item.getAttribute('data-article-id') === id);
+            });
+        }
+
+        /* Sidebar item click listener */
+        document.querySelectorAll('.docs__nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const artId = this.getAttribute('data-article-id');
+                loadArticle(artId);
+            });
+        });
+
+        /* Real-time search filter */
+        const searchInput = document.getElementById('docs-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase().trim();
+                const items = document.querySelectorAll('.docs__nav-item');
+
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    const artId = item.getAttribute('data-article-id');
+                    const art = articlesDB[artId];
+                    const matches = text.includes(query) || (art && art.body.toLowerCase().includes(query));
+                    item.style.display = matches ? 'flex' : 'none';
+                });
+            });
+        }
+
+        /* Copy code block snippet with feedback */
+        function copyCode(button) {
+            const pre = button.closest('.code-block').querySelector('pre');
+            const codeText = pre.innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const originalHtml = button.innerHTML;
+                button.innerHTML = '<i class="ri-check-line" style="color:#34d399;"></i> 已复制!';
+                setTimeout(() => {
+                    button.innerHTML = originalHtml;
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed: ', err);
+            });
+        }
+
+        /* TOC Scrollspy Listener */
+        window.addEventListener('scroll', () => {
+            const headings = document.querySelectorAll('.article__body h2[id]');
+            const scrollPos = window.scrollY + 120;
+
+            headings.forEach(heading => {
+                const top = heading.offsetTop;
+                const height = heading.offsetHeight;
+                const id = heading.getAttribute('id');
+                if (scrollPos >= top && scrollPos < top + 600) {
+                    document.querySelectorAll('.docs__toc-link').forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                    });
+                }
+            });
+        });
+    </script>
+</body></html>

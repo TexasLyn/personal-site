@@ -26,6 +26,7 @@ export const nav = [
   { label: '介绍', href: '#about' },
   { label: '奖项', href: '#awards' },
   { label: '工作', href: '#work' },
+  { label: '文档 / 博客', href: '#docs' },
 ] as const;
 
 /** 深色模式开关旁边的文字 */
@@ -37,7 +38,7 @@ export const hero = {
   /** 主标题，可以写 HTML：<b> 加粗，<br> 换行 */
   titleHtml: '<b>星空</b>，也在<br />注视着我们',
   cta: { label: '了解更多', href: '#about' },
-  image: { src: '/images/hero.svg', alt: '星空' },
+  image: { src: '/images/hero.jpg', alt: '星空' },
   socials: [
     { label: 'GitHub', icon: 'ri-github-fill', href: 'https://github.com/SKlight-Liang' },
     { label: '知乎', icon: 'ri-zhihu-line', href: 'https://www.zhihu.com/people/67-38-50-46' },
@@ -52,8 +53,8 @@ export const about = {
     '现就读于北京大学信息科学技术学院，攻读信息与计算科学专业。目前致力于数据清洗和分析工作，旨在为特定的智能体训练过程提供更加精准和高效的数据支撑。',
   cta: { label: '立即联系我！', href: '#footer' },
   images: [
-    { src: '/images/about-1.svg', alt: '北京大学' },
-    { src: '/images/about-2.svg', alt: '校园科研' },
+    { src: '/images/about-1.jpg', alt: '北京大学' },
+    { src: '/images/about-2.jpg', alt: '校园科研' },
   ],
 } as const;
 
@@ -93,8 +94,8 @@ export const awards = {
     { year: '2025', text: '清华大学大学生程序设计竞赛暨高校邀请赛', result: '第十名', textBold: true, resultBold: true },
   ] as AwardItem[],
   images: [
-    { src: '/images/award-1.svg', alt: '获奖证书' },
-    { src: '/images/award-2.svg', alt: '程序设计竞赛' },
+    { src: '/images/award-1.jpg', alt: '获奖证书' },
+    { src: '/images/award-2.jpg', alt: '程序设计竞赛' },
   ],
 };
 
@@ -102,11 +103,19 @@ export const work = {
   title: '正在进行的工作',
   /** 卡片轮播，加一项就多一张卡片 */
   items: [
-    { title: '苦力怕', description: '听说苦力怕会爆炸哦~', image: '/images/work-1.svg' },
-    { title: '画画!', description: '一个很漂亮的表格制作工具', image: '/images/work-2.svg' },
-    { title: '摸鱼~', description: '怎么会有人要天天工作呢', image: '/images/work-3.svg' },
-    { title: '问题生成', description: '让我们把AI难倒！', image: '/images/work-4.svg' },
+    { title: '苦力怕', description: '听说苦力怕会爆炸哦~', image: '/images/work-1.jpg' },
+    { title: '画画!', description: '一个很漂亮的表格制作工具', image: '/images/work-2.jpg' },
+    { title: '摸鱼~', description: '怎么会有人要天天工作呢', image: '/images/work-3.jpg' },
+    { title: '问题生成', description: '让我们把AI难倒！', image: '/images/work-4.jpg' },
   ],
+} as const;
+
+/** 文档 / 博客区块。文章本身在 src/content/blog/ 里 */
+export const docs = {
+  title: '文档与博客 (Blog & Docs)',
+  /** 抽屉顶部提示文案 */
+  drawerHint: '关闭阅读 (Esc)',
+  tocTitle: '目录导航',
 } as const;
 
 export const subscribe = {
@@ -131,6 +140,7 @@ export const footer = {
       title: '关于',
       links: [
         { label: '关于我', href: '#about' },
+        { label: '技术文档与博客', href: '#docs' },
         { label: 'GitHub', href: 'https://github.com/SKlight-Liang' },
         { label: '知乎', href: 'https://www.zhihu.com/people/67-38-50-46' },
       ],
