@@ -1,0 +1,27 @@
+---
+import { subscribe } from '../data/site';
+---
+
+<section class="subscribe section">
+  <div class="subscribe__bg">
+    <div class="subscribe__container container">
+      <h2 class="section__title subscribe__title">{subscribe.title}</h2>
+      <p class="subscribe__description">{subscribe.description}</p>
+      <div class="subscribe__social">
+        {
+          subscribe.socials.map((social) => (
+            <a
+              class="subscribe__social-link"
+              href={social.href}
+              title={social.label}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class={social.icon} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,49 @@
+---
+import { work } from '../data/site';
+---
+
+<section class="work section" id="work">
+  <h2 class="section__title">{work.title}</h2>
+
+  <div class="discover__container container swiper">
+    <div class="swiper-wrapper">
+      {
+        work.items.map((item) => (
+          <div class="discover__card swiper-slide">
+            <img class="discover__img" src={item.image} alt={item.title} loading="lazy" />
+            <div class="discover__data">
+              <h2 class="discover__title">{item.title}</h2>
+              <span class="discover__description">{item.description}</span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from 'swiper';
+  import { Autoplay, EffectCoverflow } from 'swiper/modules';
+
+  new Swiper('.discover__container', {
+    modules: [EffectCoverflow, Autoplay],
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    loop: true,
+    spaceBetween: 32,
+    coverflowEffect: {
+      rotate: 0,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true,
+    },
+    autoplay: {
+      delay: 3500,
+      disableOnInteraction: false,
+    },
+  });
+</script>

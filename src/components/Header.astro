@@ -1,0 +1,89 @@
+---
+import { brand, nav, themeLabel } from '../data/site';
+---
+
+<header class="header" id="header">
+  <nav class="nav container">
+    <a class="nav__logo" href={brand.href}>
+      <i class={brand.icon} style="font-size: 1.2rem;"></i>
+      {brand.name}
+    </a>
+
+    <div class="nav__menu" id="nav-menu">
+      <ul class="nav__list">
+        {
+          nav.map((item, i) => (
+            <li class="nav__item">
+              <a class:list={['nav__link', i === 0 && 'active-link']} href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="nav__dark">
+        <span class="change-theme-name">{themeLabel}</span>
+        <i class="ri-moon-line change-theme" id="theme-button"></i>
+      </div>
+
+      <i class="ri-close-line nav__close" id="nav-close"></i>
+    </div>
+
+    <div class="nav__toggle" id="nav-toggle">
+      <i class="ri-function-line"></i>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const navMenu = document.getElementById('nav-menu');
+
+  document.getElementById('nav-toggle')?.addEventListener('click', () => {
+    navMenu?.classList.add('show-menu');
+  });
+
+  document.getElementById('nav-close')?.addEventListener('click', () => {
+    navMenu?.classList.remove('show-menu');
+  });
+
+  document.querySelectorAll('.nav__link').forEach((link) => {
+    link.addEventListener('click', () => navMenu?.classList.remove('show-menu'));
+  });
+
+  // 滚动到一定距离后给顶栏加底色，并高亮当前区块对应的导航项
+  const header = document.getElementById('header');
+  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+
+  const handleScroll = () => {
+    const y = window.scrollY;
+    header?.classList.toggle('scroll-header', y >= 100);
+
+    sections.forEach((section) => {
+      const id = section.getAttribute('id');
+      const top = section.offsetTop - 50;
+      const active = y > top && y <= top + section.offsetHeight;
+      document
+        .querySelector(`.nav__menu a[href*="${id}"]`)
+        ?.classList.toggle('active-link', active);
+    });
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+
+  // 深色模式：状态存在 localStorage，class 挂在 <html> 上
+  const themeButton = document.getElementById('theme-button');
+  const sunIcon = 'ri-sun-line';
+
+  if (localStorage.getItem('selected-icon') === sunIcon) {
+    themeButton?.classList.add(sunIcon);
+  }
+
+  themeButton?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-theme');
+    themeButton.classList.toggle(sunIcon);
+    localStorage.setItem('selected-theme', isDark ? 'dark' : 'light');
+    localStorage.setItem('selected-icon', isDark ? 'ri-moon-line' : sunIcon);
+  });
+</script>

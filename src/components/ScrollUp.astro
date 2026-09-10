@@ -1,0 +1,15 @@
+<a class="scrollup" href="#home" id="scroll-up" aria-label="回到顶部">
+  <i class="ri-arrow-up-line scrollup__icon"></i>
+</a>
+
+<script>
+  const scrollUp = document.getElementById('scroll-up');
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      scrollUp?.classList.toggle('show-scroll', window.scrollY >= 200);
+    },
+    { passive: true }
+  );
+</script>

@@ -1,0 +1,55 @@
+---
+import { awards } from '../data/site';
+---
+
+<section class="experience section" id="awards">
+  <h2 class="section__title">{awards.title}</h2>
+
+  <div class="experience__container container grid">
+    <div class="experience__content grid">
+      {
+        awards.stats.map((stat) => (
+          <div class="experience__data">
+            <h2 class="experience__number">{stat.value}</h2>
+            <span class="experience__description" set:html={stat.labelHtml} />
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="experience__data grid">
+      <span class="experience__detail">
+        {
+          awards.items.map((item) => (
+            <>
+              {`${item.year}　`}
+              {item.textBold ? <b>{item.text}</b> : item.text}
+              {item.result
+                ? item.resultBold
+                  ? <b>{`　${item.result}`}</b>
+                  : `　${item.result}`
+                : null}
+              <br />
+            </>
+          ))
+        }
+      </span>
+    </div>
+
+    <div class="experience__img grid">
+      {
+        awards.images.map((image, i) => (
+          <div class="experience__overlay">
+            <img
+              class={i === 0 ? 'experience__img-one' : 'experience__img-two'}
+              src={image.src}
+              alt={image.alt}
+              loading="lazy"
+              style={i === 1 ? 'margin-top: 20pt;' : undefined}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

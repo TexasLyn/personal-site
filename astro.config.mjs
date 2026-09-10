@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 // TODO: 换成真实域名，sitemap / canonical / OG 都依赖它
@@ -10,7 +9,4 @@ export default defineConfig({
   // 关掉遥测：否则 Astro 会往 ~/Library/Preferences/astro 写文件
   telemetry: false,
   integrations: [sitemap()],
-  vite: {
-    plugins: [tailwindcss()],
-  },
 });

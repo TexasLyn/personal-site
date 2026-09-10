@@ -1,0 +1,28 @@
+---
+import { about } from '../data/site';
+---
+
+<section class="about section" id="about">
+  <div class="about__container container grid">
+    <div class="about__data">
+      <h2 class="section__title about__title" set:html={about.titleHtml} />
+      <p class="about__description">{about.description}</p>
+      <a class="button" href={about.cta.href}>{about.cta.label}</a>
+    </div>
+
+    <div class="about__img">
+      {
+        about.images.map((image, i) => (
+          <div class="about__img-overlay">
+            <img
+              class={i === 0 ? 'about__img-one' : 'about__img-two'}
+              src={image.src}
+              alt={image.alt}
+              loading="lazy"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

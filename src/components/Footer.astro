@@ -1,44 +1,51 @@
 ---
-import { profile } from '../data/site';
-
-const footerNav = [
-  { label: 'Index', href: '/' },
-  { label: 'Work', href: '/#projects' },
-  { label: 'Timeline', href: '/#updates' },
-  { label: 'Writing', href: '/#blog' },
-  { label: 'RSS', href: '/rss.xml' },
-];
+import { footer } from '../data/site';
 ---
 
-<footer
-  class="border-t border-zinc-200/80 dark:border-slate-800 py-12 bg-white dark:bg-canvas-dark relative z-20"
->
-  <div
-    class="max-w-6xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-mono text-zinc-500 dark:text-zinc-400"
-  >
-    <div class="flex items-center gap-2">
-      <span class="font-semibold text-zinc-900 dark:text-zinc-100">{profile.handle}</span>
-      <span class="text-zinc-300 dark:text-slate-700">/</span>
-      <span>© {profile.copyrightYear} {profile.name}. Crafted with care &amp; precision.</span>
-    </div>
+<footer class="footer section" id="footer">
+  <div class="footer__container container grid">
+    <div class="footer__content grid">
+      <div class="footer__data">
+        <h3 class="footer__title">联系方式</h3>
+        <p class="footer__description" set:html={footer.contactHtml} />
+        <div>
+          {
+            footer.socials.map((social) => (
+              <a
+                class="footer__social"
+                href={social.href}
+                title={social.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class={social.icon} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
 
-    <div class="flex items-center gap-6">
       {
-        footerNav.map((item) => (
-          <a
-            href={item.href}
-            class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-          >
-            {item.label}
-          </a>
+        footer.groups.map((group) => (
+          <div class="footer__data">
+            <h3 class="footer__subtitle">{group.title}</h3>
+            <ul>
+              {group.links.map((link) => (
+                <li class="footer__item">
+                  <a
+                    class="footer__link"
+                    href={link.href}
+                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         ))
       }
-      <a
-        href={profile.links.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Source</a
-      >
     </div>
   </div>
 </footer>

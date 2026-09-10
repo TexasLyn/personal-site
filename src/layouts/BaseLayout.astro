@@ -1,22 +1,18 @@
 ---
 import '../styles/global.css';
-import { profile } from '../data/site';
+import { meta } from '../data/site';
 
 type Props = {
   title?: string;
   description?: string;
 };
 
-const {
-  title = `${profile.name} — ${profile.role}`,
-  description = profile.bio,
-} = Astro.props;
-
+const { title = meta.title, description = meta.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html class="light scroll-smooth" lang="en">
+<html lang="zh">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,34 +27,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    />
-
-    {/* 在首屏绘制前定好主题，避免白闪 */}
+    {/* 在首屏绘制前套用深色模式，避免白闪 */}
     <script is:inline>
-      if (
-        localStorage.getItem('theme') === 'dark' ||
-        (!('theme' in localStorage) &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches)
-      ) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
+      if (localStorage.getItem('selected-theme') === 'dark') {
+        document.documentElement.classList.add('dark-theme');
       }
     </script>
   </head>
 
-  <body
-    class="bg-canvas dark:bg-canvas-dark text-zinc-900 dark:text-zinc-100 font-sans text-[15px] antialiased selection:bg-indigo-100 selection:text-indigo-900 dark:selection:bg-indigo-900/50 dark:selection:text-indigo-200 min-h-screen flex flex-col justify-between"
-  >
+  <body>
     <slot />
   </body>
 </html>

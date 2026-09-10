@@ -1,45 +1,67 @@
-# 个人主页
+# 个人主页（梁忆炎 Liang Yiyan）
 
-Astro + Tailwind CSS v4 的静态个人主页。设计稿来自 `reference/`（`code.html` 单文件版本 + 截图），视觉规范见 `DESIGN.md`。
+Astro 静态个人主页，设计稿来自 `reference/v2/`。
 
-## 开发
+## 怎么改文案
+
+打开 **`src/data/site.ts`**，全站文字都在这个文件里，改完保存就生效（dev 模式下浏览器自动刷新）。
+
+- 姓名、简介、标题 → `about` / `hero`
+- 三个大数字（1 / 5 / 117+）→ `awards.stats`
+- 奖项经历列表 → `awards.items`，每行一个 `{ year, text, result }`
+- 工作轮播卡片 → `work.items`，加一项就多一张卡片
+- 联系方式、页脚链接 → `footer`
+- 顶部导航 → `nav`
+
+`titleHtml` / `contactHtml` 这类字段可以直接写 HTML，用 `<br />` 换行、`<b>` 加粗。
+
+## 怎么改图片
+
+图片都在 **`public/images/`**，两类改法：
+
+1. **换图**：把你的图片放进 `public/images/`，然后改 `src/data/site.ts` 里对应的 `src`，例如
+   `image: { src: '/images/hero.svg' }` → `image: { src: '/images/我的星空.jpg' }`
+2. **不写路径**：直接覆盖同名文件（比如把新图命名成 `hero.svg` 放进去），data 不用动
+
+对应关系：
+
+| 图片 | 用在哪 | 建议尺寸 |
+| --- | --- | --- |
+| `hero.svg` | 首屏右侧大图 | 方形，800×800 以上 |
+| `about-1.svg` / `about-2.svg` | 介绍区两张错位图 | 竖图，400×520 左右 |
+| `award-1.svg` / `award-2.svg` | 奖项区两张错位图 | 竖图，400×520 左右 |
+| `work-1.svg` ~ `work-4.svg` | 工作轮播卡片 | 横图，800×500 左右 |
+| `favicon.svg` | 浏览器标签图标 | 方形 |
+
+现在是占位图，灰色方块 + 文件名，换成真图即可。
+
+## 常用命令
 
 ```bash
-npm install
-npm run dev      # http://localhost:4321
-npm run build    # 产物输出到 dist/
-npm run preview  # 本地预览构建产物
-npm run check    # Astro / TypeScript 类型检查
+npm run dev      # 本地开发，http://localhost:4321，改文件自动刷新
+npm run build    # 构建到 dist/
+npm run preview  # 预览构建结果
+npm run check    # 类型检查
 ```
 
-## 目录结构
+## 目录
 
 ```
 src/
-  data/site.ts          全站内容（姓名、简介、项目、文章），改内容只动这里
-  layouts/BaseLayout.astro   html head、字体、主题初始化、SEO meta
-  components/
-    Nav.astro           顶部胶囊导航 + 主题切换
-    Hero.astro          滚动视差首屏
-    Updates.astro       动态 / 里程碑
-    Projects.astro      项目列表容器
-    ProjectCard.astro   单个项目（左右交替布局）
-    Writing.astro       文章列表
-    Footer.astro
-    visuals/            项目卡片里的三个终端/报告视觉（纯 CSS/HTML，非图片）
-  styles/global.css     Tailwind 引入、设计令牌、动画
-public/
-  hero-bg.jpg           首屏背景图（当前 512x286，需换成高清图）
-  favicon.svg
-reference/              原始设计稿，仅作对照，不参与构建
+  data/site.ts           ← 所有文案和图片路径
+  components/            ← 每个区块一个组件
+    Header  Hero  About  Awards  Work  Subscribe  Footer  ScrollUp
+  layouts/BaseLayout.astro
+  styles/global.css      ← 样式（颜色变量都在最上面）
+public/images/           ← 图片
+reference/v2/            ← 原始设计稿（code.html + 截图），只作对照
+legacy/v1-astro/         ← 第一版 Astro 代码，已停用，保留备查
 ```
 
-## 已知待处理
+## 待处理
 
-- 全站内容是假数据，见 `src/data/site.ts`
 - `astro.config.mjs` 里的 `SITE` 是占位域名 `https://example.com`，部署前要改
-- 首屏背景图分辨率过低
-- 字体仍走 Google Fonts CDN；后续可换成本地字体（`@fontsource`）避免外链
-- `material-symbols-outlined` 图标字体体积较大，后续可换成内联 SVG
-- 首屏文案依赖滚动进度控制透明度，首屏初始状态不可见；滚动渐显依赖 JS，禁用 JS 时内容会保持隐藏
-- 页脚 RSS 链接指向 `/rss.xml`，该订阅源尚未实现
+- 页脚里有手机号，公网可见，自己确认要不要留
+- 没有英文版（原设计稿导航里有 English 入口，暂时去掉了）
+- 依赖 `scrollreveal` 是 GPL-3.0 授权，介意的话可以换成本地写的滚动入场动画
+- 图片走 `public/` 原样输出，不做压缩；要自动压缩转 WebP 可以改用 `astro:assets`
