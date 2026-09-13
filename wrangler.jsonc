@@ -1,0 +1,10 @@
+{
+  // Cloudflare Workers + 静态资源：这个站点是全预渲染的 Astro，不需要适配器，
+  // 把构建产物目录交给 Workers 托管即可。
+  "name": "personal-site",
+  // 新建项目用当天日期；以后升级前先看兼容性说明
+  "compatibility_date": "2026-09-13",
+  "assets": {
+    "directory": "./dist"
+  }
+}
