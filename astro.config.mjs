@@ -1,8 +1,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// TODO: 换成真实域名，sitemap / canonical / OG 都依赖它
-export const SITE = 'https://example.com';
+// sitemap / canonical / OG 都依赖它。绑上自定义域名后记得改这里
+export const SITE = 'https://temporary-swift-mistral-izmbpn7.vercel.app';
 
 export default defineConfig({
   site: SITE,

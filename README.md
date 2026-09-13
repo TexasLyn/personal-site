@@ -60,13 +60,16 @@ print("hello")
 | --- | --- | --- |
 | `hero.jpg` | 首屏背景大图 | 横图，1920×1080 以上 |
 | `about-1.jpg` / `about-2.jpg` | 介绍区两张错位图 | 横图，1400×800 左右 |
-| `award-1.jpg` / `award-2.jpg` | 奖项区两张错位图 | 横图，1400×800 左右 |
 | `work-*.jpg` | 工作轮播卡片（两个真实项目的界面截图） | 竖图，3:4 |
 | `avatar.jpg` | 介绍区圆形头像 | 方形，460×460 以上 |
 | `blog-1.jpg` / `blog-2.jpg` | 文章封面 | 16:9 横图 |
-| `favicon.svg` | 浏览器标签图标 | 方形 |
+| `favicon.svg` | 浏览器标签图标（矢量，TJ 标记 + 圆角底） | 方形 |
+| `favicon.png` / `apple-touch-icon.png` | 上者的位图兜底与 iOS 图标 | 512 / 180 |
+| `logo-mark.svg` | 只有 TJ 标记、无底色，留给别处复用 | 方形 |
 
-现在这 11 张是设计稿里的示意配图（1408×768），换成你自己的即可。
+经历区不再用图片：那里是一条内嵌 SVG 铁路时间轴，样式在
+`src/components/ExperienceTimeline.astro`，站点数据在同两个 data 文件的 `awards.timeline`。
+`public/images/` 里现在 8 张：`hero.jpg`、`about-1/2.jpg`、`avatar.jpg`、两张 `work-*.jpg`、`blog-1/2.jpg`。
 
 ## 常用命令
 
