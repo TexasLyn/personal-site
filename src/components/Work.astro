@@ -9,11 +9,12 @@ const { work } = getSite(Astro.currentLocale);
 
   <div class="discover__container container swiper">
     <div class="swiper-wrapper">
+      {/* 没有链接的卡片不写 href：照常显示，但点了不会跳回页顶 */}
       {
         work.items.map((item) => (
           <a
             class="discover__card swiper-slide"
-            href={item.href ?? '#'}
+            href={item.href}
             target={item.href ? '_blank' : undefined}
             rel={item.href ? 'noopener noreferrer' : undefined}
           >
@@ -33,13 +34,18 @@ const { work } = getSite(Astro.currentLocale);
   import Swiper from 'swiper';
   import { Autoplay, EffectCoverflow } from 'swiper/modules';
 
-  new Swiper('.discover__container', {
+  // 卡片太少时 loop 会把轮播锁死（isEnd 永远为 true，连 slideNext 都不动），
+  // 所以够多才开 loop，不够就用 rewind 到头折返
+  const slideCount = document.querySelectorAll('.discover__container .swiper-slide').length;
+
+  const swiper = new Swiper('.discover__container', {
     modules: [EffectCoverflow, Autoplay],
     effect: 'coverflow',
     grabCursor: true,
     centeredSlides: true,
     slidesPerView: 'auto',
-    loop: true,
+    loop: slideCount >= 6,
+    rewind: slideCount < 6,
     spaceBetween: 32,
     coverflowEffect: {
       rotate: 0,
@@ -51,6 +57,55 @@ const { work } = getSite(Astro.currentLocale);
     autoplay: {
       delay: 3500,
       disableOnInteraction: false,
+      pauseOnMouseEnter: true,
     },
   });
+
+  const container = document.querySelector<HTMLElement>('.discover__container');
+
+  const slideIndexOf = (slide: Element) => {
+    const attr = (slide as HTMLElement).dataset.swiperSlideIndex;
+    return attr !== undefined ? Number(attr) : swiper.slides.indexOf(slide as HTMLElement);
+  };
+
+  // 点侧边的卡片：先把它滑到中间；只有居中的那张点下去才是打开链接。
+  // 注意：coverflow 把两侧滑片做了 3D 位移，浏览器命中测试在它们中心会返回 wrapper，
+  // 所以不能靠 event.target，得自己按 x 区间判断点中了哪张。
+  container?.addEventListener('click', (event: MouseEvent) => {
+    const clickX = event.clientX;
+    let hit: HTMLElement | undefined;
+    let hitDistance = Number.POSITIVE_INFINITY;
+
+    swiper.slides.forEach((slide: HTMLElement) => {
+      const rect = slide.getBoundingClientRect();
+      if (rect.width === 0 || clickX < rect.left || clickX > rect.right) return;
+      const distance = Math.abs(clickX - (rect.left + rect.width / 2));
+      if (distance < hitDistance) {
+        hit = slide;
+        hitDistance = distance;
+      }
+    });
+
+    if (!hit || hit.classList.contains('swiper-slide-active')) return;
+    event.preventDefault();
+    swiper.slideTo(slideIndexOf(hit));
+  });
+
+  // 滚轮 / 触控板横向滑动翻卡片；竖向照常滚页面，不劫持
+  let wheelLocked = false;
+  container?.addEventListener(
+    'wheel',
+    (event: WheelEvent) => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      event.preventDefault();
+      if (wheelLocked) return;
+      wheelLocked = true;
+      window.setTimeout(() => {
+        wheelLocked = false;
+      }, 280);
+      if (event.deltaX > 0) swiper.slideNext();
+      else swiper.slidePrev();
+    },
+    { passive: false },
+  );
 </script>

@@ -23,6 +23,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -41,4 +43,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <body>
     <slot />
   </body>
+
+  {/* 控制台彩蛋：只有打开开发者工具的人才看得到 */}
+  <script>
+    const brand = "Texas's Garage";
+    const line =
+      document.documentElement.lang === 'en'
+        ? 'We are how the universe thinks about itself.'
+        : '我们以为自己在寻找宇宙，其实，我们才是宇宙思考自己的方式。';
+    console.log(
+      `%c${brand}`,
+      'background:#0e3b2b;color:#f4fbf6;padding:3px 7px;border-radius:3px;font-weight:700',
+    );
+    console.log(`%c${line}`, 'color:#7d8f95;font-style:italic');
+  </script>
 </html>

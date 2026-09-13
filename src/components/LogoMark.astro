@@ -1,0 +1,44 @@
+---
+/**
+ * 品牌标记（TJ 连写 + 火花），从设计稿矢量重建。
+ * 颜色跟随 currentColor，所以在深色首屏上是白的、浅色顶栏上是深的。
+ * 尺寸交给调用方的 class 控制，这里只保证比例。
+ */
+type Props = {
+  class?: string;
+  /** 无障碍：默认当装饰，紧挨着品牌名时不给读屏重复念 */
+  label?: string;
+};
+
+const { class: className, label } = Astro.props;
+
+// 量出来的几何（设计稿坐标系）
+const BAR = 'M781 216.5H475.5A29.5 29.5 0 0 0 475.5 275.5H840';
+const HOOK = 'M645.5 275.5V586.5A34.5 34.5 0 0 0 714.5 586.5V330';
+const SPARK =
+  'M906 141Q921.75 188.25 969 204Q921.75 219.75 906 267Q890.25 219.75 843 204Q890.25 188.25 906 141Z';
+---
+
+<svg
+  class:list={['logo-mark', className]}
+  viewBox="427 133 550 507"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round">
+    <path d={BAR} />
+    <path d={HOOK} />
+  </g>
+  <path d={SPARK} fill="currentColor" />
+</svg>
+
+<style>
+  .logo-mark {
+    display: block;
+    width: auto;
+    height: 1.2rem;
+  }
+</style>

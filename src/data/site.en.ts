@@ -9,7 +9,6 @@ export const en: SiteContent = {
   },
 
   brand: {
-    icon: 'ri-tools-fill',
     name: "Texas's Garage",
     href: '/en/',
   },
@@ -26,8 +25,8 @@ export const en: SiteContent = {
   themeLabel: 'Dark mode',
 
   hero: {
-    kicker: 'Even when we never look up,',
-    titleHtml: '<b>The stars</b> are still<br />watching over us',
+    kicker: 'We thought we were searching for the universe,',
+    titleHtml: 'in fact, it is we who are<br />how the universe thinks about itself.',
     cta: { label: 'Learn more', href: '#about' },
     image: { src: '/images/hero.jpg', alt: 'Starry sky' },
     socials: [
@@ -62,10 +61,17 @@ export const en: SiteContent = {
       { label: 'City', value: 'Nanjing, Jiangsu' },
     ],
     // Add new entries like: { year: '2027', text: '...', result: 'First Prize' }
-    items: [{ year: '2026', text: 'Enrolled at Nanjing University', textBold: true }],
-    images: [
-      { src: '/images/award-1.jpg', alt: 'Campus' },
-      { src: '/images/award-2.jpg', alt: 'Event' },
+    items: [
+      { year: '2023', text: 'Hangzhou Xuejun High School' },
+      { year: '2026', text: 'Nanjing University · Gulou Campus', textBold: true, current: true },
+      { year: '2027', text: 'Nanjing University · Suzhou Campus', future: true },
+    ],
+    timeline: [
+      { year: '2008', station: 'Quzhou', latin: 'Railway Station' },
+      { year: '2014', station: 'Hangzhou', latin: 'Railway Station' },
+      { year: '2023', station: 'Hangzhou West', latin: 'Railway Station' },
+      { year: '2026', station: 'Nanjing South', latin: 'Railway Station', current: true },
+      { year: '2027', station: 'Suzhou', latin: 'Railway Station', future: true },
     ],
   },
 
@@ -85,6 +91,12 @@ export const en: SiteContent = {
           'A local workbench for Zhejiang gaokao applicants: six years of admission data, plan ranking, and PDF-based admission simulation.',
         image: '/images/work-gaokao-planner.jpg',
         href: 'https://github.com/TexasLyn/zhejiang-gaokao-planner',
+      },
+      {
+        title: 'Slacking Off',
+        // TODO: replace once there is a real one-liner (no guessing)
+        description: '',
+        image: '/images/work-moyu.jpg',
       },
     ],
   },

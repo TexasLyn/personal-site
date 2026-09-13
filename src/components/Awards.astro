@@ -1,5 +1,6 @@
 ---
 import { getSite } from '../data/site';
+import ExperienceTimeline from './ExperienceTimeline.astro';
 
 const { awards } = getSite(Astro.currentLocale);
 ---
@@ -19,39 +20,37 @@ const { awards } = getSite(Astro.currentLocale);
       }
     </div>
 
-    <div class="experience__data grid">
-      <span class="experience__detail">
+    <div class="experience__milestones-wrap">
+      <ul class="experience__milestones">
         {
           awards.items.map((item) => (
-            <>
-              {`${item.year}　`}
-              {item.textBold ? <b>{item.text}</b> : item.text}
-              {item.result
-                ? item.resultBold
-                  ? <b>{`　${item.result}`}</b>
-                  : `　${item.result}`
-                : null}
-              <br />
-            </>
+            <li
+              class:list={[
+                'experience__milestone',
+                item.current && 'experience__milestone--current',
+                item.future && 'experience__milestone--future',
+              ]}
+              data-year={item.year}
+            >
+              <span class="experience__milestone-year">{item.year}</span>
+              <span class="experience__milestone-text">
+                {item.textBold ? <b>{item.text}</b> : item.text}
+                {item.result ? (
+                  <>
+                    {'　'}
+                    {item.resultBold ? <b>{item.result}</b> : item.result}
+                  </>
+                ) : null}
+              </span>
+            </li>
           ))
         }
-      </span>
+      </ul>
     </div>
 
-    <div class="experience__img grid">
-      {
-        awards.images.map((image, i) => (
-          <div class="experience__overlay">
-            <img
-              class={i === 0 ? 'experience__img-one' : 'experience__img-two'}
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              style={i === 1 ? 'margin-top: 20pt;' : undefined}
-            />
-          </div>
-        ))
-      }
-    </div>
+    <ExperienceTimeline
+      stops={awards.timeline}
+      label={Astro.currentLocale === 'en' ? 'Railway timeline of stations' : '成长铁路时间轴'}
+    />
   </div>
 </section>

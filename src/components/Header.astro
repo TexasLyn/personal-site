@@ -1,5 +1,6 @@
 ---
 import { getLang, getSite, homePath } from '../data/site';
+import LogoMark from './LogoMark.astro';
 
 /**
  * homePrefix：首页传 ''，文章页传语言首页路径，让 #about 这类锚点能跳回首页
@@ -21,7 +22,7 @@ const langSwitchHref =
 <header class:list={['header', solid && 'header--solid']} id="header">
   <nav class="nav container">
     <a class="nav__logo" href={homePath(lang)}>
-      <i class={site.brand.icon} style="font-size: 1.2rem;"></i>
+      <LogoMark class="nav__logo-mark" />
       {site.brand.name}
     </a>
 

@@ -8,7 +8,6 @@ export const zh: SiteContent = {
   },
 
   brand: {
-    icon: 'ri-tools-fill',
     name: "Texas's Garage",
     href: '/',
   },
@@ -25,8 +24,8 @@ export const zh: SiteContent = {
   themeLabel: '深色模式',
 
   hero: {
-    kicker: '即使我们不抬头仰望，',
-    titleHtml: '<b>星空</b>，也在<br />注视着我们',
+    kicker: '我们以为自己在寻找宇宙，',
+    titleHtml: '其实，我们才是<br />宇宙思考自己的方式。',
     cta: { label: '了解更多', href: '#about' },
     image: { src: '/images/hero.jpg', alt: '星空' },
     socials: [
@@ -60,10 +59,17 @@ export const zh: SiteContent = {
       { label: '城市', value: '江苏南京' },
     ],
     // 之后有新奖项就往这里加：{ year: '2027', text: 'xxx', result: '一等奖' }
-    items: [{ year: '2026', text: '南京大学 入学', textBold: true }],
-    images: [
-      { src: '/images/award-1.jpg', alt: '校园' },
-      { src: '/images/award-2.jpg', alt: '活动' },
+    items: [
+      { year: '2023', text: '杭州学军中学 入学' },
+      { year: '2026', text: '南京大学 鼓楼校区', textBold: true, current: true },
+      { year: '2027', text: '南京大学 苏州校区', future: true },
+    ],
+    timeline: [
+      { year: '2008', station: '衢州站', latin: 'Quzhou Railway Station' },
+      { year: '2014', station: '杭州站', latin: 'Hangzhou Railway Station' },
+      { year: '2023', station: '杭州西站', latin: 'Hangzhou West Railway Station' },
+      { year: '2026', station: '南京南站', latin: 'Nanjing South Railway Station', current: true },
+      { year: '2027', station: '苏州站', latin: 'Suzhou Railway Station', future: true },
     ],
   },
 
@@ -83,6 +89,12 @@ export const zh: SiteContent = {
           '浙江考生的本地志愿工作台：六年官方投档线查询、方案排序、梯度体检，用志愿表 PDF 模拟录取。',
         image: '/images/work-gaokao-planner.jpg',
         href: 'https://github.com/TexasLyn/zhejiang-gaokao-planner',
+      },
+      {
+        title: '摸鱼',
+        // TODO: 等想好一句话说明再补上（不编造）
+        description: '',
+        image: '/images/work-moyu.jpg',
       },
     ],
   },

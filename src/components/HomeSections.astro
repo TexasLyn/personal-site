@@ -18,16 +18,17 @@ import Subscribe from './Subscribe.astro';
   import ScrollReveal from 'scrollreveal';
 
   const sr = ScrollReveal({
-    distance: '60px',
-    duration: 2500,
-    delay: 400,
+    distance: '48px',
+    duration: 850,
+    delay: 120,
     reset: false,
   });
 
   sr.reveal('.home__data, .subscribe__description', { origin: 'top' });
   sr.reveal('.home__social-link', { origin: 'bottom', interval: 100 });
   sr.reveal('.about__data, .experience__content', { origin: 'left' });
-  sr.reveal('.about__img, .experience__img, .experience__detail', { origin: 'right' });
+  sr.reveal('.about__img, .experience__milestones', { origin: 'right' });
+  /* 经历区的铁路自己播动画（铁轨铺开 + 站牌垂落），不走 ScrollReveal */
   sr.reveal('.discover__container', { origin: 'bottom' });
   sr.reveal('.footer__data', { origin: 'top', interval: 100 });
 </script>

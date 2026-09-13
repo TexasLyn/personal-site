@@ -1,0 +1,304 @@
+---
+import type { TimelineStop } from '../data/types';
+
+type Props = {
+  stops: TimelineStop[];
+  /** 无障碍描述 */
+  label: string;
+};
+
+const { stops, label } = Astro.props;
+
+// viewBox 的宽度跟实际显示宽度接近，字号才是所见即所得
+const W = 900;
+const H = 188;
+const railY = 70;
+const padX = 86;
+
+// 站牌：照实物站名牌的比例来——横长条，中文为主、拉丁为辅（约 2:1）
+const signTop = railY + 32;
+const signPadX = 16;
+const signH = 30;
+const nameSize = 13;
+const latinSize = 6.6;
+const nameBaseline = signTop + 15;
+const latinBaseline = signTop + 25;
+const inlineH = 25;
+
+/** 中文按一个字宽、西文按 0.56 个字宽估，用来定牌子宽度 */
+const textWidth = (text: string, size: number, tracking = 0) =>
+  [...text].reduce(
+    (w, ch) => w + (/[\u2e80-\u9fff\uff00-\uffef]/.test(ch) ? size : size * 0.56) + tracking,
+    0,
+  );
+
+const step = (W - padX * 2) / Math.max(stops.length - 1, 1);
+const points = stops.map((stop, i) => {
+  const nameW = textWidth(stop.station, nameSize, 0.2);
+  const latinW = stop.latin ? textWidth(stop.latin, latinSize, 0.35) : 0;
+  const signW = Math.max(62, Math.round(Math.max(nameW, latinW) + signPadX * 2));
+  return { ...stop, x: padX + i * step, signW, signH: stop.latin ? signH : inlineH };
+});
+
+// 最后一个「已到达」的站之后，就是还没走的路
+const lastReachedIndex = stops.reduce((acc, stop, i) => (stop.future ? acc : i), 0);
+const reachedEnd = points[lastReachedIndex].x;
+---
+
+<figure class="experience-figure">
+  {/* 宽屏：横版铁路 + 悬挂站牌 */}
+  <div class="experience-timeline">
+    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        {/* 两头渐隐，铁轨直接化进背景 */}
+        <linearGradient
+          id="timeline-past"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="0"
+          x2="70"
+          y2="0"
+        >
+          <stop class="timeline__stop-none" offset="0" />
+          <stop class="timeline__stop-line" offset="1" />
+        </linearGradient>
+        <linearGradient
+          id="timeline-future"
+          gradientUnits="userSpaceOnUse"
+          x1={W - 84}
+          y1="0"
+          x2={W}
+          y2="0"
+        >
+          <stop class="timeline__stop-line" offset="0" />
+          <stop class="timeline__stop-none" offset="1" />
+        </linearGradient>
+
+        {/* 走过的路面：极淡的一层，压在铁轨底下 */}
+        <linearGradient
+          id="timeline-glow"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1={railY - 12}
+          x2="0"
+          y2={railY + 12}
+        >
+          <stop class="timeline__stop-glow-none" offset="0" />
+          <stop class="timeline__stop-glow" offset=".5" />
+          <stop class="timeline__stop-glow-none" offset="1" />
+        </linearGradient>
+        <linearGradient id="timeline-glow-fade">
+          <stop offset="0" stop-color="#fff" stop-opacity="0" />
+          <stop offset=".12" stop-color="#fff" stop-opacity="1" />
+          <stop offset=".92" stop-color="#fff" stop-opacity="1" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+        </linearGradient>
+        <mask id="timeline-glow-mask">
+          <rect
+            x="0"
+            y={railY - 12}
+            width={reachedEnd}
+            height="24"
+            fill="url(#timeline-glow-fade)"
+          />
+        </mask>
+      </defs>
+
+      {/* 这一组是「从左向右铺开」的那层 */}
+      <g class="timeline__track">
+        <rect
+          class="timeline__glow"
+          x="0"
+          y={railY - 12}
+          width={reachedEnd}
+          height="24"
+          fill="url(#timeline-glow)"
+          mask="url(#timeline-glow-mask)"
+        />
+
+        {/* 两条钢轨：走过的实线，没走到的点线 */}
+        <g class="timeline__rail" stroke="url(#timeline-past)">
+          <line x1="0" y1={railY - 2.2} x2={reachedEnd} y2={railY - 2.2} />
+          <line x1="0" y1={railY + 2.2} x2={reachedEnd} y2={railY + 2.2} />
+        </g>
+        <g class="timeline__rail timeline__rail--future" stroke="url(#timeline-future)">
+          <line x1={reachedEnd} y1={railY - 2.2} x2={W} y2={railY - 2.2} />
+          <line x1={reachedEnd} y1={railY + 2.2} x2={W} y2={railY + 2.2} />
+        </g>
+      </g>
+
+      {
+        points.map((point, i) => (
+          /* 每一站是一组：跟着铁轨铺到的位置依次垂落 */
+          <g class="timeline__stop" data-year={point.year} style={`--i:${i}`}>
+            {point.current && <circle class="timeline__halo" cx={point.x} cy={railY} r="10" />}
+            <text class="timeline__year" x={point.x} y={railY - 17} text-anchor="middle">
+              {point.year}
+            </text>
+            <circle
+              class:list={[
+                'timeline__node',
+                point.current && 'timeline__node--current',
+                point.future && 'timeline__node--future',
+              ]}
+              cx={point.x}
+              cy={railY}
+              r={point.current ? 4.2 : 2.2}
+            />
+
+            {/* 两根吊杆把站牌挂在钢轨下 */}
+            <line
+              class="timeline__hanger"
+              x1={point.x - point.signW * 0.31}
+              y1={railY + 4}
+              x2={point.x - point.signW * 0.31}
+              y2={signTop}
+            />
+            <line
+              class="timeline__hanger"
+              x1={point.x + point.signW * 0.31}
+              y1={railY + 4}
+              x2={point.x + point.signW * 0.31}
+              y2={signTop}
+            />
+
+            {/* 站牌：深绿底 + 粗黑体中文 + 小号拉丁。整块一起抬，方便做悬浮响应 */}
+            <g class="timeline__sign-group">
+              <rect
+                class:list={[
+                  'timeline__sign',
+                  point.current && 'timeline__sign--current',
+                  point.future && 'timeline__sign--future',
+                ]}
+                x={point.x - point.signW / 2}
+                y={signTop}
+                width={point.signW}
+                height={point.signH}
+                rx="2"
+              />
+              <text
+                class:list={[
+                  'timeline__sign-name',
+                  point.future && 'timeline__sign-name--future',
+                ]}
+                x={point.x}
+                y={point.latin ? nameBaseline : signTop + point.signH / 2 + 5}
+                text-anchor="middle"
+              >
+                {point.station}
+              </text>
+              {
+                point.latin && (
+                  <text
+                    class:list={[
+                      'timeline__sign-latin',
+                      point.future && 'timeline__sign-latin--future',
+                    ]}
+                    x={point.x}
+                    y={latinBaseline}
+                    text-anchor="middle"
+                  >
+                    {point.latin}
+                  </text>
+                )
+              }
+            </g>
+          </g>
+        ))
+      }
+
+      {/* 彩蛋：鼠标停在这段铁路上时，一列小火车开过去 */}
+      <g class="timeline__train" aria-hidden="true">
+        <rect x="0" y={railY - 11} width="26" height="8" rx="2" />
+        <rect x="29" y={railY - 11} width="20" height="8" rx="2" />
+        <rect x="52" y={railY - 11} width="20" height="8" rx="2" />
+        <rect x="75" y={railY - 11} width="26" height="8" rx="2" />
+      </g>
+    </svg>
+  </div>
+
+  {/* 窄屏：竖过来，站牌挂到竖轨右边 */}
+  <ol class="experience-timeline-mobile">
+    {
+      stops.map((stop, i) => (
+        <li
+          class:list={[
+            'timeline-stop',
+            stop.current && 'timeline-stop--current',
+            stop.future && 'timeline-stop--future',
+          ]}
+          style={`--i:${i}`}
+          data-year={stop.year}
+        >
+          <span class="timeline-stop__year">{stop.year}</span>
+          <span class="timeline-stop__station">
+            <span class="timeline-stop__name">{stop.station}</span>
+            {stop.latin && <span class="timeline-stop__latin">{stop.latin}</span>}
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+
+  {/* 先标记「可以播动画」，避免脚本还没跑时元素已经露出来又跳回去 */}
+  <script is:inline>
+    document.currentScript?.closest('.experience-figure')?.classList.add('is-ready');
+  </script>
+</figure>
+
+<script>
+  // 进入视野：钢轨从左铺开，站牌依次垂落
+  const figures = document.querySelectorAll<HTMLElement>('.experience-figure.is-ready:not(.is-in)');
+
+  if (figures.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.25 },
+    );
+
+    figures.forEach((figure) => observer.observe(figure));
+  } else {
+    figures.forEach((figure) => figure.classList.add('is-in'));
+  }
+
+  // 档案行和站牌互相呼应：指到哪一条，对应的那一站就抬一下
+  const allStops = document.querySelectorAll<HTMLElement>('[data-year]');
+  const milestones = document.querySelectorAll<HTMLElement>('.experience__milestone');
+
+  const setActive = (year: string, on: boolean) => {
+    allStops.forEach((stop) => {
+      if (stop.dataset.year === year) stop.classList.toggle('is-active', on);
+    });
+  };
+
+  const watch = (el: HTMLElement) => {
+    const year = el.dataset.year;
+    if (!year) return;
+    el.addEventListener('mouseenter', () => setActive(year, true));
+    el.addEventListener('mouseleave', () => setActive(year, false));
+  };
+
+  milestones.forEach(watch);
+  document.querySelectorAll<HTMLElement>('.timeline__stop').forEach(watch);
+
+  // 小火车：悬停触发一次，跑完为止；跑的过程中再悬停不会重来
+  const timeline = document.querySelector<HTMLElement>('.experience-timeline');
+  const figure = timeline?.closest<HTMLElement>('.experience-figure');
+  const train = figure?.querySelector<SVGElement>('.timeline__train');
+  const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
+  if (timeline && figure && train && motionOk) {
+    timeline.addEventListener('mouseenter', () => {
+      if (figure.classList.contains('is-running')) return;
+      figure.classList.add('is-running');
+    });
+
+    train.addEventListener('animationend', () => figure.classList.remove('is-running'));
+  }
+</script>

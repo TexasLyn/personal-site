@@ -2,6 +2,8 @@
 @import 'remixicon/fonts/remixicon.css';
 @import '@fontsource/open-sans/400.css';
 @import '@fontsource/open-sans/600.css';
+/* 思源黑体（可变字重，按 unicode-range 分片，用到哪个字才下哪片） */
+@import '@fontsource-variable/noto-sans-sc';
 @import '@fontsource/raleway/500.css';
 @import '@fontsource/raleway/600.css';
 @import '@fontsource/raleway/700.css';
@@ -37,8 +39,9 @@
     --badge-bg: rgba(14, 55, 63, 0.08);
 
     /*========== Font and typography ==========*/
-    --body-font: 'Open Sans', -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
-    --title-font: 'Raleway', -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+    /* 拉丁走 Open Sans / Raleway，中文落到思源黑体，再兜系统黑体 */
+    --body-font: 'Open Sans', 'Noto Sans SC Variable', -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+    --title-font: 'Raleway', 'Noto Sans SC Variable', -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
     --mono-font: 'Fira Code', Consolas, Monaco, monospace;
     --biggest-font-size: 2.5rem;
     --h1-font-size: 1.5rem;
@@ -367,7 +370,8 @@ input {
 }
 
 .home__data-title {
-    font-size: var(--biggest-font-size);
+    /* 中文标题偏长，比模板默认字号收一点，保证固定两行 */
+    font-size: clamp(1.75rem, 5.2vw, 3.2rem);
     font-weight: var(--font-medium);
     margin-bottom: var(--mb-2-5);
     line-height: 1.15;
@@ -434,8 +438,31 @@ input {
 }
 
 /*=============== EXPERIENCE / AWARDS ===============*/
+.experience {
+    /* 亮色用主题深青；暗色下这个色太深，单独提亮。站牌和时间轴共用这套变量 */
+    --timeline-line: var(--first-color);
+    --timeline-muted: var(--text-color-light);
+    /* 走过那层光晕的浓度 */
+    --timeline-glow-opacity: .1;
+    /* 站牌：按实拍站名牌取样后的深墨绿底 + 纯白字，没有内描边 */
+    --sign-bg: #14322b;
+    --sign-bg-current: #1a4034;
+    --sign-fg: #ffffff;
+    --sign-fg-sub: rgba(255, 255, 255, 0.86);
+}
+
+html.dark-theme .experience {
+    --timeline-line: #7fd4d9;
+    --timeline-muted: hsl(var(--hue-color), 10%, 60%);
+    --timeline-glow-opacity: .11;
+    --sign-bg: #102d26;
+    --sign-bg-current: #164034;
+    --sign-fg-sub: rgba(255, 255, 255, 0.82);
+}
+
 .experience__container {
-    row-gap: 2.5rem;
+    /* 三块之间留足空气 */
+    row-gap: 3.5rem;
     justify-content: center;
     justify-items: center;
 }
@@ -480,16 +507,19 @@ html.dark-theme .footer__description a {
 }
 
 .experience__description {
-    font-size: var(--small-font-size);
+    font-size: .75rem;
     line-height: 1.3;
     display: block;
 }
 
-/* 用文字代替原来那三个大数字（学校 / 班级 / 年级） */
+/* 用文字代替原来那三个大数字（学校 / 班级 / 年级）。
+   正文走中文衬线栈：黑体当正文、字号一大就发硬，宋体更雅 */
 .experience__fact {
     display: block;
-    font-size: var(--normal-font-size);
+    font-family: var(--body-font);
+    font-size: .875rem;
     font-weight: var(--font-semi-bold);
+    letter-spacing: .02em;
     color: var(--title-color);
     line-height: 1.35;
     margin-bottom: var(--mb-0-5);
@@ -512,45 +542,463 @@ html.dark-theme .footer__description a {
     text-align: center;
 }
 
-.experience__detail {
+/* 经历条目：用上下细线分隔，不要卡片和阴影 */
+.experience__milestones-wrap {
+    /* 撑满所在那一列，否则会被 justify-items: center 缩成文字宽度 */
+    justify-self: stretch;
+    width: 100%;
+}
+
+.experience__milestones {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     text-align: left;
-    font-size: var(--normal-font-size);
-    line-height: 2.1;
-    padding: 1rem 1.5rem;
-    background: var(--container-color);
-    border-radius: .5rem;
-    box-shadow: 0 4px 16px rgba(14, 55, 63, 0.08);
-    display: inline-block;
 }
 
-.experience__img {
-    position: relative;
-    padding-bottom: 2rem;
-    display: flex;
-    column-gap: 1rem;
+.experience__milestone {
+    /* 圆点 / 年份 / 正文 三栏，行距放宽 */
+    display: grid;
+    grid-template-columns: .5rem 3.1rem 1fr;
     align-items: center;
-    justify-content: center;
+    column-gap: .95rem;
+    padding: 1.35rem .25rem;
+    border-top: 1px solid var(--border-color);
 }
 
-.experience__overlay {
-    overflow: hidden;
-    border-radius: .5rem;
-    box-shadow: 0 8px 24px rgba(14, 55, 63, 0.15);
+.experience__milestone:last-child {
+    border-bottom: 1px solid var(--border-color);
 }
 
-.experience__img-one {
-    width: 150px;
-    transition: var(--img-transition);
+/* 圆点跟时间轴同一套语义：走过的空心、现在的实心、还没到的虚线 */
+.experience__milestone::before {
+    content: '';
+    width: .42rem;
+    height: .42rem;
+    justify-self: center;
+    border: 1.4px solid var(--timeline-muted);
+    border-radius: 50%;
+    opacity: .75;
 }
 
-.experience__img-two {
-    width: 200px;
-    transition: var(--img-transition);
+.experience__milestone--current::before {
+    background-color: var(--timeline-line);
+    border-color: var(--timeline-line);
+    opacity: 1;
 }
 
-.experience__img-one:hover, 
-.experience__img-two:hover {
-    transform: var(--img-scale);
+.experience__milestone--future::before {
+    border-style: dashed;
+    opacity: .5;
+}
+
+.experience__milestone-year {
+    font-family: var(--body-font);
+    font-size: .75rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .06em;
+    color: var(--timeline-muted);
+}
+
+.experience__milestone-text {
+    font-family: var(--body-font);
+    font-size: .875rem;
+    letter-spacing: .02em;
+    line-height: 1.5;
+    color: var(--title-color);
+}
+
+/* 还没发生的，整体浅一档 */
+.experience__milestone--future .experience__milestone-year,
+.experience__milestone--future .experience__milestone-text {
+    color: var(--text-color-light);
+}
+
+/* 经历区的铁路时间轴：细钢轨 + 悬挂站牌，颜色跟着主题走 */
+.experience-figure {
+    /* 跨满整行，居中 */
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 100%;
+    max-width: 58rem;
+    margin: 0;
+}
+
+.experience-timeline svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* 两头渐隐，铁轨化进背景 */
+.timeline__stop-line {
+    stop-color: var(--timeline-line);
+}
+
+.timeline__stop-none {
+    stop-color: var(--timeline-line);
+    stop-opacity: 0;
+}
+
+.timeline__stop-glow {
+    stop-color: var(--timeline-line);
+    stop-opacity: var(--timeline-glow-opacity);
+}
+
+.timeline__stop-glow-none {
+    stop-color: var(--timeline-line);
+    stop-opacity: 0;
+}
+
+.timeline__glow {
+    pointer-events: none;
+}
+
+/* 钢轨：只留两条细线，不再铺枕木刻度 */
+.timeline__rail line {
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+.timeline__rail--future line {
+    stroke-width: 1.3;
+    stroke-dasharray: 1 6;
+    opacity: .38;
+}
+
+/* 站点：只用小点标位置，别做成电路节点 */
+.timeline__node {
+    fill: var(--timeline-line);
+    opacity: .45;
+}
+
+.timeline__node--current {
+    opacity: 1;
+}
+
+.timeline__node--future {
+    fill: var(--timeline-muted);
+    opacity: .5;
+}
+
+.timeline__halo {
+    fill: var(--timeline-line);
+    opacity: .14;
+}
+
+.timeline__year {
+    font-family: var(--body-font);
+    font-size: 9.5px;
+    letter-spacing: .14em;
+    fill: var(--timeline-muted);
+}
+
+/* 吊杆：把站牌挂在钢轨下面 */
+.timeline__hanger {
+    stroke: var(--timeline-line);
+    stroke-width: 1.1;
+    opacity: .45;
+}
+
+/* 站牌本体：一块平色的牌子，中文粗黑体当主角，拉丁小字跟在下面 */
+.timeline__sign {
+    fill: var(--sign-bg);
+    filter: drop-shadow(0 1px 1.5px rgba(8, 34, 40, 0.22));
+}
+
+.timeline__sign--current {
+    fill: var(--sign-bg-current);
+}
+
+.timeline__sign--future {
+    fill: none;
+    stroke: var(--timeline-muted);
+    stroke-width: 1.1;
+    stroke-dasharray: 3.5 3;
+    filter: none;
+}
+
+/* 中文站名：系统黑体栈 + 粗体，接近站牌上的方正粗黑 */
+.timeline__sign-name {
+    /* 站牌也是黑体，用思源黑体保证跨平台一致 */
+    font-family: 'Noto Sans SC Variable', var(--body-font);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    fill: var(--sign-fg);
+}
+
+.timeline__sign-name--future {
+    fill: var(--timeline-muted);
+}
+
+/* 拉丁行：无衬线体、正常大小写，不是等宽大写 */
+.timeline__sign-latin {
+    font-family: var(--body-font);
+    font-size: 6.6px;
+    font-weight: 400;
+    letter-spacing: .05em;
+    fill: var(--sign-fg-sub);
+}
+
+.timeline__sign-latin--future {
+    fill: var(--timeline-muted);
+}
+
+/* 进入视野：钢轨从左铺开，站牌依次垂落 */
+@media (prefers-reduced-motion: no-preference) {
+    .experience-figure.is-ready:not(.is-in) .timeline__track {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    .experience-figure.is-ready:not(.is-in) .timeline__stop {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    .experience-figure .timeline__track {
+        transition: clip-path .95s cubic-bezier(.33, .72, .35, 1);
+    }
+
+    .experience-figure .timeline__stop {
+        transition:
+            opacity .45s ease,
+            transform .55s cubic-bezier(.33, .72, .35, 1);
+        /* 让每块站牌跟着钢轨铺到的位置落下 */
+        transition-delay: calc(var(--i) * 110ms + 240ms);
+    }
+
+    /* 手机上是竖版，站牌顺次落下来 */
+    .experience-figure.is-ready:not(.is-in) .timeline-stop {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    .experience-figure .timeline-stop {
+        transition:
+            opacity .4s ease,
+            transform .5s cubic-bezier(.33, .72, .35, 1);
+        transition-delay: calc(var(--i) * 90ms + 120ms);
+    }
+}
+
+/* 互动：站牌悬浮微微抬起，档案行和站牌互相呼应 */
+.timeline__sign-group {
+    transition: transform .28s cubic-bezier(.33, .72, .35, 1);
+}
+
+.timeline__stop:hover .timeline__sign-group,
+.timeline__stop.is-active .timeline__sign-group,
+.timeline-stop:hover .timeline-stop__station,
+.timeline-stop.is-active .timeline-stop__station {
+    transform: translateY(-3px);
+}
+
+/* 档案行被指到或被站牌带起时，整行淡出一层底色 */
+.experience__milestone.is-active {
+    background-color: var(--code-bg);
+}
+
+.experience__milestone {
+    transition: background-color .25s;
+}
+
+/* 彩蛋：鼠标停在铁路上，一列车影从左边开过去。
+   跟钢轨同色，像有什么东西沿着铁路过去了，不抢戏 */
+.timeline__train {
+    fill: var(--timeline-line);
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    /* 由脚本加/摘 is-running：跑起来之后不受鼠标移开影响，也不会被重复触发 */
+    .experience-figure.is-running .timeline__train {
+        animation: timeline-train 2.1s cubic-bezier(.42, .06, .58, .94) .2s both;
+    }
+}
+
+@keyframes timeline-train {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    10% {
+        opacity: .9;
+    }
+    85% {
+        opacity: .9;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(910px);
+    }
+}
+
+/* 窄屏：横版收起来，换成竖版，站牌挂到竖轨右边 */
+.experience-timeline-mobile {
+    display: none;
+    list-style: none;
+    max-width: 22rem;
+    margin: 0 auto;
+    padding: 0;
+    --track-x: 1.1rem;
+}
+
+@media screen and (max-width: 767px) {
+    .experience-timeline {
+        display: none;
+    }
+
+    .experience-timeline-mobile {
+        display: block;
+    }
+
+    /* 窄屏下 body 留了 header 高度的上边距，首屏顶部压在正文底色上，
+       白字会看不见；跟随主题的标题色，深浅两套都成立 */
+    .nav__logo,
+    .nav__toggle {
+        color: var(--title-color);
+    }
+
+    /* 档案格在手机上一列排太长，会把时间轴挤出屏幕，改成两列 */
+    .experience__content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 1.1rem;
+        width: 100%;
+        max-width: 22rem;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    /* 竖轨：一条细线，走过的实线、没走到的点线 */
+    .timeline-stop {
+        position: relative;
+        padding: .2rem 0 1.9rem 3.6rem;
+    }
+
+    .timeline-stop:last-child {
+        padding-bottom: .2rem;
+    }
+
+    .timeline-stop::before {
+        content: '';
+        position: absolute;
+        left: var(--track-x);
+        top: 0;
+        bottom: 0;
+        width: 1.6px;
+        background-color: var(--timeline-line);
+        opacity: .55;
+    }
+
+    .timeline-stop:first-child::before {
+        top: .85rem;
+    }
+
+    .timeline-stop:last-child::before {
+        bottom: auto;
+        height: .85rem;
+    }
+
+    .timeline-stop--future::before {
+        background-color: transparent;
+        background-image: repeating-linear-gradient(
+            180deg,
+            var(--timeline-line) 0 1.6px,
+            transparent 1.6px 7px
+        );
+    }
+
+    /* 节点 */
+    .timeline-stop::after {
+        content: '';
+        position: absolute;
+        left: var(--track-x);
+        top: .78rem;
+        width: .42rem;
+        height: .42rem;
+        margin-left: -.21rem;
+        border-radius: 50%;
+        border: 1.6px solid var(--timeline-line);
+        background-color: var(--body-color);
+        opacity: .6;
+    }
+
+    .timeline-stop--current::after {
+        background-color: var(--timeline-line);
+        opacity: 1;
+    }
+
+    .timeline-stop--future::after {
+        border-color: var(--timeline-muted);
+        border-style: dashed;
+    }
+
+    .timeline-stop__year {
+        display: block;
+        margin-bottom: .28rem;
+        font-family: var(--mono-font);
+        font-size: .688rem;
+        letter-spacing: .08em;
+        color: var(--timeline-muted);
+    }
+
+    /* 手机上的站牌：跟横版同一套样子 */
+    .timeline-stop__station {
+        position: relative;
+        display: inline-block;
+        padding: .3rem .7rem .26rem;
+        border-radius: .125rem;
+        background-color: var(--sign-bg);
+        box-shadow: 0 1px 1.5px rgba(8, 34, 40, 0.22);
+    }
+
+    .timeline-stop__name {
+        display: block;
+        font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', var(--body-font);
+        font-size: .875rem;
+        font-weight: 700;
+        letter-spacing: .01em;
+        line-height: 1.3;
+        color: var(--sign-fg);
+    }
+
+    .timeline-stop__latin {
+        display: block;
+        margin-top: .05rem;
+        font-family: var(--body-font);
+        font-size: .5625rem;
+        letter-spacing: .05em;
+        color: var(--sign-fg-sub);
+    }
+
+    /* 支线：从竖轨横过来接住牌子 */
+    .timeline-stop__station::before {
+        content: '';
+        position: absolute;
+        left: -2.5rem;
+        top: 50%;
+        width: 2.5rem;
+        height: 1.1px;
+        background-color: var(--timeline-line);
+        opacity: .45;
+    }
+
+    .timeline-stop--current .timeline-stop__station {
+        background-color: var(--sign-bg-current);
+    }
+
+    .timeline-stop--future .timeline-stop__station {
+        background-color: transparent;
+        box-shadow: inset 0 0 0 1.1px var(--timeline-muted);
+    }
+
+    .timeline-stop--future .timeline-stop__name,
+    .timeline-stop--future .timeline-stop__latin {
+        color: var(--timeline-muted);
+    }
 }
 
 /*=============== DISCOVER / WORK ===============*/
@@ -1119,9 +1567,6 @@ html.dark-theme .docs__toc-link.active {
     .experience__content {
         padding: 0;
     }
-    .experience__overlay:nth-child(1) {
-        width: 190px;
-    }
     .discover__card {
         width: 200px;
         height: 280px;
@@ -1140,9 +1585,6 @@ html.dark-theme .docs__toc-link.active {
     }
     .about__img {
         justify-content: flex-end;
-    }
-    .experience__img {
-        padding: 0;
     }
 }
 
@@ -1218,12 +1660,6 @@ html.dark-theme .docs__toc-link.active {
     }
     .about__img-two {
         width: 240px;
-    }
-    .experience__img-one {
-        width: 190px;
-    }
-    .experience__img-two {
-        width: 250px;
     }
 }
 
