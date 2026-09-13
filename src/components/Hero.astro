@@ -1,11 +1,12 @@
 ---
 import { getSite } from '../data/site';
+import { asset } from '../lib/asset';
 
 const { hero } = getSite(Astro.currentLocale);
 ---
 
 <section class="home" id="home">
-  <img class="home__img" src={hero.image.src} alt={hero.image.alt} loading="lazy" />
+  <img class="home__img" src={asset(hero.image.src)} alt={hero.image.alt} loading="lazy" />
 
   <div class="home__container container grid">
     <div class="home__data">

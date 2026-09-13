@@ -1,5 +1,6 @@
 ---
 import { getSite } from '../data/site';
+import { asset } from '../lib/asset';
 
 const { about } = getSite(Astro.currentLocale);
 ---
@@ -9,7 +10,7 @@ const { about } = getSite(Astro.currentLocale);
     <div class="about__data">
       <img
         class="about__avatar"
-        src={about.avatar.src}
+        src={asset(about.avatar.src)}
         alt={about.avatar.alt}
         width="104"
         height="104"
@@ -26,7 +27,7 @@ const { about } = getSite(Astro.currentLocale);
           <div class="about__img-overlay">
             <img
               class={i === 0 ? 'about__img-one' : 'about__img-two'}
-              src={image.src}
+              src={asset(image.src)}
               alt={image.alt}
               loading="lazy"
             />

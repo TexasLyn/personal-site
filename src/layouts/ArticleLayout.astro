@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { getLang, getSite, homePath } from '../data/site';
+import { asset } from '../lib/asset';
 
 type Props = {
   title: string;
@@ -57,7 +58,7 @@ const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
           {
             cover && (
               <div class="article-page__cover">
-                <img src={cover} alt={title} />
+                <img src={asset(cover)} alt={title} />
               </div>
             )
           }

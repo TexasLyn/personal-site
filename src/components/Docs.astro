@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { getLang, getSite, postPath } from '../data/site';
+import { asset } from '../lib/asset';
 
 const lang = getLang(Astro.currentLocale);
 const { blog } = getSite(lang);
@@ -41,7 +42,7 @@ const posts = (lang === 'en' ? await getCollection('blogEn') : await getCollecti
 
                 {post.data.cover && (
                   <a class="blog-card__cover" href={postPath(lang, post.id)} tabindex="-1">
-                    <img src={post.data.cover} alt={post.data.title} loading="lazy" />
+                    <img src={asset(post.data.cover)} alt={post.data.title} loading="lazy" />
                   </a>
                 )}
               </div>
