@@ -1,11 +1,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// sitemap / canonical / OG 都依赖它。绑上自定义域名后记得改这里
-export const SITE = 'https://temporary-swift-mistral-izmbpn7.vercel.app';
+// 修改为你的 GitHub Pages 域名
+export const SITE = 'https://texaslyn.github.io';
 
 export default defineConfig({
   site: SITE,
+  // 加上这一行：对应你的 GitHub 仓库名，解决 404 问题
+  base: '/personal-site',
   // 关掉遥测：否则 Astro 会往 ~/Library/Preferences/astro 写文件
   telemetry: false,
   integrations: [sitemap()],
